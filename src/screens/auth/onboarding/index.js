@@ -1,23 +1,101 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import React from 'react'
-import { IC_Binoculars } from '../../../assets/icons'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import {IMG_Binoculars,IMG_Calendar,IMG_Delivery,IMG_MacApple,IMG_RestaurantMenu} from '../../../assets/images'
 import scale from '../../../utils/responsive'
+import FONT_FAMILY from '../../../constants/fonts'
+import { CUSTOM_COLOR } from '../../../constants/color'
+
+const {width: screenWidth} = Dimensions.get('screen');  
 
 const OnboardingScreen = () => {
+     const [viewActive, setViewActive] = useState(0);
+
+  onchange = nativeEvent => {
+    if (nativeEvent) {
+      const slide = Math.ceil(
+        nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+      );
+      if (slide != viewActive) {
+        setViewActive(slide);
+      }
+    }
+  };
+    const [viewList, setViewList] = useState([]);
+    useEffect(() => {
+        const views = [
+            { 
+                view: 
+                <View key={'0'} style={{width: 411.42857142857144, height:'100%'}}>
+                    <Image source={IMG_RestaurantMenu} style={styles.icon}/>
+                    <Text  style={styles.titleText}>Browse  Food</Text>
+                    <Text style={styles.subText}>{"Welcome to our restaurant app! Log in\n and check out our delicious food."}</Text>
+                </View>,
+                number: 0,
+            },
+            { 
+                view: 
+                <View key={'1'} style={{width: 411.42857142857144, height:'100%'}}>
+                    <Image source={IMG_Delivery} style={styles.icon}/>
+                    <Text  style={styles.titleText}>Order Food</Text>
+                    <Text style={styles.subText}>{"Hungry? Order food in just a few clicks\nand we'll take care of you."}</Text>
+                </View>,
+                number: 1,
+            },
+            { 
+                view: 
+                <View key={'2'} style={{width: 411.42857142857144, height:'100%'}}>
+                    <Image source={IMG_Calendar} style={styles.icon}/>
+                    <Text  style={styles.titleText}>Make Reservations</Text>
+                    <Text style={styles.subText}>{"Book a table in advance to avoid\nwaiting in line."}</Text>
+                </View>,
+                number: 2,
+            },
+            { 
+                view: 
+                <View key={'3'} style={{width: 411.42857142857144, height:'100%'}}>
+                    <Image source={IMG_Binoculars} style={styles.icon}/>
+                    <Text  style={styles.titleText}>Quick Search</Text>
+                    <Text style={styles.subText}>{"Quickly find food items you like\nthe most."}</Text>
+                </View>,
+                number: 3,
+            },
+            { 
+                view: 
+                <View key={'4'} style={{width: 411.42857142857144, height:'100%'}}>
+                    <Image source={IMG_MacApple} style={styles.icon}/>
+                    <Text  style={styles.titleText}>Apple Pay</Text>
+                    <Text style={styles.subText}>{"We know you're busy, so you can pay\nwith your phone in just one click."}</Text>
+                    <TouchableOpacity style={styles.skip}>
+                        <Text style={styles.skipText}>Skip</Text>
+                    </TouchableOpacity>
+                </View>,
+                number: 4,
+            },
+          
+    ]
+    setViewList(views);
+    }, [])
+    
   return (
     <SafeAreaView style={styles.container}>
-        {/* <View style={styles.IC_Binoculars}>
-            <IC_Binoculars/>
-        </View> */}
-        {/* View 1 */}
-        <>
-            <View>
-                <Text style={styles.titleText}>Browse  Food</Text>
-                <Text>Welcome to our restaurant app! Log in
-                and check  out our delicious food.</Text>
-            </View>
-        </>
-
+        <ScrollView
+            onScroll={({nativeEvent}) => onchange(nativeEvent)}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{width: 411.42857142857144 * 5, height:812}}
+        >
+            {viewList.map((e) => e.view)}
+        </ScrollView>
+        <View style={styles.wrapDot}>
+            {viewList.map((e, index) => (
+              <Text
+                key={index}
+                style={viewActive == index ? styles.dotActive : styles.dot}>
+                ●
+              </Text>
+            ))}
+        </View>
     </SafeAreaView>
   )
 }
@@ -30,17 +108,56 @@ const styles = StyleSheet.create({
         backgroundColor: '#5EA33A',
     },
     titleText: {
-        fontWeight: 400,
-        fontSize: 17,
-    },
-    IC_Binoculars: {
-        position: 'absolute',
-        top: scale(300),
-        backgroundColor: 'red',
-        width: scale(200),
-        height: scale(150),
-        left: scale(132),
+        top: 351,
+        fontSize: scale(17),
+        letter: -0.5,
+        alignSelf: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
+        fontFamily: FONT_FAMILY.NexaRegular,
+        color: CUSTOM_COLOR.White,
+    },
+    subText: {
+        top: 399,
+        fontSize: scale(17),
+        letter: -0.47,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontFamily: FONT_FAMILY.NexaRegular,
+        color: CUSTOM_COLOR.White,
+    },
+    wrapDot: {
+        position: 'absolute',
+        bottom: 0,
+        flexDirection: 'row',
+        alignSelf: 'center',
+        top: 574,
+    },
+    dotActive: {
+        margin: 3,
+        color: CUSTOM_COLOR.White,
+    },
+    dot: {
+        margin: 3,
+        opacity: 0.1,
+        color: CUSTOM_COLOR.White,
+    },
+    skip: {
+        left: scale(150),
+        top: 650,
+    },
+    skipText: {
+        fontSize: scale(17),
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontFamily: FONT_FAMILY.NexaRegular,
+        color: CUSTOM_COLOR.White,
+    },
+    icon: {
+        position: 'absolute',
+        top: 194,
+        width: scale(113),
+        height: 96.37,
+        justifyContent: 'center',
+        alignSelf: 'center',
     }
 })

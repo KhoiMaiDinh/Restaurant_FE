@@ -12,6 +12,7 @@ import React, {useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
+import FONT_FAMILY from '../../../constants/fonts';
 
 const LoginScreen = () => {
   const [mail, setMail] = useState('');
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
   screenTittle: {
     color: CUSTOM_COLOR.Primary,
     fontSize: scale(20),
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   inputMailBox: {
     position: 'absolute',
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     left: scale(17),
     color: CUSTOM_COLOR.Black,
     width: scale(299),
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   inputPasswordBox: {
     position: 'absolute',
@@ -121,6 +124,7 @@ const styles = StyleSheet.create({
   },
   orText: {
     color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(17),
     top: scale(445),
     alignSelf: 'center',
@@ -140,5 +144,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: CUSTOM_COLOR.White,
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
 });

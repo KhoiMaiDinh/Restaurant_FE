@@ -32,6 +32,7 @@ const LoginScreen = () => {
             placeholderTextColor={CUSTOM_COLOR.Grey}
             placeholder="Phone number"
             style={styles.inputText}
+            keyboardType="numeric"
           />
         </View>
         <View style={styles.inputPasswordBox}>

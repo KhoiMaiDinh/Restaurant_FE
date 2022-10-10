@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#5EA33A',
     },
     titleText: {
-        fontWeight: '400',
         top: 351,
         fontSize: scale(17),
         letter: -0.5,
@@ -115,7 +114,6 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     subText: {
-        fontWeight: '400',
         top: 399,
         fontSize: scale(17),
         letter: -0.47,
@@ -144,7 +142,6 @@ const styles = StyleSheet.create({
         top: 650,
     },
     skipText: {
-        fontWeight: '400',
         fontSize: scale(17),
         alignSelf: 'center',
         justifyContent: 'center',

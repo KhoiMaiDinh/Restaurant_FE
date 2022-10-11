@@ -14,7 +14,7 @@ import {
   import scale from '../../../utils/responsive';
   import FONT_FAMILY from '../../../constants/fonts';
   
-  const SignupScreen = () => {
+  const SignUpScreen = () => {
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
     return (
@@ -71,7 +71,7 @@ import {
     );
   };
   
-  export default SignupScreen;
+  export default SignUpScreen;
   
   const styles = StyleSheet.create({
     container: {

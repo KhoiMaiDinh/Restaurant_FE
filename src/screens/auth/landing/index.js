@@ -8,15 +8,15 @@ import {
 } from 'react-native';
 import React from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
-import {IC_RestaurantMenu101} from '../../../assets/icons';
+//import {IMG_RestaurantMenuGreen} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
-import {IMG_restaurant_menu101} from '../../../assets/images/index';
+import {IMG_RestaurantMenuGreen} from '../../../assets/images/index';
 
 const Landing_Screen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.viewIcon}>
-        <Image source={IMG_restaurant_menu101} style={styles.icon} />
+        <Image source={IMG_RestaurantMenuGreen} style={styles.icon} />
       </View>
 
       <View style={styles.view1}>

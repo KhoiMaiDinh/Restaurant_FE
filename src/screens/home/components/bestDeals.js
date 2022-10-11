@@ -161,7 +161,7 @@ const Home_Screen_Best_Deals = () => {
         }
       }, 2000);
     }
-  });
+  }, [imagelist]);
 
   const handleScroll = e => {
     if (!e) {

@@ -23,7 +23,7 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const bestDeals = () => {
+const BestDeals = () => {
   const [imagelist, setImagelist] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
   const stepCarousel = useRef(null);
@@ -212,7 +212,7 @@ const bestDeals = () => {
   );
 };
 
-export default bestDeals;
+export default BestDeals;
 
 const styles = StyleSheet.create({
   container: {

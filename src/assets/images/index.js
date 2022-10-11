@@ -1,3 +1,4 @@
+export {default as IMG_RestaurantMenuGreen} from './img_RestaurantMenuGreen.png';
 export {default as IMG_Binoculars} from './img_Binoculars.png';
 export {default as IMG_Calendar} from './img_Calendar.png';
 export {default as IMG_Delivery} from './img_Delivery.png';
@@ -11,4 +12,4 @@ export {default as IMG_BestDeals5} from './img_Best_Deals5.png';
 export {default as IMG_BestDeals6} from './img_Best_Deals6.png';
 export {default as IMG_BestDeals7} from './img_Best_Deals7.png';
 export {default as IMG_BestDeals8} from './img_Best_Deals8.png';
-
+export {default as IMG_RestaurantMenuWhite} from './img_RestaurantMenuWhite.png';

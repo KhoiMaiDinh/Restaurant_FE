@@ -1,5 +1,5 @@
 const designWidth = 414;
-import { Dimensions } from "react-native";
+import {Dimensions} from 'react-native';
 
 function scale(number) {
   let scaleNumberWidth;
@@ -9,4 +9,3 @@ function scale(number) {
 }
 
 export default scale;
-

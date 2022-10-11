@@ -7,7 +7,9 @@ import { CUSTOM_COLOR } from '../../../constants/color'
 
 const {width: screenWidth} = Dimensions.get('window');  
 
-const OnboardingScreen = () => {
+const OnboardingScreen = (props) => {
+        const { navigation } = props;    
+
         const [viewList, setViewList] = useState([]);
         const [currentView, setCurrentView] = useState(0);
         const stepCarousel = useRef(null);
@@ -71,7 +73,7 @@ const OnboardingScreen = () => {
                     <Image source={IMG_MacApple} style={styles.icon}/>
                     <Text  style={styles.titleText}>Apple Pay</Text>
                     <Text style={styles.subText}>{"We know you're busy, so you can pay\nwith your phone in just one click."}</Text>
-                    <TouchableOpacity style={styles.skip}>
+                    <TouchableOpacity onPress={() => navigation.navigate(Landing_Screen)} style={styles.skip}>
                         <Text style={styles.skipText}>Skip</Text>
                     </TouchableOpacity>
                 </View>,

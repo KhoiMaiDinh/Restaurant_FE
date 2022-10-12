@@ -1,12 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import OnboardingScreen from './screens/auth/onboarding';
-import Landing_Screen from './screens/auth/landing';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import OnboardingScreen from './screens/auth/onboarding'
 
 const App = () => {
-  return <Landing_Screen />;
-};
+  return (
+      <OnboardingScreen/>
+  )
+}
 
-export default App;
+export default App
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})

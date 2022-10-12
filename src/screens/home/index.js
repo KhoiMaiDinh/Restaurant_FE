@@ -13,6 +13,7 @@ import {CUSTOM_COLOR} from '../../constants/color';
 import scale from '../../utils/responsive';
 import CircularCategories from './components/circularCategory';
 import FONT_FAMILY from '../../constants/fonts';
+import MostPopular from './components/mostPopular';
 
 const categoryData = [
   {name: 'ramen', key: 1},
@@ -36,6 +37,8 @@ const HomeScreen = () => {
             <Text style={styles.categoryText}>Popular Categories</Text>
             <CircularCategories style={styles.categoryRow} categoryData={categoryData}/>
           </View>
+
+          <MostPopular />
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -67,6 +70,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   viewSecond: {
-    height: Dimensions.get('window').height * 0.95,
+    //height: Dimensions.get('window').height * 0.95,
   },
 });

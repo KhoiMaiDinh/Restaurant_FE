@@ -181,11 +181,12 @@ const BestDeals = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Scroll view */}
-      <View style={{width: screenWidth, height: scale(247), top: scale(278)}}>
+      <View style={{width: screenWidth, height: scale(247)}}>
         <ScrollView
           horizontal //scroll ngang
+          showsHorizontalScrollIndicator={false}
           pagingEnabled //giu 1 hinh tai man hinh
           contentContainerStyle={{
             width: screenWidth * imageList.length,
@@ -208,7 +209,7 @@ const BestDeals = () => {
           </Text>
         ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -216,12 +217,13 @@ export default BestDeals;
 
 const styles = StyleSheet.create({
   container: {
+    width: screenWidth,
+    height: scale(247),
     flex: 1,
     backgroundColor: 'white',
   },
 
   view: {
-    borderWidth: 1,
     width: screenWidth,
     height: '100%',
     alignItems: 'center',
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: 'row',
     alignSelf: 'center',
-    top: scale(273 + 200),
+    top: scale(200),
   },
   dotActive: {
     margin: 3,

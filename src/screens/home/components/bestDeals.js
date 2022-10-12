@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import React, {Component, useEffect, useState, useRef} from 'react';
 import {
@@ -32,7 +33,7 @@ const BestDeals = () => {
     const data = [
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals1}
@@ -40,12 +41,12 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>The Fancy Sandwich</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals2}
@@ -53,13 +54,13 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>Petty Cash Sandwich</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals3}
@@ -67,13 +68,13 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>Red Flag</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals4}
@@ -81,13 +82,13 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>Sandwiches</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals5}
@@ -95,13 +96,13 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>Breakfast</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals6}
@@ -109,13 +110,13 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>Forbidden Salad</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals7}
@@ -123,13 +124,13 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>Ramen</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
               source={require('../../../assets/images/index').IMG_BestDeals8}
@@ -137,7 +138,7 @@ const BestDeals = () => {
               style={styles.image}
             />
             <Text style={styles.text}>The Dirty Deed</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
     ];

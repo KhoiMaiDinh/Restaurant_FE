@@ -24,9 +24,9 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 const {width: screenWidth} = Dimensions.get('window');
 
 const BestDeals = () => {
-  const [imagelist, setImagelist] = useState([]);
+  const [imageList, setImageList] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
-  const stepCarousel = useRef(null);
+  const stepCarousel = useRef();
 
   useEffect(() => {
     const data = [
@@ -143,11 +143,11 @@ const BestDeals = () => {
     ];
 
     //2.cap nhat len state cua trang screen
-    setImagelist(data);
+    setImageList(data);
   }, []);
   //tu dong
   useEffect(() => {
-    if (imagelist.length > 0) {
+    if (imageList.length > 0) {
       let index = 0;
       setInterval(() => {
         stepCarousel.current.scrollTo({
@@ -156,12 +156,12 @@ const BestDeals = () => {
           animated: true,
         });
         index += 1;
-        if (index === imagelist.length) {
+        if (index === imageList.length) {
           index = 0;
         }
       }, 2000);
     }
-  }, [imagelist]);
+  }, [imageList]);
 
   const handleScroll = e => {
     if (!e) {
@@ -188,19 +188,19 @@ const BestDeals = () => {
           horizontal //scroll ngang
           pagingEnabled //giu 1 hinh tai man hinh
           contentContainerStyle={{
-            width: screenWidth * imagelist.length,
+            width: screenWidth * imageList.length,
             height: 300,
           }}
           onScroll={handleScroll}
           scrollEventThrottle={16}
           ref={stepCarousel}>
-          {imagelist.map((e, index) => (
+          {imageList.map((e, index) => (
             <View key={index.toString()}>{e.image}</View>
           ))}
         </ScrollView>
       </View>
       <View style={styles.wrapDot}>
-        {imagelist.map((e, index) => (
+        {imageList.map((e, index) => (
           <Text
             key={index.toString()}
             style={currentImage == index ? styles.dotActive : styles.dot}>

@@ -10,7 +10,7 @@ const {width: screenWidth} = Dimensions.get('window');
 const OnboardingScreen = () => {
         const [viewList, setViewList] = useState([]);
         const [currentView, setCurrentView] = useState(0);
-        const stepCarousel = useRef(null);
+        const stepCarousel = useRef();
 
   const handleScroll = (e) => {
     if (!e) {

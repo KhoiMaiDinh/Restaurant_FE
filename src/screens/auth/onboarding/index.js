@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, Image } from 'react-native'
 import React, {useState } from 'react'
-import {IMG_Binoculars,IMG_Calendar,IMG_Delivery,IMG_MacApple,IMG_RestaurantMenu} from '../../../assets/images'
+import {IMG_Binoculars,IMG_Calendar,IMG_Delivery,IMG_MacApple,IMG_RestaurantMenuWhite} from '../../../assets/images'
 import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { CUSTOM_COLOR } from '../../../constants/color'
@@ -19,7 +19,7 @@ const OnboardingScreen = () => {
             }
         };
     const views = [
-        {source: IMG_RestaurantMenu, titleText: "Browse  Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
+        {source: IMG_RestaurantMenuWhite, titleText: "Browse  Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
         {source: IMG_Delivery, titleText: "Order Food", subText: "Hungry? Order food in just a few clicks\nand we'll take care of you.", id:1 },
         {source: IMG_Calendar, titleText: "Make Reservations", subText: "Book a table in advance to avoid\nwaiting in line.", id:2 },
         {source: IMG_Binoculars, titleText: "Quick Search", subText: "Quickly find food items you like\nthe most.", id:3 },
@@ -35,7 +35,7 @@ const OnboardingScreen = () => {
             horizontal
         >
             {views.map(item => (
-                <View key={item.id} style={{width: screenWidth, height:'100%', borderWidth:1}}>
+                <View key={item.id} style={{width: screenWidth, height:'100%'}}>
                     <Image source={item.source} style={styles.icon}/>
                     <Text  style={styles.titleText}>{item.titleText}</Text>
                     <Text style={styles.subText}>{item.subText}</Text>

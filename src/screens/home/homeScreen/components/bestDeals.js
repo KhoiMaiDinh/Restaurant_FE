@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import React, {Component, useEffect, useState, useRef} from 'react';
 import {
@@ -18,8 +19,8 @@ import {
   IMG_BestDeals7,
   IMG_BestDeals8,
 } from '../../../assets/images';
-import scale from '../../../utils/responsive';
-import {CUSTOM_COLOR} from '../../../constants/color';
+import scale from '../../../../utils/responsive';
+import {CUSTOM_COLOR} from '../../../../constants/color';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -32,112 +33,112 @@ const BestDeals = () => {
     const data = [
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals1}
+              source={require('../../../../assets/images/index').IMG_BestDeals1}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>The Fancy Sandwich</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals2}
+              source={require('../../../../assets/images/index').IMG_BestDeals2}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>Petty Cash Sandwich</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals3}
+              source={require('../../../../assets/images/index').IMG_BestDeals3}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>Red Flag</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals4}
+              source={require('../../../../assets/images/index').IMG_BestDeals4}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>Sandwiches</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals5}
+              source={require('../../../../assets/images/index').IMG_BestDeals5}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>Breakfast</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals6}
+              source={require('../../../../assets/images/index').IMG_BestDeals6}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>Forbidden Salad</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals7}
+              source={require('../../../../assets/images/index').IMG_BestDeals7}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>Ramen</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
 
       {
         image: (
-          <View style={styles.view}>
+          <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals8}
+              source={require('../../../../assets/images/index').IMG_BestDeals8}
               resizeMode="stretch"
               style={styles.image}
             />
             <Text style={styles.text}>The Dirty Deed</Text>
-          </View>
+          </TouchableOpacity>
         ),
       },
     ];
@@ -181,11 +182,12 @@ const BestDeals = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Scroll view */}
-      <View style={{width: screenWidth, height: scale(247), top: scale(278)}}>
+      <View style={{width: screenWidth, height: scale(247)}}>
         <ScrollView
           horizontal //scroll ngang
+          showsHorizontalScrollIndicator={false}
           pagingEnabled //giu 1 hinh tai man hinh
           contentContainerStyle={{
             width: screenWidth * imageList.length,
@@ -208,7 +210,7 @@ const BestDeals = () => {
           </Text>
         ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -216,12 +218,13 @@ export default BestDeals;
 
 const styles = StyleSheet.create({
   container: {
+    width: screenWidth,
+    height: scale(247),
     flex: 1,
     backgroundColor: 'white',
   },
 
   view: {
-    borderWidth: 1,
     width: screenWidth,
     height: '100%',
     alignItems: 'center',
@@ -250,7 +253,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: 'row',
     alignSelf: 'center',
-    top: scale(273 + 200),
+    top: scale(200),
   },
   dotActive: {
     margin: 3,

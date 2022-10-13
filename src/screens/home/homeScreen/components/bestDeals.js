@@ -19,8 +19,8 @@ import {
   IMG_BestDeals7,
   IMG_BestDeals8,
 } from '../../../assets/images';
-import scale from '../../../utils/responsive';
-import {CUSTOM_COLOR} from '../../../constants/color';
+import scale from '../../../../utils/responsive';
+import {CUSTOM_COLOR} from '../../../../constants/color';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -36,7 +36,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals1}
+              source={require('../../../../assets/images/index').IMG_BestDeals1}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -49,7 +49,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals2}
+              source={require('../../../../assets/images/index').IMG_BestDeals2}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -63,7 +63,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals3}
+              source={require('../../../../assets/images/index').IMG_BestDeals3}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -77,7 +77,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals4}
+              source={require('../../../../assets/images/index').IMG_BestDeals4}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -91,7 +91,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals5}
+              source={require('../../../../assets/images/index').IMG_BestDeals5}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -105,7 +105,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals6}
+              source={require('../../../../assets/images/index').IMG_BestDeals6}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -119,7 +119,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals7}
+              source={require('../../../../assets/images/index').IMG_BestDeals7}
               resizeMode="stretch"
               style={styles.image}
             />
@@ -133,7 +133,7 @@ const BestDeals = () => {
           <TouchableOpacity style={styles.view}>
             <Image
               key={'0'}
-              source={require('../../../assets/images/index').IMG_BestDeals8}
+              source={require('../../../../assets/images/index').IMG_BestDeals8}
               resizeMode="stretch"
               style={styles.image}
             />

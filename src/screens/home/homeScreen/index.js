@@ -8,14 +8,14 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {IC_Drawer} from '../../assets/icons';
-import {CUSTOM_COLOR} from '../../constants/color';
-import scale from '../../utils/responsive';
+import {IC_Drawer} from '../../../assets/icons';
+import {CUSTOM_COLOR} from '../../../constants/color';
+import scale from '../../../utils/responsive';
 import CircularCategories from './components/circularCategory';
-import FONT_FAMILY from '../../constants/fonts';
+import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
-import { IMG_BestDeals1 } from '../../assets/images';
+import {IMG_BestDeals1} from '../../../assets/images';
 
 
 const categoryData = [

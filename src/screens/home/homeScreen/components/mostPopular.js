@@ -1,8 +1,8 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import scale from '../../../utils/responsive';
-import {CUSTOM_COLOR} from '../../../constants/color';
-import FONT_FAMILY from '../../../constants/fonts';
+import scale from '../../../../utils/responsive';
+import {CUSTOM_COLOR} from '../../../../constants/color';
+import FONT_FAMILY from '../../../../constants/fonts';
 
 const MostPopular = props => {
   return props.foodData.map(item => (

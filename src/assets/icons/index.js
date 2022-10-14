@@ -7,3 +7,5 @@ export {default as IC_GoBack} from './ic_go_back';
 export {default as IC_Drawer} from './ic_drawer';
 export {default as IC_RestaurantMenu101} from './ic_restaurant_menu101';
 export {default as IC_Cart} from './ic_cart';
+export {default as IC_Search} from './ic_search';
+export {default as IC_Delete} from './ic_delete';

@@ -1,13 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import OnboardingScreen from './screens/auth/onboarding'
+import React from 'react';
+import RootNavigator from './routes/RootNavigator';
 
-const App = () => {
+const App = (props) => {
   return (
-      <OnboardingScreen/>
+    <RootNavigator {...props} />
   )
-}
+};
 
-export default App
+export default App;
 
-const styles = StyleSheet.create({})
+

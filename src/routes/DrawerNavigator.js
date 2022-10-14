@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const index = () => {
+const DrawerNavigator = () => {
   return (
     <View>
-      <Text>index</Text>
+      <Text>DrawerNavigator</Text>
     </View>
   )
 }
 
-export default index
+export default DrawerNavigator
 
 const styles = StyleSheet.create({})

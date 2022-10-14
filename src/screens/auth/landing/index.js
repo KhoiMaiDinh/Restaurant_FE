@@ -13,7 +13,8 @@ import scale from '../../../utils/responsive';
 import {IMG_RestaurantMenuGreen} from '../../../assets/images/index';
 import FONT_FAMILY from '../../../constants/fonts';
 
-const Landing_Screen = () => {
+const Landing_Screen = (props) => {
+  const navigation = props;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.viewIcon}>
@@ -31,12 +32,12 @@ const Landing_Screen = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.loginButtonBoxPosition}>
+      <TouchableOpacity style={styles.loginButtonBoxPosition} onPress={() => props.navigation.navigate("LoginScreen")}>
         <View style={styles.loginButtonBox}>
           <Text style={styles.loginbuttonText}>Log In</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButtonBoxPosition}>
+      <TouchableOpacity style={styles.signupButtonBoxPosition} onPress={() => props.navigation.navigate("SignUpScreen")}>
         <View style={styles.signupButtonBox}>
           <Text style={styles.signupbuttonText}>Sign Up</Text>
         </View>

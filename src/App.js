@@ -4,8 +4,8 @@ import { AuthStackScreen } from './routes/AuthNavigator';
 
 const App = (props) => {
   return (
-    //<RootNavigator initialProps={props} />
-    <AuthStackScreen/>
+    <RootNavigator {...props} />
+    //<AuthStackScreen/>
   )
 };
 

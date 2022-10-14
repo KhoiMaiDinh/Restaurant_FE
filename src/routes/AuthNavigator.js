@@ -10,9 +10,7 @@ const AuthStack = createStackNavigator();
 
 export const AuthStackScreen  = (props) => {
   return (
-    <NavigationContainer>
         <AuthStack.Navigator
-        {...props}
         initialRouteName="OnboardingScreen"
         screenOptions={{ headerShown: false }}>
           <AuthStack.Screen
@@ -36,7 +34,6 @@ export const AuthStackScreen  = (props) => {
             options={{ headerShown: false }}
           />
       </AuthStack.Navigator>
-    </NavigationContainer>
   )
 }
 

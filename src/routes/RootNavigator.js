@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthStackScreen from '../routes/AuthNavigator';
+import { AuthStackScreen } from './AuthNavigator';
 
 
 const RootStack = createStackNavigator();
@@ -28,5 +27,3 @@ const RootNavigator = props => {
 }
 
 export default RootNavigator
-
-const styles = StyleSheet.create({})

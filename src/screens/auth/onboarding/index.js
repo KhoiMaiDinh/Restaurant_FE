@@ -12,12 +12,17 @@ const OnboardingScreen = (props) => {
         const [dotActive, setDotActive] = useState(0);
         const onchange = nativeEvent => {
             let slide = 0;
-            if (nativeEvent && nativeEvent.contentOffset) {
-              slide = Math.round((nativeEvent.contentOffset.x ) / screenWidth);
-              if (slide !== dotActive) {
-                setDotActive(slide);
-              }
-              //console.log(slide);
+            let temp = 0;
+            if (nativeEvent ) {
+                nativeEvent.contentOffset.x = Math.round(nativeEvent.contentOffset.x);
+              slide = ((nativeEvent.contentOffset.x + (screenWidth/2) ) / screenWidth );
+              if(slide > temp) {temp = Math.round(slide);if (temp !== dotActive) {
+                setDotActive(temp);
+              } console.log(temp);}
+                else {temp = Math.round(slide); temp=temp-1;if (temp !== dotActive) {
+                    setDotActive(temp);
+                  } console.log(temp)
+                }
             }
         };
     const views = [

@@ -38,7 +38,7 @@ const foodData = [
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBar pageName={'Home'}/>
+      <HeaderBar pageName={'Home'} style={{flex: 0.8}}/>
       <View style={{flex: 9.2}}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>

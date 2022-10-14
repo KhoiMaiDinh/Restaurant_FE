@@ -11,6 +11,7 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 //import {IMG_RestaurantMenuGreen} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import {IMG_RestaurantMenuGreen} from '../../../assets/images/index';
+import FONT_FAMILY from '../../../constants/fonts';
 
 const Landing_Screen = () => {
   return (
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     fontSize: scale(17),
     color: CUSTOM_COLOR.Primary,
     alignSelf: 'center',
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   view1a: {
     height: scale(44),
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     opacity: 0.8,
     textAlign: 'center',
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   loginButtonBoxPosition: {
     position: 'absolute',
@@ -114,6 +117,7 @@ const styles = StyleSheet.create({
   },
   loginbuttonText: {
     color: CUSTOM_COLOR.White,
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   signupButtonBoxPosition: {
     position: 'absolute',
@@ -132,5 +136,6 @@ const styles = StyleSheet.create({
   },
   singupbuttonText: {
     color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
 });

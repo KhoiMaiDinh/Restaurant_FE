@@ -1,13 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import RootNavigator from './routes/RootNavigator';
+import { AuthStackScreen } from './routes/AuthNavigator';
 
-const Root = (props) => {
+const App = (props) => {
   return (
-    <RootNavigator initialProps={props} />
+    //<RootNavigator initialProps={props} />
+    <AuthStackScreen/>
   )
 };
 
-export default Root;
+export default App;
 
 

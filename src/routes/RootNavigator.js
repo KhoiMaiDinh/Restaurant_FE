@@ -8,14 +8,22 @@ import AuthStackScreen from '../routes/AuthNavigator';
 const RootStack = createStackNavigator();
 
 
-const RootNavigator = () => {
+const RootStackScreen = (props) => {
   return (
-    <RootStack.Navigator  screenOptions ={{ headerShown: false }}>
-      <RootStack.Screen
-          name={AuthStackScreen}
-          component={AuthStackScreen}
-        />
-    </RootStack.Navigator >
+      <RootStack.Navigator initialRouteName="AuthStackScreen" screenOptions ={{ headerShown: false }}>
+        <RootStack.Screen
+            name="AuthStackScreen"
+            component={AuthStackScreen}
+          />
+        </RootStack.Navigator >
+  )
+}
+
+const RootNavigator = props => {
+  return (
+    <NavigationContainer>
+      <RootStackScreen {...props}/>
+    </NavigationContainer>
   )
 }
 

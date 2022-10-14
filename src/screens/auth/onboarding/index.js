@@ -7,7 +7,8 @@ import { CUSTOM_COLOR } from '../../../constants/color'
 
 const {width: screenWidth} = Dimensions.get('window');  
 
-const OnboardingScreen = () => {
+const OnboardingScreen = (props) => {
+        const navigation = props;
         const [dotActive, setDotActive] = useState(0);
         const onchange = nativeEvent => {
             let slide = 0;
@@ -39,7 +40,7 @@ const OnboardingScreen = () => {
                     <Image source={item.source} style={styles.icon}/>
                     <Text  style={styles.titleText}>{item.titleText}</Text>
                     <Text style={styles.subText}>{item.subText}</Text>
-                    <TouchableOpacity style={styles.skip}>
+                    <TouchableOpacity style={styles.skip} onPress={props.navigation.navigate("Landing_Screen")}>
                         <Text style={4 == item.id ? styles.skipText:styles.skipTextHidden}>Skip</Text>
                     </TouchableOpacity>
                 </View>

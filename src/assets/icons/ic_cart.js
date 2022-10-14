@@ -3,6 +3,7 @@ import Svg, {Path, Mask, G, Defs, Pattern, Use, Image} from 'react-native-svg';
 import {memo} from 'react';
 import {Text, View} from 'react-native';
 import scale from '../../utils/responsive';
+import { CUSTOM_COLOR } from '../../constants/color';
 
 const SvgComponent = props => (
   <Svg
@@ -59,7 +60,7 @@ const SvgComponent = props => (
           top: 0,
           borderRadius: 360,
         }}>
-        <Text style={{fontSize: scale(10), alignSelf: 'center'}}>96</Text>
+        <Text style={{fontSize: scale(10), alignSelf: 'center', color: CUSTOM_COLOR.White}}>96</Text>
       </View>
     </Defs>
   </Svg>

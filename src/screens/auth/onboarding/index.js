@@ -17,7 +17,7 @@ const OnboardingScreen = (props) => {
               if (slide !== dotActive) {
                 setDotActive(slide);
               }
-              console.log(slide);
+              //console.log(slide);
             }
         };
     const views = [

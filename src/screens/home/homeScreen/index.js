@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {IC_Drawer} from '../../../assets/icons';
+import {IC_Cart, IC_Drawer} from '../../../assets/icons';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import scale from '../../../utils/responsive';
 import CircularCategories from './components/circularCategory';
@@ -16,6 +16,7 @@ import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 import {IMG_BestDeals1} from '../../../assets/images';
+import HeaderBar from '../../../components/headerBar';
 
 
 const categoryData = [
@@ -37,18 +38,14 @@ const foodData = [
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{flex: 0.8}}>
-        <TouchableOpacity style={styles.drawerButton}>
-          <IC_Drawer />
-        </TouchableOpacity>
-      </View>
+      <HeaderBar pageName={'Home'}/>
       <View style={{flex: 9.2}}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>
             <Text style={styles.categoryText} >Popular Categories</Text>
             <CircularCategories style={styles.categoryRow} categoryData={categoryData}/>
             <Text style={styles.dealText} >Best Deals</Text>
-            <BestDeals />
+            <BestDeals style={styles.bestDeal}/>
             <Text style={styles.dealText} >Most Popular</Text>
             <MostPopular foodData={foodData} />
           </View>
@@ -65,10 +62,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: CUSTOM_COLOR.White,
   },
-  drawerButton: {
-    top: scale(14),
-    left: scale(14),
-  },
   categoryText: {
     color: CUSTOM_COLOR.Black,
     fontSize: scale(17),
@@ -76,7 +69,7 @@ const styles = StyleSheet.create({
     left: scale(22),
   },
   categoryRow: {
-    marginTop: scale(40),
+    marginTop: scale(14),
   },
   dealText: {
     color: CUSTOM_COLOR.Black,
@@ -84,13 +77,13 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaBold,
     marginTop: scale(26),
     left: scale(22),
-    marginBottom: scale(40),
+    marginBottom: scale(11),
   },
   popularText: {
     color: CUSTOM_COLOR.Black,
     fontSize: scale(17),
     fontFamily: FONT_FAMILY.NexaBold,
-    marginTop: scale(26),
+    marginTop: scale(29),
     left: scale(22),
     marginBottom: scale(40),
   },
@@ -99,6 +92,5 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height * 0.95,
   },
   viewSecond: {
-    
   },
 });

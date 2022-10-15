@@ -37,7 +37,7 @@ const Landing_Screen = (props) => {
           <Text style={styles.loginButtonText}>Log In</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButtonBoxPosition} onPress={() => props.navigation.navigate("SignUpScreen")}>
+      <TouchableOpacity style={styles.signUpButtonBoxPosition} onPress={() => props.navigation.navigate("SignUpScreen")}>
         <View style={styles.signUpButtonBox}>
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </View>

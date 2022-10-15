@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {
@@ -22,79 +23,91 @@ import scale from '../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import PriceAtribute from './components/priceAtribute';
 import ButtonReOrder from './components/buttonReOrder';
+import FONT_FAMILY from '../../../constants/fonts';
+import SearchScreen from '../searchScreen';
 
 const {width: screenWidth} = Dimensions.get('window');
 
 const OrdersScreen = propss => {
-  const [imagelist, setImageList] = useState([]);
-  const [currentImage, setCurrentImage] = useState(0);
+  const [value, setValue] = useState(0);
 
+  const oderName = [
+    {number: 1, img: IMG_BestDeals1},
+    {number: 2, img: IMG_BestDeals2},
+    {number: 3, img: IMG_BestDeals3},
+    {number: 4, img: IMG_BestDeals4},
+    {number: 5, img: IMG_BestDeals5},
+    {number: 6, img: IMG_BestDeals6},
+  ];
+  const data = [
+    {num: 1, number: 23, key: 1, name: 'Salad', price: 11, id: 1},
+    {num: 1, number: 12, key: 2, name: 'Salad', price: 8, id: 2},
+    {num: 2, number: 9, key: 1, name: 'Salad', price: 9, id: 3},
+    {num: 2, number: 3, key: 2, name: 'Salad', price: 2, id: 4},
+    {num: 3, number: 23, key: 1, name: 'Salad', price: 4, id: 5},
+    {num: 3, number: 2, key: 2, name: 'Salad', price: 8, id: 6},
+    {num: 4, number: 10, key: 1, name: 'Salad', price: 9, id: 7},
+    {num: 4, number: 20, key: 2, name: 'Salad', price: 8, id: 8},
+    {num: 4, number: 8, key: 3, name: 'Salad', price: 19, id: 9},
+    {num: 5, number: 19, key: 1, name: 'Salad', price: 8, id: 10},
+    {num: 6, number: 10, key: 1, name: 'Salad', price: 14, id: 11},
+  ];
 
-  useEffect(() => {
-    const data = [
-      {
-        image: (
-          <View style={styles.viewData}>
-            <Image
-              source={require('../../../assets/images/index').IMG_BestDeals1}
-              resizeMode="stretch"
-              style={styles.imgData}
-            />
-            <dataImage></dataImage>
-          </View>
-        ),
-      },
-      {
-        image: (
-          <View style={styles.viewData}>
-            <Image
-              source={require('../../../assets/images/index').IMG_BestDeals2}
-              resizeMode="stretch"
-              style={styles.imgData}
-            />
-            <dataImage></dataImage>
-          </View>
-        ),
-      },
-    ];
-
-    setImageList(data);
-  }, []);
-
-  
-  const handleScroll = e => {
-    if (!e) {
-      return;
-    }
-    const {nativeEvent} = e;
-    if (nativeEvent && nativeEvent.contentOffset) {
-      const currentOffset = nativeEvent.contentOffset.x;
-      let imageIndex = 0;
-      if (nativeEvent.contentOffset.x > 0) {
-        imageIndex = Math.floor(
-          (nativeEvent.contentOffset.x + screenWidth / 2) / screenWidth,
-        );
-        setCurrentImage(imageIndex);
-      }
-    }
-  };
+  // const onCalculateAmount = () => {
+  //   var s = value;
+  //   var a = 0;
+  //   {
+  //     oderName.map(dataImage => (a = dataImage.number));
+  //   }
+  //   {
+  //     data.map(
+  //       item => (
+  //         item.num === a ? (s += item.number * item.price) : null, setValue(s)
+  //       ),
+  //     );
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
-      <></>
+      <>
+        <SearchScreen />
+      </>
 
-      <ScrollView horizontal="false">
+      <ScrollView horizontal="false" style={styles.scrollView}>
         <View style={styles.scroll}>
-          <View>
-            {imagelist.map((e, index) => (
-              <View key={index.toString()}>{e.image}</View>
+          <View style={styles.viewData}>
+            {oderName.map(dataImage => (
+              <View key={dataImage.number}>
+                <Image style={styles.imgData} source={dataImage.img} />
+                {data.map(
+                  item =>
+                    item.num === dataImage.number ? (
+                      <PriceAtribute
+                        textNumber={item.number}
+                        textName={item.name}
+                        textPrice={item.price}
+                      />
+                    ) : null,
+                  <onCalculateAmount />,
+                )}
+
+                <View
+                  style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                  <View style={styles.viewTotal}>
+                    <Text style={styles.textTotal}>Total: ${value}</Text>
+                  </View>
+                  <ButtonReOrder />
+                </View>
+                <View style={{height: scale(50)}} />
+              </View>
             ))}
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 export default OrdersScreen;
 
@@ -104,14 +117,17 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
   },
   scroll: {
-    top: scale(93),
-    backgroundColor: 'pink',
     width: screenWidth,
-    height: scale(1500),
+    height: scale(2000),
+  },
+  scrollView: {
+    top: scale(70),
+    width: screenWidth,
+    height: scale(2000),
   },
   viewData: {
     position: 'absolute',
-    backgroundColor: CUSTOM_COLOR.Black,
+
     alignSelf: 'center',
     width: scale(347),
     height: scale(87),
@@ -120,10 +136,19 @@ const styles = StyleSheet.create({
   imgData: {
     width: '100%',
     height: scale(87),
-    opacity: 0.5,
+    opacity: 0.6,
+    backgroundColor: CUSTOM_COLOR.Black,
   },
-  dataIMG: {
-    width: screenWidth,
-    height: scale(80),
+  viewTotal: {
+    width: scale(112),
+    height: scale(31),
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    marginRight: scale(120),
+  },
+  textTotal: {
+    fontFamily: FONT_FAMILY.NexaRegular,
+    fontSize: 14,
+    color: CUSTOM_COLOR.Black,
   },
 });

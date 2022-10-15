@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: CUSTOM_COLOR.Black,
     justifyContent: 'center',
-    marginLeft: scale(40),
+    marginLeft: scale(10),
   },
   styleTextNumber: {
     fontFamily: FONT_FAMILY.NexaRegular,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   viewPrice: {
     width: scale(50),
     height: scale(30),
-    marginLeft: scale(80),
+    marginLeft: scale(70),
     justifyContent: 'center',
   },
   styleTextPrice: {

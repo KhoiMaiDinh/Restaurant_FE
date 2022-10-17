@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const index = () => {
+const TabNavigator = () => {
   return (
     <View>
-      <Text>index</Text>
+      <Text>TabNavigator</Text>
     </View>
   )
 }
 
-export default index
+export default TabNavigator
 
 const styles = StyleSheet.create({})

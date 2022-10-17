@@ -5,9 +5,9 @@ import scale from '../utils/responsive';
 import { CUSTOM_COLOR } from '../constants/color';
 import FONT_FAMILY from '../constants/fonts';
 
-const HeaderBar = ({pageName}) => {
+const HeaderBar = ({pageName, style}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TouchableOpacity style={styles.drawerButton}>
         <IC_Drawer />
       </TouchableOpacity>
@@ -23,7 +23,6 @@ export default HeaderBar;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.8,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

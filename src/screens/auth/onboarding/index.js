@@ -1,30 +1,15 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, Image } from 'react-native'
-import React, {useState } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Image } from 'react-native'
+import React from 'react'
 import {IMG_Binoculars,IMG_Calendar,IMG_Delivery,IMG_MacApple,IMG_RestaurantMenuWhite} from '../../../assets/images'
 import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { CUSTOM_COLOR } from '../../../constants/color'
+import { SwiperFlatList } from 'react-native-swiper-flatlist'
 
 const {width: screenWidth} = Dimensions.get('window');  
 
 const OnboardingScreen = (props) => {
         const navigation = props;
-        const [dotActive, setDotActive] = useState(0);
-        const onchange = nativeEvent => {
-            let slide = 0;
-            let temp = 0;
-            if (nativeEvent ) {
-                nativeEvent.contentOffset.x = Math.round(nativeEvent.contentOffset.x);
-              slide = ((nativeEvent.contentOffset.x + (screenWidth/2) ) / screenWidth );
-              if(slide > temp) {temp = Math.round(slide);if (temp !== dotActive) {
-                setDotActive(temp);
-              } console.log(temp);}
-                else {temp = Math.round(slide); temp=temp-1;if (temp !== dotActive) {
-                    setDotActive(temp);
-                  } console.log(temp)
-                }
-            }
-        };
     const views = [
         {source: IMG_RestaurantMenuWhite, titleText: "Browse  Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
         {source: IMG_Delivery, titleText: "Order Food", subText: "Hungry? Order food in just a few clicks\nand we'll take care of you.", id:1 },
@@ -35,13 +20,13 @@ const OnboardingScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <ScrollView
-            onScrollEndDrag={({nativeEvent}) => onchange(nativeEvent)}
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            horizontal
-        >
-            {views.map(item => (
+        <SwiperFlatList
+            showPagination
+            paginationStyle={styles.wrapDot}
+            paginationStyleItemActive={styles.dotActive}
+            paginationStyleItemInactive={styles.dot}
+            data={views}
+            renderItem={({ item }) => (
                 <View key={item.id} style={{width: screenWidth, height:'100%'}}>
                     <Image source={item.source} style={styles.icon}/>
                     <Text  style={styles.titleText}>{item.titleText}</Text>
@@ -50,19 +35,8 @@ const OnboardingScreen = (props) => {
                         <Text style={4 == item.id ? styles.skipText:styles.skipTextHidden}>Skip</Text>
                     </TouchableOpacity>
                 </View>
-            ))}
-        </ScrollView>
-        <View style={styles.wrapDot}>
-            {views.map(item => (
-              <Text
-                key={item.id}
-                style={dotActive == item.id ? styles.dotActive : styles.dot}
-                >
-                ●
-              </Text>
-            ))}
-        </View>
-        
+            )}
+        />      
 
 
     </SafeAreaView>
@@ -100,13 +74,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         top: 574,
+        marginTop:3,
+        marginHorizontal: 3,
     },
     dotActive: {
-        margin: 3,
+        margin: 1,
         color: CUSTOM_COLOR.White,
     },
     dot: {
-        margin: 3,
+        margin: 1,
         opacity: 0.27,
         color: CUSTOM_COLOR.White,
     },

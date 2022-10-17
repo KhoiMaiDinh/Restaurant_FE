@@ -76,15 +76,21 @@ const styles = StyleSheet.create({
         top: 574,
         marginTop:3,
         marginHorizontal: 3,
+        
     },
     dotActive: {
         margin: 1,
         color: CUSTOM_COLOR.White,
+        width: 7,
+        height: 7,
     },
     dot: {
         margin: 1,
         opacity: 0.27,
         color: CUSTOM_COLOR.White,
+        size: 3,
+        width: 7,
+        height: 7,
     },
     skip: {
         left: scale(150),

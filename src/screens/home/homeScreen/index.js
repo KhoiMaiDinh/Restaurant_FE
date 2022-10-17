@@ -38,8 +38,8 @@ const foodData = [
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBar pageName={'Home'} style={{flex: 0.8}}/>
-      <View style={{flex: 9.2}}>
+      <HeaderBar pageName={'Home'} style={{flex: 0.08}}/>
+      <View style={{flex: 0.92}}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>
             <Text style={styles.categoryText} >Popular Categories</Text>

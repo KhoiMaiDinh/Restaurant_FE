@@ -6,7 +6,7 @@ import {CUSTOM_COLOR} from '../../../../constants/color';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const PriceAtribute = props => {
+const PriceAttribute = props => {
   return (
     <View style={[props.style, styles.view1]}>
       <View style={styles.viewValue}>
@@ -22,7 +22,7 @@ const PriceAtribute = props => {
   );
 };
 
-export default PriceAtribute;
+export default PriceAttribute;
 
 const styles = StyleSheet.create({
   view1: {

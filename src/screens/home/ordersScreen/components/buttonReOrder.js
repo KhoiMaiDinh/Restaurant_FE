@@ -16,7 +16,6 @@ export default ButtonReOrder;
 
 const styles = StyleSheet.create({
   button: {
-
     backgroundColor: CUSTOM_COLOR.Primary,
     borderRadius: 4,
     width: scale(112),

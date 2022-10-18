@@ -43,12 +43,10 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
   container: {
-    width: scale(290),
+    width: scale(270),
     height: scale(31),
     backgroundColor: CUSTOM_COLOR.GreySecond,
-    position: 'absolute',
     borderRadius: 10,
-    top: scale(14),
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',

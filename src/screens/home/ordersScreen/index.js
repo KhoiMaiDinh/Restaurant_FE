@@ -71,8 +71,6 @@ const OrdersScreen = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBar />
-
       <ScrollView horizontal="false" style={styles.scrollView}>
         <View style={styles.scroll}>
           <View style={styles.viewData}>

@@ -2,17 +2,17 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthStackScreen } from './AuthNavigator';
-
+import DrawerScreen from './DrawerNavigator';
 
 const RootStack = createStackNavigator();
 
 
 const RootStackScreen = (props) => {
   return (
-      <RootStack.Navigator initialRouteName="AuthStackScreen" screenOptions ={{ headerShown: false }}>
+      <RootStack.Navigator initialRouteName="DrawerScreen" screenOptions ={{ headerShown: false }}>
         <RootStack.Screen
-            name="AuthStackScreen"
-            component={AuthStackScreen}
+            name="DrawerScreen"
+            component={DrawerScreen}
           />
         </RootStack.Navigator >
   )

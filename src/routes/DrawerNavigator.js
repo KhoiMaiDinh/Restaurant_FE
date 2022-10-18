@@ -1,112 +1,155 @@
-import React from 'react'
-import { Image, TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import React from 'react';
+import {Image, TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import scale from '../utils/responsive';
-import { CUSTOM_COLOR } from '../constants/color';
-import EditProfileScreen from '../screens/home/myProfile/editProfileScreen/index'
-import OrdersScreen from '../screens/home/ordersScreen/index'
-import SearchScreen from '../screens/home/searchScreen/index'
-import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer'
-import HomeScreen from '../screens/home/homeScreen/index'
-
+import {CUSTOM_COLOR} from '../constants/color';
+import EditProfileScreen from '../screens/home/myProfile/editProfileScreen/index';
+import OrdersScreen from '../screens/home/ordersScreen/index';
+import SearchScreen from '../screens/home/searchScreen/index';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+} from '@react-navigation/drawer';
+import HomeScreen from '../screens/home/homeScreen/index';
+import HeaderBar from '../components/headerBar';
+import FONT_FAMILY from '../constants/fonts';
+import { IC_Home, IC_Order, IC_Profile, IC_Search } from '../assets/icons';
 
 const Drawer = createDrawerNavigator();
 
 const ButtonDrawer = props => {
   return (
     <TouchableOpacity
-      style={{ height: scale(78), justifyContent: 'center' }}
+      style={{height: scale(78), justifyContent: 'center', flexDirection: 'row',}}
       onPress={() => props.navigation.jumpTo(props.component)}>
-      {/* <Image source={props.source} /> */}
-      <Text
-        style={[
-          styles.text,
-          {
-            width: scale(132),
-            height: '100%',
-            textAlignVertical: 'center',
-            marginLeft: scale(35),
-            borderBottomColor: CUSTOM_COLOR.Grey,
-            borderBottomWidth: 0.3,
-          },
-        ]}>
-        {props.label}
-      </Text>
+      {props.icon}
+      <Text style={styles.text}>{props.label}</Text>
     </TouchableOpacity>
   );
 };
 
+const CustomScrollDrawer = props => {
+  return (
+    <DrawerContentScrollView
+      contentContainerStyle={styles.container}
+      {...props}>
+      {/* <Image source={IMG_AVATAR} style={styles.user}></Image> */}
+      <View style={styles.buttonContainer}>
+        <ButtonDrawer
+          label="Profile"
+          icon={<IC_Profile />}
+          component="Profile"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Home"
+          icon={<IC_Home />}
+          component="Home"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Orders"
+          icon={<IC_Order />}
+          component="Orders"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Search"
+          icon={<IC_Search />}
+          component="Search"
+          navigation={props.navigation}
+        />
+      </View>
+      {/* <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom: scale(36),
+            left: scale(35),
+            width: '100%',
+            flexDirection: 'row',
+          }}
+
+          onPress={() => {auth()
+            .signOut()
+            .then(() =>  props.navigation.replace("Login"))
+            .catch((error) => console.log(error.message))}}>
+          <Text style={[styles.text, { position: 'relative' }]}>
+            {'Sign-out'}
+          </Text>
+          {/* <Image
+            source={IMG_ToRightArrow}
+            style={{ marginLeft: scale(12), alignSelf: 'center' }}
+          /> */}
+
+      {/* </TouchableOpacity> */}
+    </DrawerContentScrollView>
+  );
+};
 
 const DrawerScreen = () => {
-    const CustomScrollDrawer = props => {
-      return (
-        <DrawerContentScrollView
-          contentContainerStyle={{ flex: 1, flexGrow: 1 }}
-          style={styles.container}>
-            {/* <ButtonDrawer label="Home"   component="Home"
-              navigation={props.navigation}/> */}
-          {/* <Image source={IMG_AVATAR} style={styles.user}></Image> */}
-          <View style={styles.buttonContainer}>
-            <ButtonDrawer
-              label="Profile"
-              // source={IMG_ProfileLogo}
-              component="Profile"
-              navigation={props.navigation}
-            />
-            <ButtonDrawer label="Orders"   component="Orders"
-              navigation={props.navigation}/>
-            <ButtonDrawer label="Search"   component="Search"
-              navigation={props.navigation}/>
-          </View>
-          {/* <TouchableOpacity
-            style={{
-              position: 'absolute',
-              bottom: scale(36),
-              left: scale(35),
-              width: '100%',
-              flexDirection: 'row',
-            }}
-  
-            onPress={() => {auth()
-              .signOut()
-              .then(() =>  props.navigation.replace("Login"))
-              .catch((error) => console.log(error.message))}}>
-            <Text style={[styles.text, { position: 'relative' }]}>
-              {'Sign-out'}
-            </Text>
-            {/* <Image
-              source={IMG_ToRightArrow}
-              style={{ marginLeft: scale(12), alignSelf: 'center' }}
-            /> */}
-  
-          {/* </TouchableOpacity> */}
-        </DrawerContentScrollView>
-      );
-    };
-    return (
-      <Drawer.Navigator
-        initialRouteName="Home"
-        screenOptions={{ headerShown: false, drawerStyle: { width: scale(259) }, swipeEdgeWidth: scale(40) }}
-        drawerContent={CustomScrollDrawer}>
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Orders" component={OrdersScreen} />
-        <Drawer.Screen name="Search" component={SearchScreen} />
-        <Drawer.Screen name="Profile" component={EditProfileScreen} />
-        {/* <Drawer.Screen name="ChangeProfile" component={MyProfileScreen} />
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: true,
+        drawerStyle: {width: scale(259)},
+        swipeEdgeWidth: scale(40),
+        headerLeft: false,
+      }}
+      drawerContent={props => <CustomScrollDrawer {...props} />}>
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Home'} navigation={navigation} />
+          ),
+        })}
+      />
+      <Drawer.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Orders'} navigation={navigation} />
+          ),
+        })}
+      />
+      <Drawer.Screen
+        name="Search"
+        component={SearchScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Search'} navigation={navigation} />
+          ),
+        })}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={EditProfileScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Profile'} navigation={navigation} />
+          ),
+        })}
+      />
+      {/* <Drawer.Screen name="ChangeProfile" component={MyProfileScreen} />
         <Drawer.Screen name="Offer" component={OfferScreen} />
         <Drawer.Screen name="Privacy" component={PrivacyScreen} />
         <Drawer.Screen name="Security" component={SecurityScreen} />
         <Drawer.Screen name ='Checkout' component={CheckOut1Screen} /> */}
-      </Drawer.Navigator>
-    );
-  
-}
+    </Drawer.Navigator>
+  );
+};
 
-export default DrawerScreen
+export default DrawerScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: CUSTOM_COLOR.SunsetOrange,
     flex: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+    backgroundColor: CUSTOM_COLOR.Primary,
   },
   user: {
     alignSelf: 'center',
@@ -121,15 +164,14 @@ const styles = StyleSheet.create({
     marginTop: scale(29),
     marginRight: scale(50),
   },
-  home: {
-    height: scale(78),
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   text: {
-    color: CUSTOM_COLOR.White,
-    fontSize: scale(17), 
-    lineHeight: scale(25.5),
-    position:'absolute',
-  },  
+    fontSize: scale(17),
+    width: scale(132),
+    height: scale(50),
+    borderBottomColor: CUSTOM_COLOR.Black,
+    borderBottomWidth: 0.3,
+    color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
+    marginLeft: scale(18),
+  },
 });

@@ -9,3 +9,6 @@ export {default as IC_RestaurantMenu101} from './ic_restaurant_menu101';
 export {default as IC_Cart} from './ic_cart';
 export {default as IC_Search} from './ic_search';
 export {default as IC_Delete} from './ic_delete';
+export {default as IC_Home} from './ic_home';
+export {default as IC_Profile} from './ic_profile';
+export {default as IC_Order} from './ic_order';

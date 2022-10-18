@@ -16,8 +16,7 @@ import Foods from './components/foodsInfo';
 const SearchScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBar />
-      <SearchBar />
+      
       <Foods />
     </SafeAreaView>
   );

@@ -12,3 +12,4 @@ export {default as IMG_BestDeals6} from './img_Best_Deals6.png';
 export {default as IMG_BestDeals7} from './img_Best_Deals7.png';
 export {default as IMG_BestDeals8} from './img_Best_Deals8.png';
 export {default as IMG_RestaurantMenuWhite} from './img_RestaurantMenuWhite.png';
+export {default as IMG_LisaAvatar} from './img_LisaAvatar.jpg';

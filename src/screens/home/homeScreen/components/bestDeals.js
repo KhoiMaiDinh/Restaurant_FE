@@ -22,6 +22,7 @@ import {
 import scale from '../../../../utils/responsive';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {CUSTOM_COLOR} from '../../../../constants/color';
+import FONT_FAMILY from '../../../../constants/fonts';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.White,
     opacity: 0.72,
     top: scale(113.5),
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   wrapDot: {
     position: 'absolute',

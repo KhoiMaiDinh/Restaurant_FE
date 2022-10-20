@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, ScrollView,Dimensions } from 'react-native'
+import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, ScrollView, KeyboardAvoidingView } from 'react-native'
 import React from 'react'
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import {IC_GoBack} from '../../../../assets/icons/index';
@@ -8,9 +8,8 @@ import { IMG_LisaAvatar } from '../../../../assets/images';
 
 const EditProfileScreen = () => {
   return (
-    <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
-            <SafeAreaView style={styles.container}>
+    <ScrollView>
+        <SafeAreaView style={styles.container}>
             {/* Button Back */}
             <>
                 <TouchableOpacity style={styles.goBackButton} >
@@ -25,80 +24,101 @@ const EditProfileScreen = () => {
             </>
             {/* Edit Profile Picture */}
             <>
-                <TouchableOpacity>
+                <TouchableOpacity style={styles.editProfilePictureTouch}>
                     <Text style={styles.editProfilePictureText} >
                         Edit Profile Picture
                     </Text>
                 </TouchableOpacity>
             </>
-            {/* Public Profile */}
-            <>
-                <Text style={styles.publicProfileText} >
-                Public Profile
-                </Text>
-            </>
-            {/* First Name */}
-            <>
-                <View style={styles.firstNameInput}>
-                    <Text style={styles.inputText}>
-                        First Name
-                    </Text>
-                    <TextInput 
-                        placeholderTextColor={CUSTOM_COLOR.Grey}
-                        placeholder="First Name"
-                        style={styles.input}
-                        keyboardType="ascii-capable"
-                    />
-                </View>
-            </>
-            {/* Last Name */}
-            <>
-                <View style={styles.lastNameInput}>
-                    <Text style={styles.inputText}>
-                        Last Name
-                    </Text>
-                    <TextInput 
-                        placeholderTextColor={CUSTOM_COLOR.Grey}
-                        placeholder="Last Name"
-                        style={styles.input}
-                        keyboardType="ascii-capable"
-                    />
-                </View>
-            </>
-            {/* Public Profile */}
-            <>
-                <Text style={styles.privateProfileText} >
-                Private Profile
-                </Text>
-            </>
-            {/* Email */}
-            <>
-                <View style={styles.emailInput}>
-                    <Text style={styles.inputText}>
-                        Email
-                    </Text>
-                    <TextInput 
-                        placeholderTextColor={CUSTOM_COLOR.Grey}
-                        placeholder="Email"
-                        style={styles.input}
-                        keyboardType="ascii-capable"
-                    />
-                </View>
-            </>
-            {/* Number */}
-            <>
-                <View style={styles.numberInput}>
-                    <Text style={styles.inputText}>
-                        Phone Number
-                    </Text>
-                    <TextInput 
-                        placeholderTextColor={CUSTOM_COLOR.Grey}
-                        placeholder="Phone Number"
-                        style={styles.input}
-                        keyboardType="numeric"
-                    />
-                </View>
-            </>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
+                <KeyboardAvoidingView>
+                    {/* Public Profile */}
+                    <>
+                        <Text style={styles.publicProfileText} >
+                            Public Profile
+                        </Text>
+                    </>
+                    {/* First Name */}
+                    <>
+                        <View style={styles.firstNameInput}>
+                            <Text style={styles.inputText}>
+                                First Name
+                            </Text>
+                            <TextInput 
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="First Name"
+                                style={styles.input}
+                                keyboardType="ascii-capable"
+                            />
+                        </View>
+                    </>
+                    <>
+                    <View style={{borderColor: CUSTOM_COLOR.Primary, borderWidth: 1, left:scale(207.5), top:60, height:75, width: scale(1)}}/>
+                    </>
+                    {/* Last Name */}
+                    <>
+                        <View style={styles.lastNameInput}>
+                            <Text style={styles.inputText}>
+                                Last Name
+                            </Text>
+                            <TextInput 
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Last Name"
+                                style={styles.input}
+                                keyboardType="ascii-capable"
+                            />
+                        </View>
+                    </>
+                    {/* Private Profile */}
+                    <>
+                        <Text style={styles.privateProfileText} >
+                        Private Profile
+                        </Text>
+                    </>
+                    {/* Email */}
+                    <>
+                        <View style={styles.emailInput}>
+                            <Text style={styles.inputText}>
+                                Email
+                            </Text>
+                            <TextInput 
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Email"
+                                style={styles.input}
+                                keyboardType="ascii-capable"
+                            />
+                        </View>
+                    </>
+                    {/* Number */}
+                    <>
+                        <View style={styles.numberInput}>
+                            <Text style={styles.inputText}>
+                                Phone Number
+                            </Text>
+                            <TextInput 
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Phone Number"
+                                style={styles.input}
+                                keyboardType="numeric"
+                            />
+                        </View>
+                    </>
+                    {/* Location */}
+                    <>
+                        <View style={styles.locationInput}>
+                            <Text style={styles.inputText}>
+                                Location
+                            </Text>
+                            <TextInput 
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Location"
+                                style={styles.input}
+                                keyboardType="ascii-capable"
+                            />
+                        </View>
+                    </>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
             {/* Save Profile */}
             <>
                 <TouchableOpacity style={styles.button}>
@@ -106,10 +126,7 @@ const EditProfileScreen = () => {
                 </TouchableOpacity>
             </>
         </SafeAreaView>
-    </TouchableWithoutFeedback>
-             
-    
-    
+    </ScrollView>
   )
 }
 
@@ -117,9 +134,11 @@ export default EditProfileScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width,
         backgroundColor: CUSTOM_COLOR.White,
     },
+    
     goBackButton: {
         position: 'absolute',
         left: scale(14),
@@ -132,6 +151,12 @@ const styles = StyleSheet.create({
         top: 60,
         alignSelf: 'center',
     },
+    editProfilePictureTouch: {
+        width:scale(150),
+        height:30,
+        top: 60,
+        alignSelf: 'center',
+    },
     avatar: {
         width:scale(102),
         height:100,
@@ -141,7 +166,7 @@ const styles = StyleSheet.create({
         fontSize: scale(14),
         textAlign: 'center',
         color: CUSTOM_COLOR.Primary,
-        top: 55,
+        top: 5,
     },
     publicProfileText: {
         fontFamily: FONT_FAMILY.NexaBold,
@@ -155,31 +180,37 @@ const styles = StyleSheet.create({
         fontSize: scale(25),
         color: CUSTOM_COLOR.Primary,
         textAlign: 'center',
-        top: 180,
+        top: 30,
     },
     firstNameInput: {
-        width: scale(360),
+        width: scale(150),
         height: 50,
         top: 110,
-        left: scale(25),
+        left: scale(35),
     },
     lastNameInput: {
-        width: scale(360),
+        width: scale(150),
         height: 50,
-        top: 140,
-        left: scale(25),
+        top: -15,
+        left: scale(230),
     },
     emailInput: {
-        width: scale(360),
+        width: scale(345),
         height: 50,
-        top: 190,
-        left: scale(25),
+        top: 40,
+        left: scale(35),
     },
     numberInput: {
-        width: scale(360),
+        width: scale(345),
         height: 50,
-        top: 220,
-        left: scale(25),
+        top: 70,
+        left: scale(35),
+    },
+    locationInput: {
+        width: scale(345),
+        height: 50,
+        top: 110,
+        left: scale(35),
     },
     inputText: {
         fontFamily: FONT_FAMILY.NexaRegular,
@@ -200,7 +231,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        top: 275,
+        top: 165,
         width: scale(300),
         height: 50,
         backgroundColor: CUSTOM_COLOR.Primary,

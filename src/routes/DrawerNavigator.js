@@ -51,27 +51,27 @@ const CustomScrollDrawer = props => {
       </View>
       <View style={styles.buttonContainer}>
         <ButtonDrawer
-          label="Profile"
-          icon={<IC_Profile />}
-          component="Profile"
-          navigation={props.navigation}
-        />
-        <ButtonDrawer
           label="Home"
           icon={<IC_Home />}
           component="Home"
           navigation={props.navigation}
         />
         <ButtonDrawer
-          label="Orders"
-          icon={<IC_Order />}
-          component="Orders"
-          navigation={props.navigation}
-        />
-        <ButtonDrawer
           label="Search"
           icon={<IC_Search />}
           component="Search"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Profile"
+          icon={<IC_Profile />}
+          component="Profile"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Orders"
+          icon={<IC_Order />}
+          component="Orders"
           navigation={props.navigation}
         />
       </View>
@@ -201,9 +201,9 @@ const styles = StyleSheet.create({
     fontSize: scale(17),
     width: scale(132),
     height: scale(50),
-    borderBottomColor: CUSTOM_COLOR.Black,
+    borderBottomColor: CUSTOM_COLOR.Primary,
     borderBottomWidth: 0.3,
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
     fontFamily: FONT_FAMILY.NexaRegular,
     marginLeft: scale(18),
   },

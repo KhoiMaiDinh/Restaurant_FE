@@ -1,13 +1,9 @@
 import React from 'react';
 import RootNavigator from './routes/RootNavigator';
-import MenuScreen from './screens/home/menuScreen';
-import ImageTab from './screens/home/menuScreen/components/imageTab';
 import OrdersScreen from './screens/home/ordersScreen/index'
 
 const App = props => {
-  return <MenuScreen/>;
+  return <RootNavigator {...props} />;
 };
 
-export default App
-
-const styles = StyleSheet.create({})
+export default App;

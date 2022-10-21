@@ -14,14 +14,15 @@ import {
   import scale from '../../../utils/responsive';
   import FONT_FAMILY from '../../../constants/fonts';
   
-  const SignUpScreen = () => {
+  const SignUpScreen = (props) => {
+    const navigation = props;
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
     return (
       <TouchableWithoutFeedback
         onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
         <SafeAreaView style={styles.container}>
-          <TouchableOpacity style={styles.goBackButton}>
+          <TouchableOpacity style={styles.goBackButton} onPress={() => props.navigation.goBack()}>
             <IC_GoBack />
           </TouchableOpacity>
           <View style={styles.tittleBox}>
@@ -61,7 +62,7 @@ import {
             />
           </View>
           
-          <TouchableOpacity style={styles.SignUpButtonBoxPosition}>
+          <TouchableOpacity style={styles.SignUpButtonBoxPosition} onPress={() => props.navigation.navigate('AppStackScreen')}>
             <View style={styles.SignUpButtonBox}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </View>

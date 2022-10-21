@@ -17,3 +17,4 @@ export {default as IMG_2} from './singleItemScreen/2,3.png'
 export {default as IMG_3} from './singleItemScreen/3,3.png';
 export {default as IMG_4} from './singleItemScreen/4,3.png';
 export {default as IMG_BigPic} from './singleItemScreen/BigPic.png';
+export {default as IMG_LisaAvatar} from './img_LisaAvatar.jpg';

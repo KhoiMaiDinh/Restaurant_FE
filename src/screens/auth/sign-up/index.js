@@ -62,7 +62,7 @@ import {
             />
           </View>
           
-          <TouchableOpacity style={styles.SignUpButtonBoxPosition}>
+          <TouchableOpacity style={styles.SignUpButtonBoxPosition} onPress={() => props.navigation.navigate('AppStackScreen')}>
             <View style={styles.SignUpButtonBox}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </View>

@@ -13,14 +13,19 @@ import {
 import HomeScreen from '../screens/home/homeScreen/index';
 import HeaderBar from '../components/headerBar';
 import FONT_FAMILY from '../constants/fonts';
-import { IC_Home, IC_Order, IC_Profile, IC_Search } from '../assets/icons';
+import {IC_Home, IC_Order, IC_Profile, IC_Search} from '../assets/icons';
+import {IMG_BestDeals1} from '../assets/images';
 
 const Drawer = createDrawerNavigator();
 
 const ButtonDrawer = props => {
   return (
     <TouchableOpacity
-      style={{height: scale(78), justifyContent: 'center', flexDirection: 'row',}}
+      style={{
+        height: scale(78),
+        justifyContent: 'center',
+        flexDirection: 'row',
+      }}
       onPress={() => props.navigation.jumpTo(props.component)}>
       {props.icon}
       <Text style={styles.text}>{props.label}</Text>
@@ -33,7 +38,17 @@ const CustomScrollDrawer = props => {
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
       {...props}>
-      {/* <Image source={IMG_AVATAR} style={styles.user}></Image> */}
+      <View style={styles.userInfo}>
+        <View style={styles.userAvatarBorder}>
+          <Image
+            resizeMethod="resize"
+            resizeMode="cover"
+            source={IMG_BestDeals1}
+            style={styles.userAvatar}
+          />
+        </View>
+        <Text style={styles.userName}>Đình Khôi</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <ButtonDrawer
           label="Profile"
@@ -148,18 +163,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
-    justifyContent: 'center',
+    backgroundColor: CUSTOM_COLOR.White,
+  },
+  userInfo: {
+    flex: 1,
     backgroundColor: CUSTOM_COLOR.Primary,
+    marginTop: scale(-5),
+    paddingLeft: '15%',
+    justifyContent: 'center',
+    borderBottomEndRadius: scale(15),
   },
-  user: {
-    alignSelf: 'center',
-    marginTop: scale(65),
+  userName: {
+    color: CUSTOM_COLOR.White,
+    fontSize: scale(20),
+    fontFamily: FONT_FAMILY.NexaBold,
   },
+  userAvatarBorder: {
+    backgroundColor: CUSTOM_COLOR.White,
+    width: scale(80),
+    height: scale(80),
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: scale(10),
+  },
+  userAvatar: {width: scale(80), height: scale(80)},
   signOut: {
     top: '83%',
     marginLeft: scale(40),
   },
   buttonContainer: {
+    flex: 4,
     marginLeft: scale(40),
     marginTop: scale(29),
     marginRight: scale(50),

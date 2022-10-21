@@ -46,7 +46,7 @@ const LoginScreen = (props) => {
             style={styles.inputText}
           />
         </View>
-        <TouchableOpacity style={styles.loginButtonBoxPosition}>
+        <TouchableOpacity style={styles.loginButtonBoxPosition} onPress={() => props.navigation.navigate('AppStackScreen')}>
           <View style={styles.loginButtonBox}>
             <Text style={styles.buttonText}>Login</Text>
           </View>

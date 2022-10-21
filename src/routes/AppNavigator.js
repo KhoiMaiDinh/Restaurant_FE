@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from "react";
+import DrawerScreen from "./DrawerNavigator";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const TabNavigator = () => {
-  return (
-    <View>
-      <Text>TabNavigator</Text>
-    </View>
+
+const AppStack = createStackNavigator();
+
+const AppStackScreen = (props) =>
+{
+  return(
+    <AppStack.Navigator screenOptions={{headerShown:false}} initialRouteName={DrawerScreen}>
+      <AppStack.Screen name={'DrawerScreen'} component={DrawerScreen}/>
+    </AppStack.Navigator>
   )
 }
-
-export default TabNavigator
-
-const styles = StyleSheet.create({})
+export default AppStackScreen

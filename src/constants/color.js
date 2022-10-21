@@ -1,5 +1,5 @@
 export const CUSTOM_COLOR = {
-  Primary: '#5EA33A',
+  Primary: '#228B22',
   White: '#FFFFFF',
   Black: '#000000',
   Navy: '#344D91',

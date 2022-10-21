@@ -4,6 +4,7 @@ import {
     Image,
     Text,
     View,
+    Icon,
     ScrollView,
     Dimensions,
     TouchableOpacity,
@@ -14,7 +15,6 @@ import {
   import Swiper from 'react-native-swiper';
   import { CUSTOM_COLOR } from '../../../constants/color';
   import FONT_FAMILY from '../../../constants/fonts';
- 
   
   const Gallery = () => {
     // const [imageList, setImageList] = useState([]);
@@ -86,10 +86,13 @@ import {
   
   const styles = StyleSheet.create({
     container: {
-      top: scale(135),
+      top: scale(120),
       width: scale(385),
       height: scale(215),
       left: scale(15.5),
+    },
+    Buttons: {
+      color: CUSTOM_COLOR.White,
     },
     paginationStyle: {
       position: 'absolute',
@@ -106,7 +109,7 @@ import {
       alignItems: 'center',
       justifyContent: 'center',
       alignSelf: 'center',
-      backgroundColor: CUSTOM_COLOR.Black,
+      backgroundColor: CUSTOM_COLOR.White,
     },
     image: {
       width: scale(385),
@@ -142,16 +145,12 @@ import {
       opacity: 0.5,
       color: CUSTOM_COLOR.White,
     },
-    FoodNameBox: {
-      position: 'absolute',
-      
-    },
     foodName: {
       position: 'absolute',
-      top: scale(-240),
+      top: scale(-250),
       left: scale(20),
-      color: CUSTOM_COLOR.Blacky,
-      fontSize: scale(17),
+      color: CUSTOM_COLOR.Black,
+      fontSize: scale(20),
       fontFamily: FONT_FAMILY.NexaRegular,
     },
   });

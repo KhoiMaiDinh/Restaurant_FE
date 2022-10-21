@@ -55,20 +55,20 @@ import Gallery from './Gallery';
     return (
       <SafeAreaView style={styles.container}>
         <TouchableOpacity style={styles.goBackButton}>
-          <IC_GoBack />
+          <IC_GoBack style = {styles.goBack}/>
         </TouchableOpacity>
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>Forbidden Salad</Text>
         </View>
         <View style={styles.tittleBox2}>
-          <Text style={styles.screenTittle2}>Breakfast</Text>
+          <Text style={styles.screenTittle2}>Bữa sáng</Text>
         </View>
         
 
         <Gallery style={styles.galleryBox}/>
 
         <View style={styles.contentBox}>
-          <Text style={styles.content}>Aioli. Arugula, spinach gorgonzola, cheese, carrots, quinoa, beets</Text>
+          <Text style={styles.content}>Bơ, Arugula, phô mai rau bina, phô mai, cà rốt, hạt quinoa, củ cải đường</Text>
         </View>
         
         <View style={styles.countBox}>
@@ -91,11 +91,10 @@ import Gallery from './Gallery';
         </View>
         <TouchableOpacity>
           <View style={styles.AddButtonBox}>
-            <Text style={styles.buttonText}>Add to cart</Text>
+            <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
           </View>
         </TouchableOpacity>
       </SafeAreaView>
-     
       );
   };
   
@@ -109,26 +108,27 @@ import Gallery from './Gallery';
     goBackButton: {
       position: 'absolute',
       left: scale(9),
-      top: scale(50),
+      top: scale(18),
     },
     tittleBox: {
       position: 'absolute',
-      top: scale(57),
       left: scale(145),
+      top: scale(20),
     },
     tittleBox2: {
       position: 'absolute',
-      top: scale(55),
+      top: scale(23),
       left: scale(42),
     },
     screenTittle: {
+      fontFamily: FONT_FAMILY.NexaBold,
+      fontSize: scale(17),
+      letterSpacing: scale(-0.42),
       color: CUSTOM_COLOR.Black,
-      fontSize: scale(15),
-      fontFamily: FONT_FAMILY.NexaRegular,
     },
     screenTittle2: {
       color: CUSTOM_COLOR.Black,
-      fontSize: scale(18),
+      fontSize: scale(15),
       fontFamily: FONT_FAMILY.NexaRegular,
     },
     
@@ -141,27 +141,30 @@ import Gallery from './Gallery';
     },
     contentBox:
     {
-      width: scale(350),
+      width: scale(385),
       height: scale(36),
-      top: scale(150),
+      top: scale(130),
       left: scale(15),
     },
     content:
     {
       color: CUSTOM_COLOR.Black,
-      fontSize: scale(14),
+      fontSize: scale(15),
       fontFamily: FONT_FAMILY.NexaRegular,
       lineHeight: scale(18),
       letterSpacing: scale(-0.39),
+      opacity: 0.8,
     },
     countBox: 
     {
-      top: scale(225),
+      position: 'absolute',
+      top: scale(420),
       width: scale(108),
       height: scale(45),
       borderRadius: scale(22.5),
       borderWidth: scale(1),
-      left: scale(124),
+      alignSelf: 'center',
+      alignSelf: 'center',
     },
     minusBox:
     {
@@ -210,37 +213,38 @@ import Gallery from './Gallery';
     },
     priceBox:
     {
-      top: scale(288),
-      left: scale(16),
+      position: 'absolute',
+      top: scale(500),
+      left: scale(28),
       height: scale(44),
-      width: scale(88),
+      width: scale(90),
       borderRadius: scale(8),
       borderWidth: scale(1),
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     price:
     {
-      height: scale(34),
-      width: scale(72),
       color: CUSTOM_COLOR.Black,
       fontSize: scale(25),
       fontFamily: FONT_FAMILY.NexaLight,
       lineHeight: scale(34.41),
       letterSpacing: scale(-0.75),
-      left: scale(20),
-      top: scale(5),
     },
 
     AddButtonBox: {
+      position: 'absolute', 
       backgroundColor: CUSTOM_COLOR.Primary,
-      height: scale(44),
-      width: scale(249),
-      top: scale(243),
-      left: scale(111),
+      width: scale(252),
+      right: scale(28),
       borderRadius: scale(8),
       justifyContent: 'center',
       alignItems: 'center',
+      top: scale(249),
+      height: scale(43.9),
     },
     buttonText: {
+      fontSize: scale(18),
       color: CUSTOM_COLOR.White,
       fontFamily: FONT_FAMILY.NexaRegular,
     },

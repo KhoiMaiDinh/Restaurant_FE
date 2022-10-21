@@ -30,7 +30,7 @@ import Gallery from './Gallery';
     };
     let deccount = () => 
     {
-      if(count1>0)
+      if(count1>1)
       {
         setCount1(count1 - 1);
         setprice(price - 11);
@@ -47,7 +47,7 @@ import Gallery from './Gallery';
     };
     let decprice = () => 
     {
-      if(count1>0)
+      if(count1>1)
       {
         setprice(price / count1);
       }

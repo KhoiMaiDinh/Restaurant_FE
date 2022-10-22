@@ -6,9 +6,12 @@ import {CUSTOM_COLOR} from '../constants/color';
 import FONT_FAMILY from '../constants/fonts';
 import SearchBar from '../screens/home/searchScreen/components/searchBar';
 
-const HeaderBar = ({pageName, style, navigation}) => {
+const HeaderBar = ({pageName, style, navigation, props}) => {
   const openMenu = () => {
     navigation.openDrawer();
+  };
+  const openCart = () => {
+    navigation.navigate("CartScreen");
   };
 
   return (
@@ -22,7 +25,7 @@ const HeaderBar = ({pageName, style, navigation}) => {
         <Text style={styles.homeName}>{pageName}</Text>
       )}
 
-      <TouchableOpacity style={styles.cartButton}>
+      <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
         <IC_Cart />
       </TouchableOpacity>
     </View>

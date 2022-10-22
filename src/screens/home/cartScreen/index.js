@@ -7,6 +7,7 @@ import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { ScrollView } from 'react-native-gesture-handler'
 import PriceAttribute from '../ordersScreen/components/priceAttribute'
+import HeaderBar from '../../../components/headerBar'
 
 
 const data = [

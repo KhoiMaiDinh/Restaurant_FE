@@ -17,44 +17,44 @@ import Gallery from './Gallery';
   const SingleFoodItemScreen = props => 
   {
     const [count1, setCount1] = useState(1);
-    const [price, setprice] = useState(11);
+    const [price, setPrice] = useState(11);
   
-    let inccount =()=>
+    let inCount =()=>
     {
         if(count1<100)
         {
           setCount1(count1 + 1);
-          setprice(11 + price);
+          setPrice(11 + price);
         }
     
     };
-    let deccount = () => 
+    let decCount = () => 
     {
       if(count1>1)
       {
         setCount1(count1 - 1);
-        setprice(price - 11);
+        setPrice(price - 11);
       }
       
     };
-    let  incprice =()=>
+    let  incPrice =()=>
     {
       if(count1<100)
       {
-        setprice(price * count1);
+        setPrice(price * count1);
       }
       
     };
-    let decprice = () => 
+    let decPrice = () => 
     {
       if(count1>1)
       {
-        setprice(price / count1);
+        setPrice(price / count1);
       }
     };
     return (
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.goBackButton}>
+        <TouchableOpacity style={styles.goBackButton} onPress={() => {props.navigation.goBack()}}>
           <IC_GoBack style = {styles.goBack}/>
         </TouchableOpacity>
         <View style={styles.tittleBox}>
@@ -73,14 +73,14 @@ import Gallery from './Gallery';
         
         <View style={styles.countBox}>
         <TouchableOpacity
-              onPress={deccount}>
+              onPress={decCount}>
               <View style={styles.minusBox}>
             <Text style={styles.minus}>-</Text>
           </View>
         </TouchableOpacity>
         <Text style={styles.amount}>{count1}</Text>
         <TouchableOpacity
-              onPress={inccount}>
+              onPress={inCount}>
           <View style={styles.plusBox}>
             <Text style={styles.plus}>+</Text>
           </View>

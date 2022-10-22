@@ -55,7 +55,7 @@ const data = [
 
 
 
-const CartScreen = () => {
+const CartScreen = (props) => {
 const [totalAmount, setTotalAmount] = useState(0)
     useEffect(() => {
         onCalculateAmount()
@@ -77,10 +77,10 @@ const [totalAmount, setTotalAmount] = useState(0)
         <>
         <View style={styles.view}>
             <View style={styles.viewIconText}> 
-                <TouchableOpacity style={styles.goBackButton} >
+                <TouchableOpacity style={styles.goBackButton} onPress={() => {props.navigation.goBack()}}>
                     <IC_GoBack style={styles.icon}/>
+                    <Text style={styles.textBack}>Back</Text>
                 </TouchableOpacity>
-                <Text style={styles.textBack}>Back</Text>
             </View>
 
             <View style={styles.viewTitle}>
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     },
     textBack:{
         fontSize: 18,
+        top: -13,
         fontFamily: FONT_FAMILY.NexaRegular,
         color: CUSTOM_COLOR.Black,
         alignSelf: 'center',
@@ -165,13 +166,14 @@ const styles = StyleSheet.create({
     },
     goBackButton: {
         alignSelf: 'center',
-        width: scale(40),
+        width: scale(120),
         height: scale(32),
         justifyContent: 'center',
     },
     icon:{
         width: '100%',
         height: '100%',
+        top: 10,
     },
     buttonPlace:{
         flex: 0.06,

@@ -17,7 +17,7 @@ import HomeScreen from '../screens/home/homeScreen/index';
 import HeaderBar from '../components/headerBar';
 import FONT_FAMILY from '../constants/fonts';
 import {IC_Home, IC_Order, IC_Profile, IC_Search, IC_CartDrawer, IC_Menu, IC_Reservation} from '../assets/icons';
-import {IMG_BestDeals1} from '../assets/images';
+import {IMG_LisaAvatar} from '../assets/images';
 
 const Drawer = createDrawerNavigator();
 
@@ -46,7 +46,7 @@ const CustomScrollDrawer = props => {
           <Image
             resizeMethod="resize"
             resizeMode="cover"
-            source={IMG_BestDeals1}
+            source={IMG_LisaAvatar}
             style={styles.userAvatar}
           />
         </View>
@@ -195,14 +195,16 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.White,
     fontSize: scale(20),
     fontFamily: FONT_FAMILY.NexaBold,
+    left: scale(40),
   },
   userAvatarBorder: {
     backgroundColor: CUSTOM_COLOR.White,
     width: scale(80),
     height: scale(80),
-    borderRadius: 20,
+    borderRadius: 360,
     overflow: 'hidden',
     marginBottom: scale(10),
+    left: scale(45)
   },
   userAvatar: {width: scale(80), height: scale(80)},
   signOut: {

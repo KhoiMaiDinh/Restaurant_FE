@@ -96,7 +96,7 @@ const OrdersScreen = props => {
                   }}>
                   <View style={styles.viewTotal}>
                     <Text style={styles.textTotal}>
-                      Total: ${dataImage.total}
+                      Total: {dataImage.total} VND
                     </Text>
                   </View>
                   <ButtonReOrder />

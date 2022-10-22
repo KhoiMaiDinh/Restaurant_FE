@@ -26,7 +26,7 @@ import FONT_FAMILY from '../../../../constants/fonts';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const BestDeals = () => {
+const BestDeals = (props) => {
   // const [imageList, setImageList] = useState([]);
   // const [currentImage, setCurrentImage] = useState(0);
   // const stepCarousel = useRef();
@@ -44,7 +44,7 @@ const BestDeals = () => {
 
   //2.cap nhat len state cua trang screen
   //tu dong
-
+  //const onPress = {props.navigation.}
   return (
     <View style={styles.container}>
       {/* Scroll view */}
@@ -60,7 +60,7 @@ const BestDeals = () => {
           pagingEnabled //giu 1 hinh tai man hinh
           data={image}
           renderItem={({item}) => (
-            <TouchableOpacity style={styles.view}>
+            <TouchableOpacity style={styles.view} onPress={() => props.navigation.navigate("SingleFoodItemScreen")}>
               <Image
                 source={item.source}
                 resizeMode="stretch"

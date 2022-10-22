@@ -11,4 +11,7 @@ export {default as IC_Search} from './ic_search';
 export {default as IC_Delete} from './ic_delete';
 export {default as IC_Home} from './ic_home';
 export {default as IC_Profile} from './ic_profile';
-export {default as IC_Order} from './ic_order';
+export {default as IC_CartDrawer} from './ic_cartDrawer';
+export {default as IC_Menu} from './ic_menu.png';
+export {default as IC_Order} from './ic_order.png';
+export {default as IC_Reservation} from './ic_reservation.png';

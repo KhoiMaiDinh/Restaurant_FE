@@ -7,6 +7,7 @@ import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { ScrollView } from 'react-native-gesture-handler'
 import PriceAttribute from '../ordersScreen/components/priceAttribute'
+import HeaderBar from '../../../components/headerBar'
 
 
 const data = [
@@ -53,15 +54,6 @@ const [totalAmount, setTotalAmount] = useState(0)
 
   return (
     <SafeAreaView style={styles.container }>
-        <>
-        <View style={styles.viewIconText}> 
-            <TouchableOpacity style={styles.goBackButton} >
-                <IC_GoBack style={styles.icon}/>
-            </TouchableOpacity>
-            <Text style={styles.textBack}>Back</Text>
-        </View>
-        </>
-
         <>
         <View style={styles.viewScroll}>
             <ScrollView showsVerticalScrollIndicator={false}>

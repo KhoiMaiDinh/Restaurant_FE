@@ -17,6 +17,7 @@ import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 import {IMG_BestDeals1} from '../../../assets/images';
 import HeaderBar from '../../../components/headerBar';
+import { onPress } from 'deprecated-react-native-prop-types/DeprecatedTextPropTypes';
 
 
 const categoryData = [
@@ -35,7 +36,7 @@ const foodData = [
   {name: 'lunch', key: 5, img: IMG_BestDeals1, price: 11},
 ];
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1}}>
@@ -44,9 +45,9 @@ const HomeScreen = () => {
             <Text style={styles.categoryText} >Popular Categories</Text>
             <CircularCategories style={styles.categoryRow} categoryData={categoryData}/>
             <Text style={styles.dealText} >Best Deals</Text>
-            <BestDeals style={styles.bestDeal}/>
+            <BestDeals style={styles.bestDeal} {...props} />
             <Text style={styles.dealText} >Most Popular</Text>
-            <MostPopular foodData={foodData} />
+            <MostPopular foodData={foodData} {...props}/>
           </View>
         </ScrollView>
       </View>

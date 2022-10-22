@@ -11,6 +11,7 @@ const MostPopular = props => {
       name={item.name}
       price={item.price}
       img={item.img}
+      {...props}
     />
   ));
 };
@@ -19,7 +20,7 @@ export default MostPopular;
 
 const OneFood = props => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => props.navigation.navigate("SingleFoodItemScreen")}>
       <View style={styles.container}>
         <View style={styles.imgBorder}>
           <Image

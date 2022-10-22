@@ -5,6 +5,9 @@ import {CUSTOM_COLOR} from '../constants/color';
 import EditProfileScreen from '../screens/home/myProfile/editProfileScreen/index';
 import OrdersScreen from '../screens/home/ordersScreen/index';
 import SearchScreen from '../screens/home/searchScreen/index';
+import MenuScreen from '../screens/home/menuScreen/index';
+import CartScreen from '../screens/home/cartScreen/index';
+
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -13,7 +16,7 @@ import {
 import HomeScreen from '../screens/home/homeScreen/index';
 import HeaderBar from '../components/headerBar';
 import FONT_FAMILY from '../constants/fonts';
-import {IC_Home, IC_Order, IC_Profile, IC_Search} from '../assets/icons';
+import {IC_Home, IC_Order, IC_Profile, IC_Search, IC_CartDrawer, IC_Menu, IC_Reservation} from '../assets/icons';
 import {IMG_BestDeals1} from '../assets/images';
 
 const Drawer = createDrawerNavigator();
@@ -51,27 +54,33 @@ const CustomScrollDrawer = props => {
       </View>
       <View style={styles.buttonContainer}>
         <ButtonDrawer
-          label="Profile"
-          icon={<IC_Profile />}
-          component="Profile"
-          navigation={props.navigation}
-        />
-        <ButtonDrawer
           label="Home"
           icon={<IC_Home />}
           component="Home"
           navigation={props.navigation}
         />
         <ButtonDrawer
-          label="Orders"
-          icon={<IC_Order />}
-          component="Orders"
+          label="Menu"
+          icon={<Image source={IC_Menu} />}
+          component="Menu"
           navigation={props.navigation}
         />
         <ButtonDrawer
           label="Search"
           icon={<IC_Search />}
           component="Search"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Profile"
+          icon={<IC_Profile />}
+          component="Profile"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Orders"
+          icon={<Image source={IC_Order} />}
+          component="Orders"
           navigation={props.navigation}
         />
       </View>
@@ -122,11 +131,20 @@ const DrawerScreen = () => {
         })}
       />
       <Drawer.Screen
+        name="Menu"
+        component={MenuScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Menu'} navigation={navigation} />
+          ),
+        })}
+      />
+      <Drawer.Screen
         name="Orders"
         component={OrdersScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Orders'} navigation={navigation} />
+            <HeaderBar pageName={'Orders'} navigation={navigation}/>
           ),
         })}
       />
@@ -135,7 +153,7 @@ const DrawerScreen = () => {
         component={SearchScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Search'} navigation={navigation} />
+            <HeaderBar pageName={'Search'} navigation={navigation}/>
           ),
         })}
       />
@@ -144,7 +162,7 @@ const DrawerScreen = () => {
         component={EditProfileScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Profile'} navigation={navigation} />
+            <HeaderBar pageName={'Profile'} navigation={navigation}/>
           ),
         })}
       />
@@ -201,9 +219,9 @@ const styles = StyleSheet.create({
     fontSize: scale(17),
     width: scale(132),
     height: scale(50),
-    borderBottomColor: CUSTOM_COLOR.Black,
+    borderBottomColor: CUSTOM_COLOR.Primary,
     borderBottomWidth: 0.3,
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
     fontFamily: FONT_FAMILY.NexaRegular,
     marginLeft: scale(18),
   },

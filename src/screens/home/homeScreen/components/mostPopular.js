@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     marginLeft: scale(15),
     marginTop: scale(2),
+    height: scale(22),
   },
   foodPrice: {
     color: CUSTOM_COLOR.Black,

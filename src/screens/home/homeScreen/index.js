@@ -29,7 +29,7 @@ const categoryData = [
 ];
 
 const foodData = [
-  {name: 'ramen', key: 1, img: IMG_BestDeals1, price: 11},
+  {name: 'rameny', key: 1, img: IMG_BestDeals1, price: 11},
   {name: 'sandwich', key: 2, img: IMG_BestDeals1, price: 11},
   {name: 'breakfast', key: 3, img: IMG_BestDeals1, price: 11},
   {name: 'dinner', key: 4, img: IMG_BestDeals1, price: 11},

@@ -45,7 +45,7 @@ const CategoryScreen = props => {
       <View style={styles.tittleBox}>
         <Text style={styles.screenTittle}>{name}</Text>
       </View>
-      <Foods {...props} />
+      <Foods {...props} foodData={foodData} categoryName={name} />
     </SafeAreaView>
   );
 };

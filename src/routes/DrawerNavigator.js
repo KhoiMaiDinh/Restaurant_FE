@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Image, TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import scale from '../utils/responsive';
 import {CUSTOM_COLOR} from '../constants/color';
@@ -112,18 +112,19 @@ const CustomScrollDrawer = props => {
 
 const DrawerScreen = () => {
   const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState('');
+  const [searchData, setSearchData] = useState([]);
 
-  const getSearchData = () => {
-    const searchURL = `https://restaurant-uit-server.herokuapp.com/food/search?name={${search}}`;
+  
+  const getSearchData = useCallback(() => {
+    const searchURL = `https://restaurant-uit-server.herokuapp.com/food/?search={${search}}`;
     return fetch(searchURL)
       .then(res => res.json())
       .then(json => setSearchData(json.foods));
-  };
+  }, [search]);
 
   useEffect(() => {
     getSearchData();
-  }, [search]);
+  }, [getSearchData, search]);
   console.log(searchData);
 
   const Search = () => <SearchScreen searchData={searchData}/>;

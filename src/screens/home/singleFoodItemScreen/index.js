@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
@@ -13,8 +13,20 @@ import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
 
 const SingleFoodItemScreen = props => {
-  const {categoryName} = props.route.params;
   const {data} = props.route.params;
+  const [category, setCategory] = useState([]);
+  const getCategory = () => {
+    const categoryURL = `https://restaurant-uit-server.herokuapp.com/category/${data.categoryId}`;
+
+    return fetch(categoryURL)
+      .then(res => res.json())
+      .then(json => setCategory(json.category));
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+
   const [count1, setCount1] = useState(1);
   const [price, setPrice] = useState(data.price);
 
@@ -54,7 +66,7 @@ const SingleFoodItemScreen = props => {
         <Text style={styles.screenTittle}>{data.name}</Text>
       </View>
       <View style={styles.tittleBox2}>
-        <Text style={styles.screenTittle2}>{categoryName}</Text>
+        <Text style={styles.screenTittle2}>{category.name}</Text>
       </View>
 
       <Gallery style={styles.galleryBox} images={data.images} />

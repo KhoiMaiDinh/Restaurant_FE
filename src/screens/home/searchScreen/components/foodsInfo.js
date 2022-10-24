@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import React from 'react';
 import scale from '../../../../utils/responsive';
-import {IMG_BestDeals1} from '../../../../assets/images';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 
@@ -21,7 +20,7 @@ const Foods = ({searchData}) => {
           name={item.name}
           description={item.description}
           price={item.price}
-          img = {{uri: `${item.posterImage}`}}
+          img = {{uri: `${item.posterImage.url}`}}
         />
       ))}
     </ScrollView>
@@ -38,7 +37,7 @@ const OneFood = props => {
         <View style={styles.foodInfo}>
           <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>
           <Text numberOfLines={3} style={styles.foodDes}>{props.description}</Text>
-          <Text numberOfLines={1} style={styles.foodPrice}>{props.price}</Text>
+          <Text numberOfLines={1} style={styles.foodPrice}>{props.price} ₫</Text>
         </View>
         <View style={styles.imgBorder}>
           <Image

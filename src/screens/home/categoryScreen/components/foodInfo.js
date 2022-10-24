@@ -22,11 +22,11 @@ import {
     {key: 7},
   ];
   
-  const Foods = () => {
+  const Foods = (props) => {
     return (
       <ScrollView style={{marginTop: scale(60)}}>
         {foodInfo.map(item => (
-          <OneFood key={item.key} />
+          <OneFood key={item.key} {...props}/>
         ))}
       </ScrollView>
     );
@@ -34,9 +34,9 @@ import {
   
   export default Foods;
   
-  const OneFood = () => {
+  const OneFood = (props) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
         <View style={styles.container}>
             <View style={styles.catergoryBox}>
               <View style={styles.foodInfo}>

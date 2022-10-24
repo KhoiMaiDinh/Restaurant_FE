@@ -22,7 +22,7 @@ import {
         <View style={styles.tittleBox}>
             <Text style={styles.screenTittle}>Sandwiches</Text>
         </View>
-        <Foods />
+        <Foods {...props}/>
       </SafeAreaView>
     );
   };

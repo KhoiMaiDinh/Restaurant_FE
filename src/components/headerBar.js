@@ -6,7 +6,7 @@ import {CUSTOM_COLOR} from '../constants/color';
 import FONT_FAMILY from '../constants/fonts';
 import SearchBar from '../screens/home/searchScreen/components/searchBar';
 
-const HeaderBar = ({pageName, style, navigation, props}) => {
+const HeaderBar = ({pageName, style, navigation, setSearch}) => {
   const openMenu = () => {
     navigation.openDrawer();
   };
@@ -20,7 +20,7 @@ const HeaderBar = ({pageName, style, navigation, props}) => {
         <IC_Drawer />
       </TouchableOpacity>
       {pageName === 'Search' ? (
-        <SearchBar />
+        <SearchBar setSearch={setSearch}/>
       ) : (
         <Text style={styles.homeName}>{pageName}</Text>
       )}

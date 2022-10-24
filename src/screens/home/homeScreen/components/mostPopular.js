@@ -7,11 +7,12 @@ import FONT_FAMILY from '../../../../constants/fonts';
 const MostPopular = props => {
   return props.foodData.map(item => (
     <OneFood
-      key={item.key}
+      key={item._id}
       name={item.name}
       price={item.price}
-      img={item.img}
+      img={item.posterImage.url}
       {...props}
+      data={item}
     />
   ));
 };
@@ -20,13 +21,13 @@ export default MostPopular;
 
 const OneFood = props => {
   return (
-    <TouchableOpacity onPress={() => props.navigation.navigate("SingleFoodItemScreen")}>
+    <TouchableOpacity onPress={() => props.navigation.navigate("SingleFoodItemScreen", {data: props.data})}>
       <View style={styles.container}>
         <View style={styles.imgBorder}>
           <Image
-            style={{width: scale(332), height: scale(177)}}
-            source={props.img}
-            resizeMode="contain"
+            style={{width: '100%', height: '100%'}}
+            source={{uri: `${props.img}`}}
+            resizeMode="cover"
             resizeMethod="resize"
           />
         </View>
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   foodName: {
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
-    marginLeft: scale(15),
+    //marginLeft: scale(15),
     marginTop: scale(2),
     height: scale(22),
   },

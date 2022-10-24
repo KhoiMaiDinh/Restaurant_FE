@@ -9,7 +9,7 @@ import FONT_FAMILY from '../../../../constants/fonts';
 const ImageTab = (props) => {
   return (
     <SafeAreaView style={styles.container} >
-        <TouchableOpacity style={{backgroundColor: CUSTOM_COLOR.Black,}} onPress={() => {props.navigation.navigate("CategoryScreen")}}>
+        <TouchableOpacity style={{backgroundColor: CUSTOM_COLOR.Black,}} onPress={() => {props.navigation.navigate("CategoryScreen", props.categoryData)}}>
             <Image source={props.source}
                 resizeMode="stretch"
                 style={styles.image}></Image>

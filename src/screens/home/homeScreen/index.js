@@ -13,6 +13,7 @@ import CircularCategories from './components/circularCategory';
 import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
+<<<<<<< HEAD
 
 
 
@@ -36,17 +37,41 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {getCategory(); getFood()}, [])
+=======
+import {IMG_BestDeals1} from '../../../assets/images';
+import HeaderBar from '../../../components/headerBar';
+import { onPress } from 'deprecated-react-native-prop-types/DeprecatedTextPropTypes';
+
+
+const categoryData = [
+  {name: 'ramen', key: 1},
+  {name: 'sandwich', key: 2},
+  {name: 'breakfast', key: 3},
+  {name: 'dinner', key: 4},
+  {name: 'lunch', key: 5},
+];
+
+const foodData = [
+  {name: 'rameny', key: 1, img: IMG_BestDeals1, price: 11},
+  {name: 'sandwich', key: 2, img: IMG_BestDeals1, price: 11},
+  {name: 'breakfast', key: 3, img: IMG_BestDeals1, price: 11},
+  {name: 'dinner', key: 4, img: IMG_BestDeals1, price: 11},
+  {name: 'lunch', key: 5, img: IMG_BestDeals1, price: 11},
+];
+
+const HomeScreen = (props) => {
+>>>>>>> 4475bb8728ac97563ecd32aaf91e3d247b9a9662
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1}}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>
             <Text style={styles.categoryText} >Popular Categories</Text>
-            <CircularCategories style={styles.categoryRow} categoryData={categoryData}/>
+            <CircularCategories style={styles.categoryRow} categoryData={categoryData} {...props}/>
             <Text style={styles.dealText} >Best Deals</Text>
-            <BestDeals style={styles.bestDeal}/>
+            <BestDeals style={styles.bestDeal} {...props} />
             <Text style={styles.dealText} >Most Popular</Text>
-            <MostPopular foodData={foodData} />
+            <MostPopular foodData={foodData} {...props}/>
           </View>
         </ScrollView>
       </View>

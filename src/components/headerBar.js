@@ -10,6 +10,9 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
   const openMenu = () => {
     navigation.openDrawer();
   };
+  const openCart = () => {
+    navigation.navigate("CartScreen");
+  };
 
   return (
     <View style={[styles.container, style]}>
@@ -22,7 +25,7 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
         <Text style={styles.homeName}>{pageName}</Text>
       )}
 
-      <TouchableOpacity style={styles.cartButton}>
+      <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
         <IC_Cart />
       </TouchableOpacity>
     </View>

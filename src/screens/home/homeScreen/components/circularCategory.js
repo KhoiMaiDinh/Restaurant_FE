@@ -21,7 +21,12 @@ const CircularCategories = (props) => {
       <View style={styles.viewContainer}>
         {props.categoryData.map(item => (
           <TouchableOpacity
+<<<<<<< HEAD
             key={item._id}
+=======
+            key={item.key}
+            onPress={() => {props.navigation.navigate("CategoryScreen")}}
+>>>>>>> 4475bb8728ac97563ecd32aaf91e3d247b9a9662
             style={{paddingHorizontal: scale(15)}}>
             <CircularCategory name={item.name} image={item.image}/>
           </TouchableOpacity>

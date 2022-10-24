@@ -10,7 +10,12 @@ const MostPopular = props => {
       key={item._id}
       name={item.name}
       price={item.price}
+<<<<<<< HEAD
       img={item.posterImage}
+=======
+      img={item.img}
+      {...props}
+>>>>>>> 4475bb8728ac97563ecd32aaf91e3d247b9a9662
     />
   ));
 };
@@ -19,7 +24,7 @@ export default MostPopular;
 
 const OneFood = props => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => props.navigation.navigate("SingleFoodItemScreen")}>
       <View style={styles.container}>
         <View style={styles.imgBorder}>
           <Image
@@ -60,6 +65,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     //marginLeft: scale(15),
     marginTop: scale(2),
+    height: scale(22),
   },
   foodPrice: {
     color: CUSTOM_COLOR.Black,

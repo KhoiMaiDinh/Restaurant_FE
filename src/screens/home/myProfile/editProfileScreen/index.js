@@ -10,12 +10,6 @@ const EditProfileScreen = () => {
   return (
     <ScrollView>
         <SafeAreaView style={styles.container}>
-            {/* Button Back */}
-            <>
-                <TouchableOpacity style={styles.goBackButton} >
-                    <IC_GoBack />
-                </TouchableOpacity>
-            </>
             {/* Avatar */}
             <>
                 <TouchableOpacity style={styles.avatarTouch} >
@@ -53,7 +47,7 @@ const EditProfileScreen = () => {
                         </View>
                     </>
                     <>
-                    <View style={{borderColor: CUSTOM_COLOR.Primary, borderWidth: 1, left:scale(207.5), top:60, height:75, width: scale(1)}}/>
+                    <View style={{borderColor: CUSTOM_COLOR.Primary, borderWidth: 1, left:scale(207.5), top:20, height:75, width: scale(1)}}/>
                     </>
                     {/* Last Name */}
                     <>
@@ -138,23 +132,17 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         backgroundColor: CUSTOM_COLOR.White,
     },
-    
-    goBackButton: {
-        position: 'absolute',
-        left: scale(14),
-        top: 15,
-    },
     avatarTouch: {
         width:scale(110),
         height:110,
         borderRadius: 360,
-        top: 60,
+        top: 20,
         alignSelf: 'center',
     },
     editProfilePictureTouch: {
         width:scale(150),
         height:30,
-        top: 60,
+        top: 20,
         alignSelf: 'center',
     },
     avatar: {
@@ -173,43 +161,43 @@ const styles = StyleSheet.create({
         fontSize: scale(25),
         color: CUSTOM_COLOR.Primary,
         textAlign: 'center',
-        top: 100,
+        top: 40,
     },
     privateProfileText: {
         fontFamily: FONT_FAMILY.NexaBold,
         fontSize: scale(25),
         color: CUSTOM_COLOR.Primary,
         textAlign: 'center',
-        top: 30,
+        top: 0,
     },
     firstNameInput: {
         width: scale(150),
         height: 50,
-        top: 110,
+        top: 70,
         left: scale(35),
     },
     lastNameInput: {
         width: scale(150),
         height: 50,
-        top: -15,
+        top: -55,
         left: scale(230),
     },
     emailInput: {
         width: scale(345),
         height: 50,
-        top: 40,
+        top: 0,
         left: scale(35),
     },
     numberInput: {
         width: scale(345),
         height: 50,
-        top: 70,
+        top: 30,
         left: scale(35),
     },
     locationInput: {
         width: scale(345),
         height: 50,
-        top: 110,
+        top: 60,
         left: scale(35),
     },
     inputText: {
@@ -231,7 +219,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        top: 165,
+        top: 125,
         width: scale(300),
         height: 50,
         backgroundColor: CUSTOM_COLOR.Primary,

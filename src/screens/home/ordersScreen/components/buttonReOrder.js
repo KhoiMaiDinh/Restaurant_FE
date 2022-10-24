@@ -7,7 +7,7 @@ import FONT_FAMILY from '../../../../constants/fonts';
 const ButtonReOrder = () => {
   return (
     <TouchableOpacity style={styles.button}>
-      <Text style={styles.text}>REORDER</Text>
+      <Text style={styles.text}>Hủy đơn</Text>
     </TouchableOpacity>
   );
 };

@@ -10,13 +10,13 @@ const PriceAttribute = props => {
   return (
     <View style={[props.style, styles.view1]}>
       <View style={styles.viewValue}>
-        <Text style={styles.styleTextNumber}>{props.textNumber}</Text>
+        <Text style={styles.styleTextNumber} >{props.textNumber}</Text>
       </View>
       <View style={styles.viewTextName}>
-        <Text style={styles.styleTextName}>{props.textName}</Text>
+        <Text style={styles.styleTextName} numberOfLines={1}>{props.textName}</Text>
       </View>
       <View style={styles.viewPrice}>
-        <Text style={styles.styleTextPrice}>${props.textPrice}</Text>
+        <Text style={styles.styleTextPrice}>{props.textPrice} VND</Text>
       </View>
     </View>
   );
@@ -47,11 +47,12 @@ const styles = StyleSheet.create({
     letterSpacing: -0.47,
   },
   viewTextName: {
-    width: scale(150),
-    height: scale(30),
+    width: scale(170),
+    height: scale(27),
     //backgroundColor: CUSTOM_COLOR.Black,
     marginLeft: scale(20),
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   styleTextName: {
     color: CUSTOM_COLOR.San_Juan,
@@ -61,15 +62,14 @@ const styles = StyleSheet.create({
     letterSpacing: -0.39,
   },
   viewPrice: {
-    width: scale(50),
-    height: scale(30),
-    marginLeft: scale(70),
+    width: scale(130),
+    height: scale(35),
     justifyContent: 'center',
   },
   styleTextPrice: {
     color: CUSTOM_COLOR.San_Juan,
     fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: 17,
+    fontSize: 14,
     textAlign: 'right',
     letterSpacing: -0.39,
   },

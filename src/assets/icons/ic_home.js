@@ -1,6 +1,7 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 import { memo } from "react"
+import { CUSTOM_COLOR } from "../../constants/color"
 
 const SvgComponent = (props) => (
   <Svg
@@ -12,7 +13,7 @@ const SvgComponent = (props) => (
   >
     <Path
       d="M13.596.554a1.55 1.55 0 0 0-2.192 0L.554 11.404a1.55 1.55 0 0 0 2.192 2.192l.454-.454V23.35a1.55 1.55 0 0 0 1.55 1.55h3.1a1.55 1.55 0 0 0 1.55-1.55v-3.1a1.55 1.55 0 0 1 1.55-1.55h3.1a1.55 1.55 0 0 1 1.55 1.55v3.1a1.55 1.55 0 0 0 1.55 1.55h3.1a1.55 1.55 0 0 0 1.55-1.55V13.142l.454.454a1.55 1.55 0 0 0 2.192-2.192L13.596.554Z"
-      fill="#000"
+      fill={CUSTOM_COLOR.Primary}
     />
   </Svg>
 )

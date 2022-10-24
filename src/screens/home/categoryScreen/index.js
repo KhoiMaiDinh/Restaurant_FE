@@ -12,17 +12,22 @@ import {
   import FONT_FAMILY from '../../../constants/fonts';
   import { IC_GoBack } from '../../../assets/icons';
 
-  const CategoryScreen = (props) => {
+  const CategoryScreen = () => {
     return (
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.goBackButton} onPress={() => {props.navigation.goBack()}}>
-            <IC_GoBack style = {styles.goBack}/>
-            <Text style={styles.screenTittle2}>Quay lại</Text>
-        </TouchableOpacity>
-        <View style={styles.tittleBox}>
-            <Text style={styles.screenTittle}>Sandwiches</Text>
+        <View style={styles.view}>
+            <View style={styles.viewIconText}> 
+                <TouchableOpacity style={styles.goBackButton}>
+                    <IC_GoBack style={styles.icon}/>
+                    <Text style={styles.textBack}>Quay lại</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.viewTitle}>
+                <Text style={styles.textTitle}>Sandwiches</Text>
+            </View>
         </View>
-        <Foods {...props}/>
+        <Foods />
       </SafeAreaView>
     );
   };
@@ -34,30 +39,55 @@ import {
       backgroundColor: CUSTOM_COLOR.White,
       flex: 1,
     },
+    view:{
+      
+      flex: 0.08,
+      justifyContent: 'space-between',
+      width: '70%',
+      height: scale(32),
+      flexDirection: 'row',
+    },
+    textTitle:{
+      fontSize: 18,
+      fontFamily: FONT_FAMILY.NexaRegular,
+      color: CUSTOM_COLOR.Black,
+      alignSelf: 'center',
+      letterSpacing: -0.7,
+    },
+    viewTitle:{
+      top: scale(20),
+      justifyContent: 'center',
+      width: scale(150),
+      height: scale(32),
+      alignSelf: 'center',
+    },
+    viewIconText:{
+      justifyContent: 'center',
+      width: scale(120),
+      height: scale(32),
+      flexDirection: 'row',
+      alignSelf: 'center',
+    },
+    textBack:{
+      fontSize: 18,
+      top: -13,
+      fontFamily: FONT_FAMILY.NexaRegular,
+      color: CUSTOM_COLOR.Black,
+      alignSelf: 'center',
+      opacity: 0.6,
+   },
     goBackButton: {
-        position: 'absolute',
-        left: scale(9),
-        top: scale(18),
-      },
-      tittleBox: {
-        position: 'absolute',
-        left: scale(156),
-        top: scale(20),
-        justifyContent: 'center',
-      },
-      screenTittle: {
-        fontFamily: FONT_FAMILY.NexaBold,
-        fontSize: scale(17),
-        letterSpacing: scale(-0.42),
-        color: CUSTOM_COLOR.Black,
-      },
-      screenTittle2: {
-        color: CUSTOM_COLOR.Black,
-        fontSize: scale(15),
-        fontFamily: FONT_FAMILY.NexaRegular,
-        top:-23,
-        left: scale(30)
-      },
+      top: scale(20),
+      alignSelf: 'center',
+      width: scale(120),
+      height: scale(32),
+      justifyContent: 'center',
+    },
+    icon:{
+      width: '100%',
+      height: '100%',
+      top: 10,
+    },
       
   });
   

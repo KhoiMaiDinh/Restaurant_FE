@@ -10,12 +10,8 @@ const MostPopular = props => {
       key={item._id}
       name={item.name}
       price={item.price}
-<<<<<<< HEAD
-      img={item.posterImage}
-=======
-      img={item.img}
+      img={item.posterImage.url}
       {...props}
->>>>>>> 4475bb8728ac97563ecd32aaf91e3d247b9a9662
     />
   ));
 };

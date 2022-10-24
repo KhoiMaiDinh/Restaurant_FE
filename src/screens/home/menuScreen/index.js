@@ -23,7 +23,7 @@ const data=[
     {key: 16, source: IMG_BestDeals8, text: 'The Dirty Deed'},
 ]
 
-const MenuScreen = () => {
+const MenuScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.headerBar}/>
@@ -39,7 +39,7 @@ const MenuScreen = () => {
         columnWrapperStyle={styles.wrapper}
         renderItem= {({item}) => (
             <View style={styles.view1}>
-                    <ImageTab source={item.source} text={item.text}/>
+                    <ImageTab source={item.source} text={item.text} {...props}/>
                     <View style={{height: 20}}/>
                     </View>
         )}

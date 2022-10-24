@@ -43,7 +43,7 @@ const HomeScreen = (props) => {
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>
             <Text style={styles.categoryText} >Popular Categories</Text>
-            <CircularCategories style={styles.categoryRow} categoryData={categoryData}/>
+            <CircularCategories style={styles.categoryRow} categoryData={categoryData} {...props}/>
             <Text style={styles.dealText} >Best Deals</Text>
             <BestDeals style={styles.bestDeal} {...props} />
             <Text style={styles.dealText} >Most Popular</Text>

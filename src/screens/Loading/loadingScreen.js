@@ -21,9 +21,8 @@ const LoadingScreen = () => {
         < SafeAreaView style={styles.container}>
             <ImageBackground source={IMG_LOADING} resizeMode={'cover'} style={styles.backGround}>
                 <View style={styles.circle}>
-                    <Image source={IMG_LOGO} resizeMode={'contain'} style={styles.logo}>
+                    <Image source={IMG_LOGO} resizeMode={'center'} style={styles.logo}> 
                     </Image>
-                    <Text style={styles.title}> {'Food for everyone'}</Text>
                     <View style={styles.ellipse}>
                         <ActivityIndicator
                             size='large'
@@ -60,13 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    color: CUSTOM_COLOR.Primary,
-    fontSize: scale(10),
-    alignSelf: 'center',
-    top: scale(160),
-    position: 'absolute',
   },
   ellipse: {
     backgroundColor: 'transparent',

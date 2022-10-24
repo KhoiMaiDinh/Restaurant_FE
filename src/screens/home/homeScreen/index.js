@@ -30,7 +30,6 @@ const HomeScreen = () => {
   const [foodData, setFoodData] = useState([]);
   const getFood = () => {
     const categoryURL = "https://restaurant-uit-server.herokuapp.com/food/";
-
     return fetch(categoryURL)
       .then((res) => res.json())
       .then(json => setFoodData(json.foods));

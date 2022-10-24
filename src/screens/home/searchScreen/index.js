@@ -7,16 +7,16 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import HeaderBar from '../../../components/headerBar';
 import SearchBar from './components/searchBar';
 import Foods from './components/foodsInfo';
 
-const SearchScreen = () => {
+const SearchScreen = ({searchData}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Foods />
+      <Foods searchData={searchData}/>
     </SafeAreaView>
   );
 };

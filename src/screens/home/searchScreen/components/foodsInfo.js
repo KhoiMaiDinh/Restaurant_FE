@@ -38,7 +38,7 @@ const OneFood = props => {
         <View style={styles.foodInfo}>
           <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>
           <Text numberOfLines={3} style={styles.foodDes}>{props.description}</Text>
-          <Text numberOfLines={1} style={styles.foodPrice}>{props.price} ₫</Text>
+          <Text numberOfLines={1} style={styles.foodPrice}>{Intl.NumberFormat('vn-VN').format(props.price)} ₫</Text>
         </View>
         <View style={styles.imgBorder}>
           <Image

@@ -51,7 +51,7 @@ const HomeScreen = props => {
       <View style={{flex: 1}}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>
-            <Text style={styles.categoryText}>Popular Categories</Text>
+            <Text style={styles.categoryText}>Danh mục nổi bật</Text>
             <CircularCategories
               style={styles.categoryRow}
               categoryData={categoryData}
@@ -63,7 +63,7 @@ const HomeScreen = props => {
               foodData={bestFoodData}
               {...props}
             />
-            <Text style={styles.dealText}>Most Popular</Text>
+            <Text style={styles.dealText}>Nhiều người đã thử, bạn có muốn?</Text>
             <MostPopular foodData={foodData} {...props} />
           </View>
         </ScrollView>

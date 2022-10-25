@@ -27,20 +27,8 @@ import FONT_FAMILY from '../../../../constants/fonts';
 const {width: screenWidth} = Dimensions.get('window');
 
 const BestDeals = (props) => {
-  // const [imageList, setImageList] = useState([]);
   // const [currentImage, setCurrentImage] = useState(0);
   // const stepCarousel = useRef();
-
-  const image = [
-    {key: 1, source: IMG_BestDeals1, text: 'The Fancy Sandwich'},
-    {key: 2, source: IMG_BestDeals2, text: 'Petty Cash Sandwich'},
-    {key: 3, source: IMG_BestDeals3, text: 'Red Flag'},
-    {key: 4, source: IMG_BestDeals4, text: 'Sandwiches'},
-    {key: 5, source: IMG_BestDeals5, text: 'Breakfast'},
-    {key: 6, source: IMG_BestDeals6, text: 'Forbidden Salad'},
-    {key: 7, source: IMG_BestDeals7, text: 'Ramen'},
-    {key: 8, source: IMG_BestDeals8, text: 'The Dirty Deed'},
-  ];
 
   //2.cap nhat len state cua trang screen
   //tu dong
@@ -58,15 +46,15 @@ const BestDeals = (props) => {
           paginationStyleItemActive={styles.dotActive}
           paginationStyleItemInactive={styles.dot}
           pagingEnabled //giu 1 hinh tai man hinh
-          data={image}
+          data={props.foodData}
           renderItem={({item}) => (
-            <TouchableOpacity style={styles.view} onPress={() => props.navigation.navigate("SingleFoodItemScreen")}>
+            <TouchableOpacity style={styles.view} onPress={() => props.navigation.navigate("SingleFoodItemScreen", {data: item})}>
               <Image
-                source={item.source}
+                source={{uri: `${item.posterImage.url}`}}
                 resizeMode="stretch"
                 style={styles.image}
               />
-              <Text style={styles.text}>{item.text}</Text>
+              <Text style={styles.text}>{item.name}</Text>
             </TouchableOpacity>
           )}
         />

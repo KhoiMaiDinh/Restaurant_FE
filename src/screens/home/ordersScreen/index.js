@@ -99,7 +99,7 @@ const OrdersScreen = props => {
                       Total: {dataImage.total} VND
                     </Text>
                   </View>
-                  <ButtonReOrder />
+                  <ButtonReOrder {...props}/>
                 </View>
                 <View style={{height: scale(50)}} />
               </View>

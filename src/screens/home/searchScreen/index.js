@@ -13,10 +13,10 @@ import HeaderBar from '../../../components/headerBar';
 import SearchBar from './components/searchBar';
 import Foods from './components/foodsInfo';
 
-const SearchScreen = ({searchData}) => {
+const SearchScreen = ({searchData, props}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Foods searchData={searchData}/>
+      <Foods searchData={searchData} {...props}/>
     </SafeAreaView>
   );
 };

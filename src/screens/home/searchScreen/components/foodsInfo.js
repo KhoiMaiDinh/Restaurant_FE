@@ -11,7 +11,7 @@ import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 
-const Foods = ({searchData}) => {
+const Foods = ({searchData, props}) => {
   return (
     <ScrollView style={{marginTop: scale(45)}}>
       {searchData.map(item => (
@@ -21,6 +21,7 @@ const Foods = ({searchData}) => {
           description={item.description}
           price={item.price}
           img = {{uri: `${item.posterImage.url}`}}
+          {...props}
         />
       ))}
     </ScrollView>
@@ -32,7 +33,7 @@ export default Foods;
 const OneFood = props => {
   console.log(props.name);
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
       <View style={styles.container}>
         <View style={styles.foodInfo}>
           <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>

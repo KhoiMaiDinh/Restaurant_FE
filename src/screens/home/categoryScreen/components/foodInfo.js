@@ -12,19 +12,22 @@ import {
   import {CUSTOM_COLOR} from '../../../../constants/color';
   import FONT_FAMILY from '../../../../constants/fonts';
   
+  //const {width: screenWidth} = Dimensions.get('window');
+  
+
   const foodInfo = [
     {key: 1},
     {key: 2},
     {key: 3},
     {key: 4},
     {key: 5},
-    {key: 6},
-    {key: 7},
+    //{key: 6},
+    //{key: 7},
   ];
   
   const Foods = (props) => {
     return (
-      <ScrollView style={{marginTop: scale(60)}}>
+      <ScrollView style={{marginTop: scale(20)}}>
         {foodInfo.map(item => (
           <OneFood key={item.key} {...props}/>
         ))}
@@ -36,35 +39,38 @@ import {
   
   const OneFood = (props) => {
     return (
-      <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
-        <View style={styles.container}>
+      <View>
+        <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
+        
+          <View style={styles.container}>
             <View style={styles.catergoryBox}>
               <View style={styles.foodInfo}>
-                  <Text style={styles.foodName}>Fobidden Salad</Text>
-                  <Text style={styles.foodContain}>Bơ, Arugula, phô mai rau bina, phô mai, cà rốt, hạt quinoa, củ cải đường</Text>
-                  <Text style={styles.foodPrice}>$11.00</Text>
+                <Text style={styles.foodName}>Fobidden Salad</Text>
+                <Text style={styles.foodContain}>Bơ, Arugula, phô mai rau bina, phô mai, cà rốt, hạt quinoa, củ cải đường</Text>
+                <Text style={styles.foodPrice}>$11.00</Text>
               </View>
-            <View style={styles.imgBorder}>
-                <Image
-                style={{width: scale(95), height: scale(103)}}
-                source={IMG_1}
-                resizeMode="cover"
-                resizeMethod="scale"
-                />
+              <View style={styles.imgBorder}>
+                  <Image
+                  style={{width: scale(95), height: scale(103)}}
+                  source={IMG_1}
+                  resizeMode="cover"
+                  resizeMethod="scale"
+                  />
+              </View>
             </View>
-            </View>
-        </View>
-      </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </View>
+      
     );
   };
   
   const styles = StyleSheet.create({
     container: {
-        backgroundColor: CUSTOM_COLOR.GreySecond,
-     
+      // backgroundColor: CUSTOM_COLOR.GreySecond,
     },
     catergoryBox: {
-      top: scale(20),
+      // top: scale(20),
       width: scale(375),
       height: scale(103),
       alignSelf: 'center',
@@ -73,7 +79,6 @@ import {
     },
     foodInfo: {
       width: scale(280),
-     
     },
     imgBorder: {
       width: scale(95),
@@ -91,10 +96,9 @@ import {
       paddingVertical: scale(7),
       color: CUSTOM_COLOR.Grey,
       fontFamily: FONT_FAMILY.NexaRegular,
-      letterSpacing: scale(-0.42),
+      letterSpacing: scale(0.2),
       fontSize: scale(13),
       height: scale(60),
-      width: scale(250),
     },
     foodPrice: {
       color: CUSTOM_COLOR.Grey,

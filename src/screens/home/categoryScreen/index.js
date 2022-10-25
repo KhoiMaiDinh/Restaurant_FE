@@ -24,10 +24,12 @@ import {
             </View>
 
             <View style={styles.viewTitle}>
-                <Text style={styles.textTitle}>Sandwiches</Text>
+                <Text style={styles.textTitle}>Thái Lan</Text>
             </View>
         </View>
-        <Foods />
+        <View style={styles.food}>
+          <Foods/>
+        </View>
       </SafeAreaView>
     );
   };
@@ -40,12 +42,20 @@ import {
       flex: 1,
     },
     view:{
-      
-      flex: 0.08,
-      justifyContent: 'space-between',
-      width: '70%',
-      height: scale(32),
+      position: 'relative',
       flexDirection: 'row',
+      backgroundColor: CUSTOM_COLOR.White,
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+      paddingVertical: 10,
+    },
+    food: {
+      flexDirection: 'row',
+      display: 'flex',
+      width: '100%',
+      flex: 1,
+      backgroundColor: CUSTOM_COLOR.GreySecond,
     },
     textTitle:{
       fontSize: 18,
@@ -55,39 +65,24 @@ import {
       letterSpacing: -0.7,
     },
     viewTitle:{
-      top: scale(20),
+      position: 'absolute',
+      flex: 1,
+      width: '100%',
       justifyContent: 'center',
-      width: scale(150),
-      height: scale(32),
-      alignSelf: 'center',
-    },
-    viewIconText:{
-      justifyContent: 'center',
-      width: scale(120),
-      height: scale(32),
-      flexDirection: 'row',
-      alignSelf: 'center',
+      alignItems:'center',
     },
     textBack:{
       fontSize: 18,
-      top: -13,
       fontFamily: FONT_FAMILY.NexaRegular,
       color: CUSTOM_COLOR.Black,
       alignSelf: 'center',
       opacity: 0.6,
    },
     goBackButton: {
-      top: scale(20),
       alignSelf: 'center',
-      width: scale(120),
+      flexDirection: 'row',
       height: scale(32),
       justifyContent: 'center',
     },
-    icon:{
-      width: '100%',
-      height: '100%',
-      top: 10,
-    },
-      
   });
   

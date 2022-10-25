@@ -10,7 +10,7 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import Foods from './components/foodInfo';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import {IC_GoBack} from '../../../assets/icons';
+import { IC_GoBack } from '../../../assets/icons';
 
 const CategoryScreen = props => {
   const {name} = props.route.params;
@@ -34,18 +34,25 @@ const CategoryScreen = props => {
   console.log(foodData);
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.goBackButton}
-        onPress={() => {
-          props.navigation.goBack();
-        }}>
-        <IC_GoBack style={styles.goBack} />
-        <Text style={styles.screenTittle2}>Quay lại</Text>
-      </TouchableOpacity>
-      <View style={styles.tittleBox}>
-        <Text style={styles.screenTittle}>{name}</Text>
+      <View style={styles.view}>
+          <View style={styles.viewgoBackText}> 
+            <TouchableOpacity
+              style={styles.goBackButton}
+              onPress={() => {
+                props.navigation.goBack();
+            }}>
+                <IC_GoBack style={styles.goBack}/>
+                <Text style={styles.screenTittle2}>Quay lại</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.tittleBox}>
+              <Text style={styles.textTitle}>{name}</Text>
+            </View>
+        </View>
+      <View style={styles.food}>
+        <Foods {...props} foodData={foodData} categoryName={name} />
       </View>
-      <Foods {...props} foodData={foodData} categoryName={name} />
     </SafeAreaView>
   );
 };
@@ -53,32 +60,52 @@ const CategoryScreen = props => {
 export default CategoryScreen;
 
 const styles = StyleSheet.create({
+  
   container: {
     backgroundColor: CUSTOM_COLOR.White,
     flex: 1,
   },
-  goBackButton: {
-    position: 'absolute',
-    left: scale(9),
-    top: scale(18),
+  view:{
+    position: 'relative',
+    flexDirection: 'row',
+    backgroundColor: CUSTOM_COLOR.White,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingVertical: 10,
   },
-  tittleBox: {
-    position: 'absolute',
-    left: scale(156),
-    top: scale(20),
-    justifyContent: 'center',
+  food: {
+    flexDirection: 'row',
+    display: 'flex',
+    width: '100%',
+    flex: 1,
+    backgroundColor: CUSTOM_COLOR.GreySecond,
   },
-  screenTittle: {
-    fontFamily: FONT_FAMILY.NexaBold,
-    fontSize: scale(17),
-    letterSpacing: scale(-0.42),
-    color: CUSTOM_COLOR.Black,
-  },
-  screenTittle2: {
-    color: CUSTOM_COLOR.Black,
-    fontSize: scale(15),
+  textTitle:{
+    fontSize: 18,
     fontFamily: FONT_FAMILY.NexaRegular,
-    top: -23,
-    left: scale(30),
+    color: CUSTOM_COLOR.Black,
+    alignSelf: 'center',
+    letterSpacing: -0.7,
+  },
+  tittleBox:{
+    position: 'absolute',
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems:'center',
+  },
+  screenTittle2:{
+    fontSize: 18,
+    fontFamily: FONT_FAMILY.NexaRegular,
+    color: CUSTOM_COLOR.Black,
+    alignSelf: 'center',
+    opacity: 0.6,
+ },
+  goBackButton: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    height: scale(32),
+    justifyContent: 'center',
   },
 });

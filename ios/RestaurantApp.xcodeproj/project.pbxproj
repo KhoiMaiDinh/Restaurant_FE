@@ -17,6 +17,9 @@
 		1A1690544E644BB6ACC502EC /* Nexa Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = ABCCD2C14F494BEC8F8C2F45 /* Nexa Bold.otf */; };
 		47582BF6D66D4094A647D573 /* Nexa Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 154064EC1B3346FEA56B764A /* Nexa Light.otf */; };
 		2982A97DA9CE4D11BC9AC739 /* Nexa Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 97D4EE4BDBCB440CB7505C6B /* Nexa Regular.otf */; };
+		7DAA4A2FB5F84991914DFB64 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 02BB4F2E693440DAB9ECC69C /* Montserrat-Regular.otf */; };
+		809A9D42E9BB4E21B733560F /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60303E2419D549118BEACD10 /* Montserrat-Light.otf */; };
+		3D887CB6D05B4008A9D2CD45 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 39A84043501F4DE49547587A /* Montserrat-SemiBold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,9 @@
 		ABCCD2C14F494BEC8F8C2F45 /* Nexa Bold.otf */ = {isa = PBXFileReference; name = "Nexa Bold.otf"; path = "../src/assets/fonts/Nexa Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		154064EC1B3346FEA56B764A /* Nexa Light.otf */ = {isa = PBXFileReference; name = "Nexa Light.otf"; path = "../src/assets/fonts/Nexa Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		97D4EE4BDBCB440CB7505C6B /* Nexa Regular.otf */ = {isa = PBXFileReference; name = "Nexa Regular.otf"; path = "../src/assets/fonts/Nexa Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		02BB4F2E693440DAB9ECC69C /* Montserrat-Regular.otf */ = {isa = PBXFileReference; name = "Montserrat-Regular.otf"; path = "../src/assets/fonts/Montserrat-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60303E2419D549118BEACD10 /* Montserrat-Light.otf */ = {isa = PBXFileReference; name = "Montserrat-Light.otf"; path = "../src/assets/fonts/Montserrat-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		39A84043501F4DE49547587A /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; name = "Montserrat-SemiBold.otf"; path = "../src/assets/fonts/Montserrat-SemiBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +167,9 @@
 				ABCCD2C14F494BEC8F8C2F45 /* Nexa Bold.otf */,
 				154064EC1B3346FEA56B764A /* Nexa Light.otf */,
 				97D4EE4BDBCB440CB7505C6B /* Nexa Regular.otf */,
+				02BB4F2E693440DAB9ECC69C /* Montserrat-Regular.otf */,
+				60303E2419D549118BEACD10 /* Montserrat-Light.otf */,
+				39A84043501F4DE49547587A /* Montserrat-SemiBold.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -265,6 +274,9 @@
 				1A1690544E644BB6ACC502EC /* Nexa Bold.otf in Resources */,
 				47582BF6D66D4094A647D573 /* Nexa Light.otf in Resources */,
 				2982A97DA9CE4D11BC9AC739 /* Nexa Regular.otf in Resources */,
+				7DAA4A2FB5F84991914DFB64 /* Montserrat-Regular.otf in Resources */,
+				809A9D42E9BB4E21B733560F /* Montserrat-Light.otf in Resources */,
+				3D887CB6D05B4008A9D2CD45 /* Montserrat-SemiBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -60,9 +60,8 @@ const styles = StyleSheet.create({
   foodName: {
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
-    //marginLeft: scale(15),
     marginTop: scale(2),
-    height: scale(22),
+    height: scale(24),
   },
   foodPrice: {
     color: CUSTOM_COLOR.Black,

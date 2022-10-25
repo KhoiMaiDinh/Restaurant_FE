@@ -21,7 +21,6 @@ const HomeScreen = (props) => {
   const [categoryData, setCategoryData] = useState([]);
   const getCategory = () => {
     const categoryURL = "https://restaurant-uit-server.herokuapp.com/category/popular/";
-
     return fetch(categoryURL)
       .then((res) => res.json())
       .then(json => setCategoryData(json.categories));

@@ -89,7 +89,7 @@ const SingleFoodItemScreen = props => {
         </TouchableOpacity>
       </View>
       <View style={styles.priceBox}>
-        <Text style={styles.price}>${price}</Text>
+        <Text style={styles.price}>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
       </View>
       <TouchableOpacity>
         <View style={styles.AddButtonBox}>

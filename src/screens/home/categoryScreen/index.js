@@ -31,7 +31,6 @@ const CategoryScreen = props => {
   };
 
   useEffect(() => {getFoods()}, []);
-  console.log(foodData);
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity

@@ -33,7 +33,7 @@ const OneFood = props => {
         </View>
         <View style={styles.foodInfo}>
           <Text style={styles.foodName}>{props.name}</Text>
-          <Text style={styles.foodPrice}>${props.price}</Text>
+          <Text style={styles.foodPrice}>{Intl.NumberFormat('vn-VN').format(props.price)} ₫</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   foodInfo: {
-    flex: 20,
+    flex: 22,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

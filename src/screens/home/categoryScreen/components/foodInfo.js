@@ -11,6 +11,7 @@ import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 
+
 const Foods = props => {
   return (
     <ScrollView style={{marginTop: scale(60)}}>
@@ -43,7 +44,7 @@ const OneFood = props => {
           <View style={styles.foodInfo}>
             <Text style={styles.foodName}>{props.data.name}</Text>
             <Text style={styles.foodContain}>{props.data.description}</Text>
-            <Text style={styles.foodPrice}>{props.data.price}</Text>
+            <Text style={styles.foodPrice}>{Intl.NumberFormat('vn-VN').format(props.data.price)} ₫</Text>
           </View>
           <View style={styles.imgBorder}>
             <Image

@@ -14,7 +14,7 @@ import FONT_FAMILY from '../../../../constants/fonts';
 
 const Foods = props => {
   return (
-    <ScrollView style={{marginTop: scale(60)}}>
+    <ScrollView style={{marginTop: scale(20)}}>
       {props.foodData.map(item => (
         <OneFood
           key={item._id}
@@ -62,12 +62,12 @@ const OneFood = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: CUSTOM_COLOR.GreySecond,
+    // backgroundColor: CUSTOM_COLOR.GreySecond,
   },
   categoryBox: {
-    top: scale(20),
+    
     width: scale(375),
-    height: scale(103),
+    //height: scale(103),
     alignSelf: 'center',
     flexDirection: 'row',
     marginBottom: scale(24),
@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
     height: scale(23),
   },
   foodContain: {
-    paddingVertical: scale(7),
+    paddingVertical: scale(3),
     color: CUSTOM_COLOR.Grey,
     fontFamily: FONT_FAMILY.NexaRegular,
-    letterSpacing: scale(-0.42),
+    letterSpacing: scale(0.2),
     fontSize: scale(13),
-    height: scale(60),
+    //height: scale(60),
     width: scale(250),
   },
   foodPrice: {
@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     letterSpacing: scale(-0.42),
     fontSize: scale(14),
-    top: scale(-10),
+    //top: scale(-5),
   },
 });

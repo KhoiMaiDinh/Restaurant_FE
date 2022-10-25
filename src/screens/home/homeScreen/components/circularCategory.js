@@ -10,7 +10,6 @@ import React from 'react';
 import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
-import { test } from '.';
 
 const CircularCategories = (props) => {
   return (
@@ -21,10 +20,10 @@ const CircularCategories = (props) => {
       <View style={styles.viewContainer}>
         {props.categoryData.map(item => (
           <TouchableOpacity
-            key={item.key}
-            onPress={() => {props.navigation.navigate("CategoryScreen")}}
+            key={item._id}
+            onPress={() => {props.navigation.navigate("CategoryScreen", item)}}
             style={{paddingHorizontal: scale(15)}}>
-            <CircularCategory name={item.name} />
+            <CircularCategory name={item.name} image={item.image}/>
           </TouchableOpacity>
         ))}
       </View>
@@ -35,10 +34,12 @@ const CircularCategories = (props) => {
 export default CircularCategories;
 
 const CircularCategory = props => {
+
+
   return (
     <View style={styles.container}>
       <View style={styles.circle}>
-        <Image source={test} resizeMode={'contain'}/>
+        <Image source={{uri: `${props.image}`}} resizeMode={'cover'} style={{width: '100%', height: '100%'}}/>
       </View>
       <Text style={styles.foodName}>{props.name}</Text>
     </View>

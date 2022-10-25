@@ -8,25 +8,21 @@ import {
 } from 'react-native';
 import React from 'react';
 import scale from '../../../../utils/responsive';
-import {IMG_BestDeals1} from '../../../../assets/images';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 
-const foodInfo = [
-  {key: 1},
-  {key: 2},
-  {key: 3},
-  {key: 4},
-  {key: 5},
-  {key: 6},
-  {key: 7},
-];
-
-const Foods = () => {
+const Foods = ({searchData, props}) => {
   return (
     <ScrollView style={{marginTop: scale(45)}}>
-      {foodInfo.map(item => (
-        <OneFood key={item.key} />
+      {searchData.map(item => (
+        <OneFood
+          key={item._id}
+          name={item.name}
+          description={item.description}
+          price={item.price}
+          img = {{uri: `${item.posterImage.url}`}}
+          {...props}
+        />
       ))}
     </ScrollView>
   );
@@ -34,19 +30,20 @@ const Foods = () => {
 
 export default Foods;
 
-const OneFood = () => {
+const OneFood = props => {
+  console.log(props.name);
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
       <View style={styles.container}>
         <View style={styles.foodInfo}>
-          <Text style={styles.foodName}>Food Name</Text>
-          <Text style={styles.foodDes}>Food description djsakdjsaidjsakdjsakdsakdska</Text>
-          <Text style={styles.foodPrice}>Food Price</Text>
+          <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>
+          <Text numberOfLines={3} style={styles.foodDes}>{props.description}</Text>
+          <Text numberOfLines={1} style={styles.foodPrice}>{props.price} ₫</Text>
         </View>
         <View style={styles.imgBorder}>
           <Image
             style={{width: scale(95), height: scale(103)}}
-            source={IMG_BestDeals1}
+            source={props.img}
             resizeMode="cover"
             resizeMethod="scale"
           />
@@ -80,12 +77,12 @@ const styles = StyleSheet.create({
     height: scale(23),
   },
   foodDes: {
-    paddingVertical: scale(7),
+    paddingVertical: scale(3),
     color: CUSTOM_COLOR.Grey,
     fontFamily: FONT_FAMILY.NexaRegular,
     letterSpacing: scale(-0.42),
     fontSize: scale(13),
-    height: scale(60),
+    //height: scale(60),
   },
   foodPrice: {
     color: CUSTOM_COLOR.Grey,

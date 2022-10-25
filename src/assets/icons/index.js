@@ -15,3 +15,4 @@ export {default as IC_CartDrawer} from './ic_cartDrawer';
 export {default as IC_Menu} from './ic_menu.png';
 export {default as IC_Order} from './ic_order.png';
 export {default as IC_Reservation} from './ic_reservation.png';
+export {default as IC_NoInternet} from './ic_noInternet';

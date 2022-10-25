@@ -4,10 +4,10 @@ import {CUSTOM_COLOR} from '../../../../constants/color';
 import scale from '../../../../utils/responsive';
 import FONT_FAMILY from '../../../../constants/fonts';
 
-const ButtonReOrder = () => {
+const ButtonReOrder = (props) => {
   return (
-    <TouchableOpacity style={styles.button}>
-      <Text style={styles.text}>Hủy đơn</Text>
+    <TouchableOpacity style={styles.button} onPress={() => {props.navigation.navigate("CartScreen")}}>
+      <Text style={styles.text}>Đặt lại</Text>
     </TouchableOpacity>
   );
 };

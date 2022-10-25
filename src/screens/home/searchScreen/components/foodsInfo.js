@@ -13,7 +13,7 @@ import FONT_FAMILY from '../../../../constants/fonts';
 
 const Foods = ({searchData, props}) => {
   return (
-    <ScrollView style={{marginTop: scale(45)}}>
+    <ScrollView style={{marginTop: scale(25)}}>
       {searchData.map(item => (
         <OneFood
           key={item._id}

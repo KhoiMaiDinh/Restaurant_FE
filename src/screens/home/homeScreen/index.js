@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import scale from '../../../utils/responsive';
 import CircularCategories from './components/circularCategory';
@@ -14,39 +14,57 @@ import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 
-
-
-const HomeScreen = (props) => {
-
+const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const getCategory = () => {
-    const categoryURL = "https://restaurant-uit-server.herokuapp.com/category/popular/";
-
+    const categoryURL =
+      'https://restaurant-uit-server.herokuapp.com/category/popular/';
     return fetch(categoryURL)
-      .then((res) => res.json())
+      .then(res => res.json())
       .then(json => setCategoryData(json.categories));
   };
 
+  const [bestFoodData, setBestFoodData] = useState([]);
+  const getBestFood = () => {
+    const bestFoodURL =
+      'https://restaurant-uit-server.herokuapp.com/food/best-deals/';
+    return fetch(bestFoodURL)
+      .then(res => res.json())
+      .then(json => setBestFoodData(json.foods));
+  };
+
   const [foodData, setFoodData] = useState([]);
-  const getFood = () => {
-    const foodURL = "https://restaurant-uit-server.herokuapp.com/food/";
+  const getPopularFood = () => {
+    const foodURL = 'https://restaurant-uit-server.herokuapp.com/food/popular/';
     return fetch(foodURL)
-      .then((res) => res.json())
+      .then(res => res.json())
       .then(json => setFoodData(json.foods));
   };
 
-  useEffect(() => {getCategory(); getFood()}, [])
+  useEffect(() => {
+    getCategory();
+    getBestFood();
+    getPopularFood();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1}}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewSecond}>
-            <Text style={styles.categoryText} >Popular Categories</Text>
-            <CircularCategories style={styles.categoryRow} categoryData={categoryData} {...props}/>
-            <Text style={styles.dealText} >Best Deals</Text>
-            <BestDeals style={styles.bestDeal} {...props} />
-            <Text style={styles.dealText} >Most Popular</Text>
-            <MostPopular foodData={foodData} {...props}/>
+            <Text style={styles.categoryText}>Popular Categories</Text>
+            <CircularCategories
+              style={styles.categoryRow}
+              categoryData={categoryData}
+              {...props}
+            />
+            <Text style={styles.dealText}>Best Deals</Text>
+            <BestDeals
+              style={styles.bestDeal}
+              foodData={bestFoodData}
+              {...props}
+            />
+            <Text style={styles.dealText}>Most Popular</Text>
+            <MostPopular foodData={foodData} {...props} />
           </View>
         </ScrollView>
       </View>
@@ -90,6 +108,5 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Dimensions.get('window').height * 0.95,
   },
-  viewSecond: {
-  },
+  viewSecond: {},
 });

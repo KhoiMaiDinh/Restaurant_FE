@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     icon: {
         position: 'absolute',
         top: 194,
-        width: scale(113),
-        height: 120,
+        width: scale(116),
+        height: scale(120),
         justifyContent: 'center',
         alignSelf: 'center',
     }

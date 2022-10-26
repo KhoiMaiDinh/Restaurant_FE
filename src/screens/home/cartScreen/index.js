@@ -8,6 +8,7 @@ import FONT_FAMILY from '../../../constants/fonts'
 import { ScrollView } from 'react-native-gesture-handler'
 import PriceAttribute from '../ordersScreen/components/priceAttribute'
 import HeaderBar from '../../../components/headerBar'
+import ButtonPrice from './components/buttonPrice'
 
 
 const data = [
@@ -52,14 +53,11 @@ const data = [
     {key: 39, number: 5, name: 'awn', price: 8000},
 ]
 
-
-
-
 const CartScreen = (props) => {
 const [totalAmount, setTotalAmount] = useState(0)
     useEffect(() => {
         onCalculateAmount()
-    },[data]);
+    },[data])
 
     const onCalculateAmount = () => {
 
@@ -219,9 +217,10 @@ const styles = StyleSheet.create({
 
     viewScroll:{
         flex: 0.84,
-        width: Dimensions.get('window').width-scale(50),
+        width: Dimensions.get('window').width-scale(10),
         height:scale(737),
         alignSelf: 'center',
+        marginLeft: scale(20),
 
     },
 })

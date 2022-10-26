@@ -11,7 +11,7 @@ const LoadingScreen = () => {
         navigation.navigate("OnboardingScreen");
     }
     const navigation = useNavigation();
-    const myTimeout = setTimeout(navi, 5000);
+    const myTimeout = setTimeout(navi, 8000);
     useEffect(() => {
         myTimeout;
         
@@ -72,10 +72,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     flex: 2,
+    marginTop: 7,
   },
   vector: {
     width: scale(27),
     height: scale(27),
+    //marginTop: 7,
     borderWidth: scale(5),
     borderColor: CUSTOM_COLOR.White,
     alignSelf: 'center',

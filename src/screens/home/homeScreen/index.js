@@ -63,7 +63,9 @@ const HomeScreen = props => {
               foodData={bestFoodData}
               {...props}
             />
-            <Text style={styles.dealText}>Nhiều người đã thử, bạn có muốn?</Text>
+            <Text style={styles.dealText}>
+              Nhiều người đã thử, bạn có muốn?
+            </Text>
             <MostPopular foodData={foodData} {...props} />
           </View>
         </ScrollView>

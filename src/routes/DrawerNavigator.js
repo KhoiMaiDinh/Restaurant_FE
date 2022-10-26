@@ -69,7 +69,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Menu"
-          icon={<Image source={IC_Menu} />}
+          icon={<IC_Menu />}
           component="Menu"
           navigation={props.navigation}
         />
@@ -81,7 +81,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Reservation"
-          icon={<Image source={IC_Reservation} />}
+          icon={<IC_Reservation />}
           component="Reservation"
           navigation={props.navigation}
         />
@@ -93,7 +93,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Orders"
-          icon={<Image source={IC_Order} />}
+          icon={<IC_Order />}
           component="Orders"
           navigation={props.navigation}
         />

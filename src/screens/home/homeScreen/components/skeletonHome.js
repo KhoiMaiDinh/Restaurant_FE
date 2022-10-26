@@ -1,11 +1,10 @@
 import React from 'react';
 import {View, Image, Text, ScrollView, Dimensions, StyleSheet} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import { CUSTOM_COLOR } from '../constants/color';
-import scale from '../utils/responsive';
-import FONT_FAMILY from '../constants/fonts';
+import { CUSTOM_COLOR } from '../../../../constants/color';
+import scale from '../../../../utils/responsive';
 
-const Skeleton = () => {
+const SkeletonHome = () => {
   return (
     <ScrollView>
         <SkeletonPlaceholder style={styles.container}>
@@ -26,7 +25,7 @@ const Skeleton = () => {
     </ScrollView>
   );
 };
-export default Skeleton
+export default SkeletonHome
 
 const styles = StyleSheet.create({
     container: {

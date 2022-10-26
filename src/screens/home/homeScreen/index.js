@@ -13,7 +13,7 @@ import CircularCategories from './components/circularCategory';
 import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
-import Skeleton from '../../skeleton';
+import SkeletonHome from './components/skeletonHome';
 
 
 const HomeScreen = props => {
@@ -65,7 +65,7 @@ const HomeScreen = props => {
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-      <Skeleton/>
+      <SkeletonHome/>
       ):(
         <View style={{flex: 1}}>
           <ScrollView style={styles.scrollView}>

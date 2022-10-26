@@ -34,7 +34,7 @@ const CategoryScreen = props => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.view}>
-          <View style={styles.viewgoBackText}> 
+          <View style={styles.viewGoBackText}> 
             <TouchableOpacity
               style={styles.goBackButton}
               onPress={() => {

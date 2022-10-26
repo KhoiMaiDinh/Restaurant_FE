@@ -6,7 +6,7 @@ import EditProfileScreen from '../screens/home/myProfile/editProfileScreen/index
 import OrdersScreen from '../screens/home/ordersScreen/index';
 import SearchScreen from '../screens/home/searchScreen/index';
 import MenuScreen from '../screens/home/menuScreen/index';
-import CartScreen from '../screens/home/cartScreen/index';
+import ReservationScreen from '../screens/home/reservationScreen/index';
 
 import {
   createDrawerNavigator,
@@ -16,7 +16,15 @@ import {
 import HomeScreen from '../screens/home/homeScreen/index';
 import HeaderBar from '../components/headerBar';
 import FONT_FAMILY from '../constants/fonts';
-import {IC_Home, IC_Order, IC_Profile, IC_Search, IC_CartDrawer, IC_Menu, IC_Reservation} from '../assets/icons';
+import {
+  IC_Home,
+  IC_Order,
+  IC_Profile,
+  IC_Search,
+  IC_CartDrawer,
+  IC_Menu,
+  IC_Reservation,
+} from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
 
 const Drawer = createDrawerNavigator();
@@ -61,7 +69,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Menu"
-          icon={<Image source={IC_Menu} />}
+          icon={<IC_Menu />}
           component="Menu"
           navigation={props.navigation}
         />
@@ -72,6 +80,12 @@ const CustomScrollDrawer = props => {
           navigation={props.navigation}
         />
         <ButtonDrawer
+          label="Reservation"
+          icon={<IC_Reservation />}
+          component="Reservation"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
           label="Profile"
           icon={<IC_Profile />}
           component="Profile"
@@ -79,7 +93,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Orders"
-          icon={<Image source={IC_Order} />}
+          icon={<IC_Order />}
           component="Orders"
           navigation={props.navigation}
         />
@@ -114,7 +128,6 @@ const DrawerScreen = () => {
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
 
-  
   const getSearchData = useCallback(() => {
     const searchURL = `https://restaurant-uit-server.herokuapp.com/food/?search={${search}}`;
     return fetch(searchURL)
@@ -127,7 +140,7 @@ const DrawerScreen = () => {
   }, [getSearchData, search]);
   console.log(searchData);
 
-  const Search = () => <SearchScreen searchData={searchData}/>;
+  const Search = () => <SearchScreen searchData={searchData} />;
 
   return (
     <Drawer.Navigator
@@ -162,7 +175,16 @@ const DrawerScreen = () => {
         component={OrdersScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Orders'} navigation={navigation}/>
+            <HeaderBar pageName={'Orders'} navigation={navigation} />
+          ),
+        })}
+      />
+      <Drawer.Screen
+        name="Reservation"
+        component={ReservationScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Reservation'} navigation={navigation} />
           ),
         })}
       />
@@ -184,7 +206,7 @@ const DrawerScreen = () => {
         component={EditProfileScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Profile'} navigation={navigation}/>
+            <HeaderBar pageName={'Profile'} navigation={navigation} />
           ),
         })}
       />
@@ -226,7 +248,7 @@ const styles = StyleSheet.create({
     borderRadius: 360,
     overflow: 'hidden',
     marginBottom: scale(10),
-    left: scale(45)
+    left: scale(45),
   },
   userAvatar: {width: scale(80), height: scale(80)},
   signOut: {

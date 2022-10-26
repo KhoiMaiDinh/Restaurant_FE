@@ -11,16 +11,16 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
     navigation.openDrawer();
   };
   const openCart = () => {
-    navigation.navigate("CartScreen");
+    navigation.navigate('CartScreen');
   };
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.container}>
       <TouchableOpacity style={styles.drawerButton} onPress={() => openMenu()}>
         <IC_Drawer />
       </TouchableOpacity>
       {pageName === 'Search' ? (
-        <SearchBar setSearch={setSearch}/>
+        <SearchBar setSearch={setSearch} />
       ) : (
         <Text style={styles.homeName}>{pageName}</Text>
       )}
@@ -38,22 +38,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
-    height: '100%',
-  },
-  drawerButton: {
-    top: scale(14),
-    //left: scale(14),
-  },
-  cartButton: {
-    top: scale(14),
-    //right: scale(14),
+    position: 'relative',
   },
   homeName: {
     color: CUSTOM_COLOR.Black,
-    top: scale(20),
     fontFamily: FONT_FAMILY.NexaBold,
-    fontSize: scale(17),
-    letterSpacing: scale(-0.42),
+    fontSize: scale(18),
+    letterSpacing: scale(-0.7),
+    textAlign: 'center',
   },
 });

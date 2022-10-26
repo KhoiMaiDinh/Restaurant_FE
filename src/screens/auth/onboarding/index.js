@@ -48,7 +48,7 @@ export default OnboardingScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#5EA33A',
+        backgroundColor: CUSTOM_COLOR.Primary,
     },
     titleText: {
         top: 351,

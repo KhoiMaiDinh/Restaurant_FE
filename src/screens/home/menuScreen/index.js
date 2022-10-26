@@ -21,6 +21,7 @@ import {
 import {CUSTOM_COLOR} from '../../../constants/color';
 import scale from '../../../utils/responsive';
 import ImageTab from './components/imageTab';
+import SkeletonMenu from './components/skeletonMenu';
 
 const data = [
   {key: 1, source: IMG_BestDeals1, text: 'The Fancy Sandwich'},
@@ -43,22 +44,28 @@ const data = [
 
 const MenuScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const getCategory = () => {
     const categoryURL =
       'https://restaurant-uit-server.herokuapp.com/category/';
 
     return fetch(categoryURL)
       .then(res => res.json())
-      .then(json => setCategoryData(json.categories));
+      .then(json => {setCategoryData(json.categories);
+        if(loading) {
+          setLoading(false);
+        }
+      });
   };
   useEffect(() => {
     getCategory();
   }, []);
-  console.log(categoryData);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerBar} />
-
+      {loading ? (
+        <SkeletonMenu/>
+      ):(
       <FlatList
         style={styles.scrollView}
         contentContainerStyle={{alignContent: 'space-around'}}
@@ -73,6 +80,7 @@ const MenuScreen = props => {
             <View style={{height: 20}} />
           </View>
         )}></FlatList>
+      )}
     </SafeAreaView>
   );
 };

@@ -6,7 +6,7 @@ import EditProfileScreen from '../screens/home/myProfile/editProfileScreen/index
 import OrdersScreen from '../screens/home/ordersScreen/index';
 import SearchScreen from '../screens/home/searchScreen/index';
 import MenuScreen from '../screens/home/menuScreen/index';
-import CartScreen from '../screens/home/cartScreen/index';
+import ReservationScreen from '../screens/home/reservationScreen/index';
 
 import {
   createDrawerNavigator,
@@ -69,6 +69,12 @@ const CustomScrollDrawer = props => {
           label="Search"
           icon={<IC_Search />}
           component="Search"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Reservation"
+          icon={<Image source={IC_Reservation}  />}
+          component="Reservation"
           navigation={props.navigation}
         />
         <ButtonDrawer
@@ -163,6 +169,15 @@ const DrawerScreen = () => {
         options={({navigation}) => ({
           headerTitle: () => (
             <HeaderBar pageName={'Orders'} navigation={navigation}/>
+          ),
+        })}
+      />
+      <Drawer.Screen
+        name="Reservation"
+        component={ReservationScreen}
+        options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderBar pageName={'Reservation'} navigation={navigation}/>
           ),
         })}
       />

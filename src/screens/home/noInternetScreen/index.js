@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: scale(28),
     alignSelf: 'center',
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
     fontFamily: FONT_FAMILY.NexaRegular,
   },
   descriptionsContainer: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(17),
     alignSelf: 'center',
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
     opacity: 0.57,
   },
 });

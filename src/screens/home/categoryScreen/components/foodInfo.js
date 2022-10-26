@@ -11,7 +11,6 @@ import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 
-
 const Foods = props => {
   return (
     <ScrollView style={{marginTop: scale(20)}}>
@@ -36,7 +35,7 @@ const OneFood = props => {
       onPress={() => {
         props.navigation.navigate('SingleFoodItemScreen', {
           categoryName: props.categoryName,
-          data: props.data
+          data: props.data,
         });
       }}>
       <View style={styles.container}>
@@ -44,7 +43,9 @@ const OneFood = props => {
           <View style={styles.foodInfo}>
             <Text style={styles.foodName}>{props.data.name}</Text>
             <Text style={styles.foodContain}>{props.data.description}</Text>
-            <Text style={styles.foodPrice}>{Intl.NumberFormat('vn-VN').format(props.data.price)} ₫</Text>
+            <Text style={styles.foodPrice}>
+              {Intl.NumberFormat('vn-VN').format(props.data.price)} ₫
+            </Text>
           </View>
           <View style={styles.imgBorder}>
             <Image
@@ -65,9 +66,7 @@ const styles = StyleSheet.create({
     // backgroundColor: CUSTOM_COLOR.GreySecond,
   },
   categoryBox: {
-    
     width: scale(375),
-    //height: scale(103),
     alignSelf: 'center',
     flexDirection: 'row',
     marginBottom: scale(24),

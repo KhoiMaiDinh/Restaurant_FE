@@ -60,7 +60,6 @@ const MenuScreen = props => {
   useEffect(() => {
     getCategory();
   }, []);
-  console.log(categoryData);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerBar} />

@@ -19,8 +19,12 @@ const Foods = props => {
           key={item._id}
           {...props}
           data={item}
+          name={item.name}
+          description={item.description}
+          price={item.price}
           categoryName={props.categoryName}
         />
+        
       ))}
     </ScrollView>
   );

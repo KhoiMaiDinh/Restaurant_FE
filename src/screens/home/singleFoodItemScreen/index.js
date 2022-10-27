@@ -88,14 +88,16 @@ const SingleFoodItemScreen = props => {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.priceBox}>
-        <Text style={styles.price}>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
-      </View>
-      <TouchableOpacity>
-        <View style={styles.AddButtonBox}>
-          <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
+      <View>
+        <View style={styles.priceBox}>
+          <Text style={styles.price}>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
         </View>
-      </TouchableOpacity>
+        <TouchableOpacity>
+          <View style={styles.AddButtonBox}>
+            <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -114,8 +116,8 @@ const styles = StyleSheet.create({
   },
   tittleBox: {
     position: 'absolute',
-    left: scale(145),
-    top: scale(20),
+    alignSelf:'center',
+    marginTop: scale(70),
   },
   tittleBox2: {
     position: 'absolute',
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
   },
   screenTittle: {
     fontFamily: FONT_FAMILY.NexaBold,
-    fontSize: scale(17),
+    fontSize: scale(22),
     letterSpacing: scale(-0.42),
     color: CUSTOM_COLOR.Black,
   },
@@ -143,7 +145,6 @@ const styles = StyleSheet.create({
   },
   contentBox: {
     width: scale(385),
-    height: scale(36),
     top: scale(130),
     left: scale(15),
   },
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   },
   countBox: {
     position: 'absolute',
-    top: scale(420),
+    marginTop: scale(460),
     width: scale(108),
     height: scale(45),
     borderRadius: scale(22.5),
@@ -205,14 +206,14 @@ const styles = StyleSheet.create({
   },
   priceBox: {
     position: 'absolute',
-    top: scale(500),
-    left: scale(28),
+    marginTop: scale(240),
+    marginLeft: scale(28),
     height: scale(44),
     width: scale(90),
     borderRadius: scale(8),
     borderWidth: scale(1),
     justifyContent: 'center',
-    alignItems: 'center',
+    
   },
   price: {
     color: CUSTOM_COLOR.Black,
@@ -220,6 +221,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaLight,
     lineHeight: scale(34.41),
     letterSpacing: scale(-0.75),
+    alignSelf: 'center',
   },
 
   AddButtonBox: {
@@ -230,8 +232,8 @@ const styles = StyleSheet.create({
     borderRadius: scale(8),
     justifyContent: 'center',
     alignItems: 'center',
-    top: scale(249),
-    height: scale(43.9),
+    marginTop: scale(240),
+    height: scale(44),
   },
   buttonText: {
     fontSize: scale(18),

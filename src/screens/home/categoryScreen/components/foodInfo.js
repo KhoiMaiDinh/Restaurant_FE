@@ -41,11 +41,11 @@ const OneFood = props => {
       <View style={styles.container}>
         <View style={styles.categoryBox}>
           <View style={styles.foodInfo}>
-            <Text style={styles.foodName}>{props.data.name}</Text>
-            <Text style={styles.foodContain}>{props.data.description}</Text>
-            <Text style={styles.foodPrice}>
-              {Intl.NumberFormat('vn-VN').format(props.data.price)} ₫
-            </Text>
+          <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>
+          <Text numberOfLines={3} style={styles.foodContain}>{props.description}</Text>
+          <Text numberOfLines={1} style={styles.foodPrice}>
+            {Intl.NumberFormat('vn-VN').format(props.price)} ₫
+          </Text>
           </View>
           <View style={styles.imgBorder}>
             <Image
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     letterSpacing: scale(0.2),
     fontSize: scale(13),
-    //height: scale(60),
     width: scale(250),
   },
   foodPrice: {
@@ -100,6 +99,5 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     letterSpacing: scale(-0.42),
     fontSize: scale(14),
-    //top: scale(-5),
   },
 });

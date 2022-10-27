@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
-import {IC_GoBack} from '../../../assets/icons';
+import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
@@ -37,22 +37,12 @@ const SingleFoodItemScreen = props => {
     }
   };
   let decCount = () => {
-    if (count1 > 1) {
+    if (count1 > 0) {
       setCount1(count1 - 1);
       setPrice(price - data.price);
     }
   };
-  let incPrice = () => {
-    if (count1 < 100) {
-      setPrice(price * count1);
-    }
-  };
-  let decPrice = () => {
-    if (count1 > 1) {
-      setPrice(price / count1);
-    }
-  };
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -71,31 +61,38 @@ const SingleFoodItemScreen = props => {
 
       <Gallery style={styles.galleryBox} images={data.images} />
 
-      <View style={styles.contentBox}>
-        <Text style={styles.content}>{data.description}</Text>
-      </View>
-
-      <View style={styles.countBox}>
-        <TouchableOpacity onPress={decCount}>
-          <View style={styles.minusBox}>
-            <Text style={styles.minus}>-</Text>
-          </View>
-        </TouchableOpacity>
-        <Text style={styles.amount}>{count1}</Text>
-        <TouchableOpacity onPress={inCount}>
-          <View style={styles.plusBox}>
-            <Text style={styles.plus}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.priceBox}>
-        <Text style={styles.price}>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
-      </View>
-      <TouchableOpacity>
-        <View style={styles.AddButtonBox}>
-          <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
+ 
+        <View style={styles.contentBox}>
+          <Text style={styles.content}>{data.description}</Text>
         </View>
-      </TouchableOpacity>
+        
+        <View style={styles.addContainer}>
+          <View style={{width: '100%'}}>
+            <View style={styles.countBox}>
+              <TouchableOpacity onPress={decCount}>
+                <View style={styles.iconBox}>
+                  <IC_Minus/>
+                </View>
+              </TouchableOpacity>
+              <Text style={styles.amount}>{count1}</Text>
+              <TouchableOpacity onPress={inCount}>
+                <View style={styles.iconBox}>
+                  <IC_Plus/>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.priceBox}>
+              <Text style={styles.price} adjustsFontSizeToFit>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
+            </View>
+          </View>
+          <TouchableOpacity>
+            <View style={styles.AddButtonBox}>
+              <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+    
+      
     </SafeAreaView>
   );
 };
@@ -114,7 +111,8 @@ const styles = StyleSheet.create({
   },
   tittleBox: {
     position: 'absolute',
-    left: scale(145),
+    justifyContent: 'center',
+    alignSelf: 'center',
     top: scale(20),
   },
   tittleBox2: {
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
   },
   contentBox: {
     width: scale(385),
-    height: scale(36),
+    //height: scale(36),
     top: scale(130),
     left: scale(15),
   },
@@ -155,58 +153,35 @@ const styles = StyleSheet.create({
     letterSpacing: scale(-0.39),
     opacity: 0.8,
   },
+
+  addContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    flexWrap: 'nowrap'
+  },
   countBox: {
-    position: 'absolute',
-    top: scale(420),
     width: scale(108),
     height: scale(45),
-    borderRadius: scale(22.5),
+    borderRadius: scale(1000),
     borderWidth: scale(1),
-    alignSelf: 'center',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   },
-  minusBox: {
-    position: 'absolute',
-    height: scale(45),
-    width: scale(11),
-    left: scale(13),
-    top: scale(-2),
-  },
-  minus: {
-    color: CUSTOM_COLOR.Gray,
-    fontSize: scale(35),
-    fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(44.6),
-    letterSpacing: scale(-0.97),
-    opacity: scale(0.4859),
-  },
-  plusBox: {
-    position: 'absolute',
-    height: scale(31),
-    width: scale(14),
-    left: scale(83),
-    top: scale(-15),
-  },
-  plus: {
-    color: CUSTOM_COLOR.San_Juan,
-    fontSize: scale(24),
-    fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(30.59),
-    letterSpacing: scale(-0.67),
-    opacity: scale(0.4859),
+  iconBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   amount: {
     color: CUSTOM_COLOR.Black,
     fontSize: scale(17),
     fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(22),
-    letterSpacing: scale(-0.47),
-    left: scale(50.5),
-    top: scale(11),
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   priceBox: {
-    position: 'absolute',
-    top: scale(500),
-    left: scale(28),
     height: scale(44),
     width: scale(90),
     borderRadius: scale(8),
@@ -216,22 +191,19 @@ const styles = StyleSheet.create({
   },
   price: {
     color: CUSTOM_COLOR.Black,
-    fontSize: scale(25),
+    fontSize: Math.max(25),
     fontFamily: FONT_FAMILY.NexaLight,
     lineHeight: scale(34.41),
     letterSpacing: scale(-0.75),
   },
 
   AddButtonBox: {
-    position: 'absolute',
     backgroundColor: CUSTOM_COLOR.Primary,
-    width: scale(252),
-    right: scale(28),
+    width: '100%',
+    height: scale(44.9),
     borderRadius: scale(8),
     justifyContent: 'center',
     alignItems: 'center',
-    top: scale(249),
-    height: scale(43.9),
   },
   buttonText: {
     fontSize: scale(18),

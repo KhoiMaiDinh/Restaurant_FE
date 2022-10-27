@@ -25,9 +25,9 @@ const HomeScreen = props => {
     return fetch(categoryURL)
       .then(res => res.json())
       .then(json => {setCategoryData(json.categories);
-        if(loading) {
-          setLoading(false);
-        }
+        // if(loading) {
+        //   setLoading(false);
+        // }
       });
   };
 
@@ -50,9 +50,9 @@ const HomeScreen = props => {
     return fetch(foodURL)
       .then(res => res.json())
       .then(json => {setFoodData(json.foods);
-        if(loading) {
-          setLoading(false);
-        }
+        // if(loading) {
+        //   setLoading(false);
+        // }
       });
   };
 
@@ -70,7 +70,7 @@ const HomeScreen = props => {
         <View style={{flex: 1}}>
           <ScrollView style={styles.scrollView}>
             <View style={styles.viewSecond}>
-              <Text style={styles.categoryText}>Danh mục nổi bật</Text>
+              <Text style={styles.categoryText}>Danh mục món ngon</Text>
               <CircularCategories
                 style={styles.categoryRow}
                 categoryData={categoryData}
@@ -129,5 +129,5 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Dimensions.get('window').height * 0.95,
   },
-  viewSecond: {},
+  viewSecond: {marginTop:scale(10)},
 });

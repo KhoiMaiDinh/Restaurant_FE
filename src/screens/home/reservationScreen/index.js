@@ -26,8 +26,8 @@ import {
       <ScrollView>
         <SafeAreaView style={styles.container}>
           <View style={styles.tittleBox}>
-              <Text style={styles.screenTittle}>Brazilian Steak House</Text>
-              <Text style={styles.restaurantAdd}>777 Steiner Street, San Francisco, CA, 94115</Text>
+              <Text style={styles.screenTittle}>UIT group 3</Text>
+              <Text style={styles.restaurantAdd}>Đại học Công nghệ Thông tin, ĐHQG TPHCM</Text>
           </View>
           <Image style={styles.image} source={IMG_2} />
           <TouchableWithoutFeedback
@@ -36,7 +36,7 @@ import {
                 <View style = {styles.inputFullNameBox}>
                   <TextInput
                     placeholderTextColor={CUSTOM_COLOR.Grey}
-                    placeholder="Full Name"
+                    placeholder="Tên"
                     style={styles.inputText}
                     keyboardType="ascii-capable"
                   />
@@ -44,7 +44,7 @@ import {
                 <View style={styles.inputLastNameBox}>
                   <TextInput
                   placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Last Name"
+                  placeholder="Họ"
                   style={styles.inputText}
                   keyboardType="ascii-capable"
                   />
@@ -52,7 +52,7 @@ import {
                 <View style={styles.inputPhoneNumberBox}>
                   <TextInput
                   placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Phone Number"
+                  placeholder="Số điện thoại"
                   style={styles.inputText}
                   keyboardType="numeric"
                   />
@@ -61,7 +61,7 @@ import {
                 <View style={styles.inputReservationDetailsBox}>
                   <TextInput
                   placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Reservation Details"
+                  placeholder="Chi tiết đặt chỗ"
                   style={styles.inputText}
                   keyboardType="ascii-capable"
                   />
@@ -70,7 +70,7 @@ import {
           </TouchableWithoutFeedback>
           <TouchableOpacity style={styles.MakeReservationButtonBoxPosition}>
               <View style={styles.MakeReservationButtonBox}>
-              <Text style={styles.buttonText}>Make Reservation</Text>
+              <Text style={styles.buttonText}>Đặt chỗ</Text>
               </View>
           </TouchableOpacity>
         </SafeAreaView>
@@ -89,21 +89,23 @@ import {
     tittleBox: {
       position: 'absolute',
       top: scale(183),
-      left: scale(90),
+      //left: scale(90),
+      width: '100%',
       
     },
     screenTittle: {
       color: CUSTOM_COLOR.Black,
       fontSize: scale(20),
       fontFamily: FONT_FAMILY.NexaRegular,
-      
+      alignSelf: 'center',
     },
     restaurantAdd: {
       color: CUSTOM_COLOR.Black,
       fontSize: scale(13),
       fontFamily: FONT_FAMILY.NexaRegular,
       top: scale(4),
-      left: scale(-30),
+      alignSelf: 'center',
+      //left: scale(-30),
     },
     image: {
         width: '100%',

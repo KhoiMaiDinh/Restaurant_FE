@@ -18,43 +18,24 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import FONT_FAMILY from '../../../constants/fonts';
 
 const Gallery = props => {
-  // const [imageList, setImageList] = useState([]);
-  // const [currentImage, setCurrentImage] = useState(0);
-  // const stepCarousel = useRef();
+  const swiperRef = useRef(null);
 
-  //2.cap nhat len state cua trang screen
-  //tu dong
-  const renderPagination = (index, total, context) => {
-    return (
-      <View style={styles.paginationStyle}>
-        <Text style={styles.text}>
-          <Text style={styles.paginationText}>{index + 1}</Text>/{total}
-        </Text>
-      </View>
-    );
-  };
   console.log(props.images);
   return (
     <View style={styles.container}>
       {/* Scroll view */}
       <View style={{width: scale(385), height: scale(215)}}>
         <Swiper
-          //style={styles.wrapper}
-          renderPagination={renderPagination}
+          ref={swiperRef}
+          index={0}
           autoplayDelay={1}
           paginationStyle={styles.wrapDot}
           paginationStyleItemActive={styles.dotActive}
           paginationStyleItemInactive={styles.dot}
           pagingEnabled
           showsButtons>
-          {props.images.map(item => (
-            <View
-              key={item._id}
-              style={styles.view}
-              // title={
-              //   <Text numberOfLines={1} style={styles.foodName}>{}</Text>
-              // }
-            >
+          {props.images.slice(0, 4).map(item => (
+            <View key={item._id} style={styles.view}>
               <Image
                 style={styles.view}
                 source={{uri: `${item.url}`}}
@@ -63,6 +44,22 @@ const Gallery = props => {
             </View>
           ))}
         </Swiper>
+      </View>
+      <View style={styles.imageContainer}>
+        {props.images.slice(0, 4).map((item, idx) => (
+          <TouchableOpacity
+            key={item._id}
+            style={[styles.itemContainer]}
+            onPress={() => {
+              swiperRef.current.scrollTo(idx + 1);
+            }}>
+            <Image
+              style={styles.smallImage}
+              source={{uri: `${item.url}`}}
+              resizeMode={'cover'}
+            />
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -73,7 +70,6 @@ export default Gallery;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: scale(215),
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
@@ -139,5 +135,21 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     fontSize: scale(20),
     fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  imageContainer: {
+    width: scale(385),
+    flexDirection: 'row',
+    marginTop: 10,
+    height: scale(80),
+    justifyContent: 'flex-start',
+  },
+  itemContainer: {
+    marginRight: 10,
+    width: '23%',
+    height: '100%',
+  },
+  smallImage: {
+    width: '100%',
+    height: '100%',
   },
 });

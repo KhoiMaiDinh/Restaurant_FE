@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import {
   SafeAreaView,
@@ -63,6 +64,8 @@ const SingleFoodItemScreen = props => {
         </View>
       </View>
 
+      <Text style={styles.titleText}>{data.name}</Text>
+
       <Gallery images={data.images} />
 
       <View style={styles.contentBox}>
@@ -126,6 +129,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  titleText: {
+    color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
+    fontSize: scale(18),
+    marginHorizontal: scale(10),
+    marginBottom: scale(10),
+  },
+
   screenTittle: {
     fontFamily: FONT_FAMILY.NexaBold,
     fontSize: scale(17),
@@ -143,11 +154,8 @@ const styles = StyleSheet.create({
   },
   content: {
     color: CUSTOM_COLOR.Black,
-    fontSize: scale(18),
+    fontSize: scale(17),
     fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(20),
-    letterSpacing: scale(-0.39),
-    opacity: 0.8,
   },
 
   addContainer: {
@@ -174,7 +182,7 @@ const styles = StyleSheet.create({
   amount: {
     color: CUSTOM_COLOR.Black,
     fontSize: scale(17),
-    fontFamily: FONT_FAMILY.NexaRegular,
+    fontFamily: FONT_FAMILY.NexaBold,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -190,9 +198,7 @@ const styles = StyleSheet.create({
   price: {
     color: CUSTOM_COLOR.Black,
     fontSize: Math.max(25),
-    fontFamily: FONT_FAMILY.NexaLight,
-    lineHeight: scale(34.41),
-    letterSpacing: scale(-0.75),
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
 
   AddButtonBox: {

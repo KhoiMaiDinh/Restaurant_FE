@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   SafeAreaView,
   StyleSheet,
@@ -42,57 +43,57 @@ const SingleFoodItemScreen = props => {
       setPrice(price - data.price);
     }
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.goBackButton}
-        onPress={() => {
-          props.navigation.goBack();
-        }}>
-        <IC_GoBack style={styles.goBack} />
-      </TouchableOpacity>
-      <View style={styles.tittleBox}>
-        <Text style={styles.screenTittle}>{data.name}</Text>
-      </View>
-      <View style={styles.tittleBox2}>
-        <Text style={styles.screenTittle2}>{category.name}</Text>
-      </View>
-
-      <Gallery style={styles.galleryBox} images={data.images} />
-
- 
-        <View style={styles.contentBox}>
-          <Text style={styles.content}>{data.description}</Text>
-        </View>
-        
-        <View style={styles.addContainer}>
-          <View style={{width: '100%'}}>
-            <View style={styles.countBox}>
-              <TouchableOpacity onPress={decCount}>
-                <View style={styles.iconBox}>
-                  <IC_Minus/>
-                </View>
-              </TouchableOpacity>
-              <Text style={styles.amount}>{count1}</Text>
-              <TouchableOpacity onPress={inCount}>
-                <View style={styles.iconBox}>
-                  <IC_Plus/>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.priceBox}>
-              <Text style={styles.price} adjustsFontSizeToFit>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
-            </View>
-          </View>
-          <TouchableOpacity>
-            <View style={styles.AddButtonBox}>
-              <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
-            </View>
+      <View style={styles.header}>
+        <View style={styles.goBackButton}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.goBack();
+            }}>
+            <IC_GoBack style={styles.goBack} />
           </TouchableOpacity>
+          <View>
+            <Text style={styles.screenTittle2}>{category.name}</Text>
+          </View>
         </View>
-    
-      
+        <View style={styles.tittleBox}>
+          <Text style={styles.screenTittle}>{data.name}</Text>
+        </View>
+      </View>
+
+      <Gallery images={data.images} />
+
+      <View style={styles.contentBox}>
+        <Text style={styles.content}>{data.description}</Text>
+      </View>
+
+      <View style={styles.countBox}>
+        <TouchableOpacity onPress={decCount}>
+          <View style={styles.iconBox}>
+            <IC_Minus />
+          </View>
+        </TouchableOpacity>
+        <Text style={styles.amount}>{count1}</Text>
+        <TouchableOpacity onPress={inCount}>
+          <View style={styles.iconBox}>
+            <IC_Plus />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.addContainer}>
+        <View style={styles.priceBox}>
+          <Text style={styles.price} adjustsFontSizeToFit>
+            {Intl.NumberFormat('vn-VN').format(price)} ₫
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.AddButtonBox}>
+          <View>
+            <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -104,22 +105,27 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
     flex: 1,
   },
+
+  header: {
+    backgroundColor: 'white',
+    position: 'relative',
+    paddingVertical: 10,
+    marginBottom: 20,
+  },
   goBackButton: {
-    position: 'absolute',
-    left: scale(9),
-    top: scale(18),
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tittleBox: {
     position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'center',
-    top: scale(20),
   },
-  tittleBox2: {
-    position: 'absolute',
-    top: scale(23),
-    left: scale(42),
-  },
+
   screenTittle: {
     fontFamily: FONT_FAMILY.NexaBold,
     fontSize: scale(17),
@@ -131,35 +137,24 @@ const styles = StyleSheet.create({
     fontSize: scale(15),
     fontFamily: FONT_FAMILY.NexaRegular,
   },
-
-  galleryBox: {
-    position: 'absolute',
-    top: scale(135),
-    left: scale(15.5),
-    width: scale(324),
-    height: scale(215),
-  },
   contentBox: {
-    width: scale(385),
-    //height: scale(36),
-    top: scale(130),
-    left: scale(15),
+    width: '100%',
+    paddingHorizontal: 20,
   },
   content: {
     color: CUSTOM_COLOR.Black,
-    fontSize: scale(15),
+    fontSize: scale(18),
     fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(18),
+    lineHeight: scale(20),
     letterSpacing: scale(-0.39),
     opacity: 0.8,
   },
 
   addContainer: {
-    display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    flexWrap: 'nowrap'
   },
+
   countBox: {
     width: scale(108),
     height: scale(45),
@@ -168,7 +163,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginVertical: 20,
   },
   iconBox: {
     alignItems: 'center',
@@ -179,11 +176,12 @@ const styles = StyleSheet.create({
     fontSize: scale(17),
     fontFamily: FONT_FAMILY.NexaRegular,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   priceBox: {
     height: scale(44),
     width: scale(90),
+    marginHorizontal: 20,
     borderRadius: scale(8),
     borderWidth: scale(1),
     justifyContent: 'center',
@@ -199,7 +197,8 @@ const styles = StyleSheet.create({
 
   AddButtonBox: {
     backgroundColor: CUSTOM_COLOR.Primary,
-    width: '100%',
+    flex: 1,
+    marginRight: 20,
     height: scale(44.9),
     borderRadius: scale(8),
     justifyContent: 'center',

@@ -22,34 +22,23 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import scale from '../../../utils/responsive';
 import ImageTab from './components/imageTab';
 import SkeletonMenu from './components/skeletonMenu';
-
-const data = [
-  {key: 1, source: IMG_BestDeals1, text: 'The Fancy Sandwich'},
-  {key: 2, source: IMG_BestDeals2, text: 'Petty Cash Sandwich'},
-  {key: 3, source: IMG_BestDeals3, text: 'Red Flag'},
-  {key: 4, source: IMG_BestDeals4, text: 'Sandwiches'},
-  {key: 5, source: IMG_BestDeals5, text: 'Breakfast'},
-  {key: 6, source: IMG_BestDeals6, text: 'Forbidden Salad'},
-  {key: 7, source: IMG_BestDeals7, text: 'Ramen'},
-  {key: 8, source: IMG_BestDeals8, text: 'The Dirty Deed'},
-  {key: 9, source: IMG_BestDeals1, text: 'The Fancy Sandwich'},
-  {key: 10, source: IMG_BestDeals2, text: 'Petty Cash Sandwich'},
-  {key: 11, source: IMG_BestDeals3, text: 'Red Flag'},
-  {key: 12, source: IMG_BestDeals4, text: 'Sandwiches'},
-  {key: 13, source: IMG_BestDeals5, text: 'Breakfast'},
-  {key: 14, source: IMG_BestDeals6, text: 'Forbidden Salad'},
-  {key: 15, source: IMG_BestDeals7, text: 'Ramen'},
-  {key: 16, source: IMG_BestDeals8, text: 'The Dirty Deed'},
-];
+import { BASE_URL } from '../../../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MenuScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const getCategory = () => {
-    const categoryURL =
-      'https://restaurant-uit-server.herokuapp.com/category/';
+  const getCategory = async () => {
+    const token = await AsyncStorage.getItem(`@token`)
+    const categoryURL =`${BASE_URL}/category/`;
 
-    return fetch(categoryURL)
+    return fetch(categoryURL,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
       .then(res => res.json())
       .then(json => {setCategoryData(json.categories);
         if(loading) {

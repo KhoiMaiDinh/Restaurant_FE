@@ -11,14 +11,24 @@ import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
+import { BASE_URL } from '../../../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
   const [category, setCategory] = useState([]);
-  const getCategory = () => {
-    const categoryURL = `https://restaurant-uit-server.herokuapp.com/category/${data.categoryId}`;
-
-    return fetch(categoryURL)
+  const getCategory = async () => {
+    const token = AsyncStorage.getItem(`@token`);
+    const categoryURL = `${BASE_URL}/category/${data.categoryId}`;
+    return fetch(categoryURL,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      },
+    )
       .then(res => res.json())
       .then(json => setCategory(json.category));
   };

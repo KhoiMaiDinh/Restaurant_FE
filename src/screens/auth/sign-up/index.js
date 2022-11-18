@@ -100,7 +100,7 @@ import {
       height: scale(38),
       width: scale(323),
       borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
+      borderColor: CUSTOM_COLOR.Navy,
       borderRadius: 26.5,
     },
     inputPhoneNumberBox: {
@@ -124,11 +124,13 @@ import {
         borderRadius: 26.5,
     },
     inputText: {
+      paddingTop: scale(8),
+      fontSize: scale(15),
+      height: scale(40.5),
       left: scale(15),
       color: CUSTOM_COLOR.Black,
       width: scale(299),
       fontFamily: FONT_FAMILY.NexaRegular,
-      lineHeight: scale(21,67),
     },
     inputPasswordBox: {
       position: 'absolute',

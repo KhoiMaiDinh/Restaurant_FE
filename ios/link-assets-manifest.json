@@ -2,6 +2,18 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/Montserrat-Light.otf",
+      "sha1": "ee6a7d058b354822c7b4b3b0075bfc26081d29f5"
+    },
+    {
+      "path": "src/assets/fonts/Montserrat-Regular.otf",
+      "sha1": "a3f5403e26df9e0dfcabd5c17bdf29662fbe96c2"
+    },
+    {
+      "path": "src/assets/fonts/Montserrat-SemiBold.otf",
+      "sha1": "db55f109eb4b0f28fa0a9e18347a506d3ee2240f"
+    },
+    {
       "path": "src/assets/fonts/Nexa Bold.otf",
       "sha1": "9304fa53ba726ecc05ae0d3191013cb07284c113"
     },

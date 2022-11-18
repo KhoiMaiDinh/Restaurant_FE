@@ -11,8 +11,10 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 //import {IMG_RestaurantMenuGreen} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import {IMG_RestaurantMenuGreen} from '../../../assets/images/index';
+import FONT_FAMILY from '../../../constants/fonts';
 
-const Landing_Screen = () => {
+const Landing_Screen = (props) => {
+  const navigation = props;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.viewIcon}>
@@ -30,14 +32,14 @@ const Landing_Screen = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.loginButtonBoxPosition}>
+      <TouchableOpacity style={styles.loginButtonBoxPosition} onPress={() => props.navigation.navigate("LoginScreen")}>
         <View style={styles.loginButtonBox}>
-          <Text style={styles.loginbuttonText}>Log In</Text>
+          <Text style={styles.loginButtonText}>Log In</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButtonBoxPosition}>
-        <View style={styles.signupButtonBox}>
-          <Text style={styles.signupbuttonText}>Sign Up</Text>
+      <TouchableOpacity style={styles.signUpButtonBoxPosition} onPress={() => props.navigation.navigate("SignUpScreen")}>
+        <View style={styles.signUpButtonBox}>
+          <Text style={styles.signUpButtonText}>Sign Up</Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
     fontSize: scale(17),
     color: CUSTOM_COLOR.Primary,
     alignSelf: 'center',
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   view1a: {
     height: scale(44),
@@ -98,6 +101,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     opacity: 0.8,
     textAlign: 'center',
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
   loginButtonBoxPosition: {
     position: 'absolute',
@@ -112,15 +116,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 26.5,
   },
-  loginbuttonText: {
+  loginButtonText: {
     color: CUSTOM_COLOR.White,
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
-  signupButtonBoxPosition: {
+  signUpButtonBoxPosition: {
     position: 'absolute',
     top: scale(516),
     alignSelf: 'center',
   },
-  signupButtonBox: {
+  signUpButtonBox: {
     backgroundColor: CUSTOM_COLOR.White,
     height: scale(53),
     width: scale(278),
@@ -130,7 +135,8 @@ const styles = StyleSheet.create({
     borderColor: CUSTOM_COLOR.Black,
     borderWidth: 1,
   },
-  singupbuttonText: {
+  signUpButtonText: {
     color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
 });

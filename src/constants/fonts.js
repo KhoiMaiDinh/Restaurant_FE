@@ -1,7 +1,7 @@
 const FONT_FAMILY = {
-    NexaBold: 'Nexa Bold',
-    NexaLight: 'Nexa Light',
-    NexaRegular: 'Nexa Regular'
+    NexaBold: 'Montserrat-SemiBold',
+    NexaLight: 'Montserrat-Light',
+    NexaRegular: 'Montserrat-Regular'
 };
 
 

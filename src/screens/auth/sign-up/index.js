@@ -1,64 +1,106 @@
+/* eslint-disable prettier/prettier */
 import {
-    Keyboard,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
-  } from 'react-native';
-  import React, {useState} from 'react';
-  import {CUSTOM_COLOR} from '../../../constants/color';
-  import {IC_GoBack} from '../../../assets/icons';
-  import scale from '../../../utils/responsive';
-  import FONT_FAMILY from '../../../constants/fonts';
-  
-  const SignUpScreen = () => {
-    const [mail, setMail] = useState('');
-    const [pass, setPass] = useState('');
-    return (
-      <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
-        <SafeAreaView style={styles.container}>
-          <TouchableOpacity style={styles.goBackButton}>
-            <IC_GoBack />
-          </TouchableOpacity>
-          <View style={styles.tittleBox}>
-            <Text style={styles.screenTittle}>Create new account</Text>
-          </View>
-          <View style = {styles.inputFullNameBox}>
+  Keyboard,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import {CUSTOM_COLOR} from '../../../constants/color';
+import {IC_GoBack} from '../../../assets/icons';
+import scale from '../../../utils/responsive';
+import FONT_FAMILY from '../../../constants/fonts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BASE_URL} from './../../../utils/api';
+
+const SignUpScreen = props => {
+  const {navigation} = props;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleSignup = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          name: name,
+          phoneNumber: phoneNumber,
+        }),
+      });
+      const data = await response.json();
+      await AsyncStorage.setItem('@token', JSON.stringify(data.token));
+      await AsyncStorage.setItem('@user', JSON.stringify(data.user));
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
+      <SafeAreaView style={styles.container}>
+        <TouchableOpacity
+          style={styles.goBackButton}
+          onPress={() => props.navigation.goBack()}>
+          <IC_GoBack />
+        </TouchableOpacity>
+        <View style={styles.tittleBox}>
+          <Text style={styles.screenTittle}>Create new account</Text>
+        </View>
+        <View style={styles.inputFullNameBox}>
           <TextInput
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Full Name"
-              style={styles.inputText}
-              keyboardType="ascii-capable"
-            />
-          </View>
-          <View style={styles.inputPhoneNumberBox}>
-            <TextInput
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Phone Number"
-              style={styles.inputText}
-              keyboardType="numeric"
-            />
-          </View>
-          <View style={styles.inputEmailBox}>
-            <TextInput
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Email Address"
-              style={styles.inputText}
-              keyboardType="email-address"
-            />
-          </View>
-          <View style={styles.inputPasswordBox}>
-            <TextInput
-              secureTextEntry={true}
-              onChangeText={Pass => setPass(Pass)}
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Password"
-              style={styles.inputText}
-            />
+            onChangeText={name => setName(name)}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Full Name"
+            style={styles.inputText}
+            keyboardType="ascii-capable"
+          />
+        </View>
+        <View style={styles.inputPhoneNumberBox}>
+          <TextInput
+            onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Phone Number"
+            style={styles.inputText}
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.inputEmailBox}>
+          <TextInput
+            onChangeText={email => setEmail(email)}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Email Address"
+            style={styles.inputText}
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.inputPasswordBox}>
+          <TextInput
+            onChangeText={password => setPassword(password)}
+            secureTextEntry={true}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Password"
+            style={styles.inputText}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.SignUpButtonBoxPosition}
+          onPress={handleSignup}>
+          <View style={styles.SignUpButtonBox}>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </View>
           
           <TouchableOpacity style={styles.SignUpButtonBoxPosition}>

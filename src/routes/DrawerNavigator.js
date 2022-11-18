@@ -26,6 +26,8 @@ import {
   IC_Reservation,
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
+import { BASE_URL } from '../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 
@@ -128,11 +130,20 @@ const DrawerScreen = () => {
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
 
-  const getSearchData = useCallback(() => {
-    const searchURL = `https://restaurant-uit-server.herokuapp.com/food/?search={${search}}`;
-    return fetch(searchURL)
-      .then(res => res.json())
-      .then(json => setSearchData(json.foods));
+  const getSearchData = useCallback(async () => {
+    const token = await AsyncStorage.getItem(`@token`);
+    const searchURL = `${BASE_URL}/food/?search={${search}}`;
+    const res = await fetch(searchURL,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      },
+    );
+    const json = await res.json();
+    return setSearchData(json.foods);
   }, [search]);
 
   useEffect(() => {

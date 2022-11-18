@@ -11,18 +11,28 @@ import Foods from './components/foodInfo';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import { IC_GoBack } from '../../../assets/icons';
+import { BASE_URL } from '../../../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CategoryScreen = props => {
   const {name} = props.route.params;
   
   const {foods} = props.route.params;
   const [foodData, setFoodData] = useState([]);
-  const getFood = element => {
-    const foodURL = `https://restaurant-uit-server.herokuapp.com/food/${element}`;
-    return fetch(foodURL)
+  const getFood = async (element) => {
+    const token = await AsyncStorage.getItem(`@token`);
+    const foodURL = `${BASE_URL}/food/${element}`;
+    return fetch(foodURL,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    )
       .then(res => res.json())
       .then(json => setFoodData(currentData => [...currentData, json.food]))
-      .catch(errors => console.log(errors));
   };
   const getFoods = () => {
     foods.forEach(element => {

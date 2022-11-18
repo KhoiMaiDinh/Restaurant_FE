@@ -14,17 +14,26 @@ import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 import SkeletonHome from './components/skeletonHome';
-
+import {BASE_URL} from './../../../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const getCategory = () => {
-    const categoryURL =
-      'https://restaurant-uit-server.herokuapp.com/category/popular/';
-    return fetch(categoryURL)
+
+  const getCategory = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const categoryURL = `${BASE_URL}/category/popular/`;
+    return fetch(categoryURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
       .then(res => res.json())
-      .then(json => {setCategoryData(json.categories);
+      .then(json => {
+        setCategoryData(json.categories);
         // if(loading) {
         //   setLoading(false);
         // }
@@ -32,24 +41,39 @@ const HomeScreen = props => {
   };
 
   const [bestFoodData, setBestFoodData] = useState([]);
-  const getBestFood = () => {
-    const bestFoodURL =
-      'https://restaurant-uit-server.herokuapp.com/food/best-deals/';
-    return fetch(bestFoodURL)
+  const getBestFood = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const bestFoodURL = `${BASE_URL}/food/best-deals/`;
+    return fetch(bestFoodURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
       .then(res => res.json())
-      .then(json => {setBestFoodData(json.foods);
-        if(loading) {
+      .then(json => {
+        setBestFoodData(json.foods);
+        if (loading) {
           setLoading(false);
         }
       });
   };
 
   const [foodData, setFoodData] = useState([]);
-  const getPopularFood = () => {
-    const foodURL = 'https://restaurant-uit-server.herokuapp.com/food/popular/';
-    return fetch(foodURL)
+  const getPopularFood = async () => {
+    const token = await AsyncStorage.getItem('@token');
+    const foodURL = `${BASE_URL}/food/popular/`;
+    return fetch(foodURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
       .then(res => res.json())
-      .then(json => {setFoodData(json.foods);
+      .then(json => {
+        setFoodData(json.foods);
         // if(loading) {
         //   setLoading(false);
         // }
@@ -60,13 +84,12 @@ const HomeScreen = props => {
     getCategory();
     getBestFood();
     getPopularFood();
-    
   }, []);
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-      <SkeletonHome/>
-      ):(
+        <SkeletonHome />
+      ) : (
         <View style={{flex: 1}}>
           <ScrollView style={styles.scrollView}>
             <View style={styles.viewSecond}>
@@ -82,13 +105,14 @@ const HomeScreen = props => {
                 foodData={bestFoodData}
                 {...props}
               />
-              <Text style={styles.dealText}>Nhiều người đã thử, bạn có muốn?</Text>
+              <Text style={styles.dealText}>
+                Nhiều người đã thử, bạn có muốn?
+              </Text>
               <MostPopular foodData={foodData} {...props} />
             </View>
           </ScrollView>
         </View>
-      )
-      }   
+      )}
     </SafeAreaView>
   );
 };
@@ -129,5 +153,5 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Dimensions.get('window').height * 0.95,
   },
-  viewSecond: {marginTop:scale(10)},
+  viewSecond: {marginTop: scale(10)},
 });

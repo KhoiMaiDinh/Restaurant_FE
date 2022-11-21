@@ -11,7 +11,7 @@ const LoadingScreen = () => {
         navigation.navigate("OnboardingScreen");
     }
     const navigation = useNavigation();
-    const myTimeout = setTimeout(navi, 8000);
+    const myTimeout = setTimeout(navi, 4000);
     useEffect(() => {
         myTimeout;
         

@@ -39,7 +39,7 @@ const SignUpScreen = props => {
         }),
       });
       const data = await response.json();
-      await AsyncStorage.setItem('@token', JSON.stringify(data.token));
+      await AsyncStorage.setItem('@token', data.token);
       await AsyncStorage.setItem('@user', JSON.stringify(data.user));
       navigation.navigate('AppStackScreen');
     } catch (error) {

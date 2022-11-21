@@ -102,7 +102,7 @@ const SignUpScreen = props => {
           <View style={styles.SignUpButtonBox}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </View>
-          
+        </TouchableOpacity>
           <TouchableOpacity style={styles.SignUpButtonBoxPosition}>
             <View style={styles.SignUpButtonBox}>
               <Text style={styles.buttonText}>Sign Up</Text>

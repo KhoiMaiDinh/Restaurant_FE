@@ -24,6 +24,7 @@ import {
   IC_CartDrawer,
   IC_Menu,
   IC_Reservation,
+  IC_LogOut
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
 import { BASE_URL } from '../utils/api';
@@ -99,29 +100,11 @@ const CustomScrollDrawer = props => {
           component="Orders"
           navigation={props.navigation}
         />
+        <ButtonDrawer
+          label="Đăng xuất"
+          icon={<IC_LogOut/>}
+        />
       </View>
-      {/* <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: scale(36),
-            left: scale(35),
-            width: '100%',
-            flexDirection: 'row',
-          }}
-
-          onPress={() => {auth()
-            .signOut()
-            .then(() =>  props.navigation.replace("Login"))
-            .catch((error) => console.log(error.message))}}>
-          <Text style={[styles.text, { position: 'relative' }]}>
-            {'Sign-out'}
-          </Text>
-          {/* <Image
-            source={IMG_ToRightArrow}
-            style={{ marginLeft: scale(12), alignSelf: 'center' }}
-          /> */}
-
-      {/* </TouchableOpacity> */}
     </DrawerContentScrollView>
   );
 };
@@ -221,11 +204,6 @@ const DrawerScreen = () => {
           ),
         })}
       />
-      {/* <Drawer.Screen name="ChangeProfile" component={MyProfileScreen} />
-        <Drawer.Screen name="Offer" component={OfferScreen} />
-        <Drawer.Screen name="Privacy" component={PrivacyScreen} />
-        <Drawer.Screen name="Security" component={SecurityScreen} />
-        <Drawer.Screen name ='Checkout' component={CheckOut1Screen} /> */}
     </Drawer.Navigator>
   );
 };

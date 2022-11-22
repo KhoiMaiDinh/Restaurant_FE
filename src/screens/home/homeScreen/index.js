@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Dimensions,
   SafeAreaView,
@@ -15,76 +16,66 @@ import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 import SkeletonHome from './components/skeletonHome';
 import {BASE_URL} from './../../../utils/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {store} from './../../../redux/store';
+
 
 const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
+  const [bestFoodData, setBestFoodData] = useState([]);
+  const [foodData, setFoodData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {token} = store.getState().user;
 
   const getCategory = async () => {
-    const token = await AsyncStorage.getItem('@token');
-    const categoryURL = `${BASE_URL}/category/popular/`;
-    return fetch(categoryURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    })
-      .then(res => res.json())
-      .then(json => {
-        setCategoryData(json.categories);
-        // if(loading) {
-        //   setLoading(false);
-        // }
+    try {
+      console.log(token);
+      const response = await axios.get(`${BASE_URL}/category/popular`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
+      setCategoryData(response.data.categories);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const [bestFoodData, setBestFoodData] = useState([]);
   const getBestFood = async () => {
-    const token = await AsyncStorage.getItem('@token');
-    const bestFoodURL = `${BASE_URL}/food/best-deals/`;
-    return fetch(bestFoodURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    })
-      .then(res => res.json())
-      .then(json => {
-        setBestFoodData(json.foods);
-        if (loading) {
-          setLoading(false);
-        }
+    try {
+      const response = await axios.get(`${BASE_URL}/food/best-deals`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
+      setBestFoodData(response.data.foods);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const [foodData, setFoodData] = useState([]);
   const getPopularFood = async () => {
-    const token = await AsyncStorage.getItem('@token');
-    const foodURL = `${BASE_URL}/food/popular/`;
-    return fetch(foodURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    })
-      .then(res => res.json())
-      .then(json => {
-        setFoodData(json.foods);
-        // if(loading) {
-        //   setLoading(false);
-        // }
+    try {
+      const response = await axios.get(`${BASE_URL}/food/popular`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
+      setFoodData(response.data.foods);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getCategory();
     getBestFood();
     getPopularFood();
+    if (categoryData && bestFoodData && foodData) {
+      setLoading(false);
+    }
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
@@ -96,7 +87,7 @@ const HomeScreen = props => {
               <Text style={styles.categoryText}>Danh mục món ngon</Text>
               <CircularCategories
                 style={styles.categoryRow}
-                categoryData={categoryData}
+                categoryData={categoryData || []}
                 {...props}
               />
               <Text style={styles.dealText}>Best Deals</Text>
@@ -108,7 +99,7 @@ const HomeScreen = props => {
               <Text style={styles.dealText}>
                 Nhiều người đã thử, bạn có muốn?
               </Text>
-              <MostPopular foodData={foodData} {...props} />
+              <MostPopular foodData={foodData || []} {...props} />
             </View>
           </ScrollView>
         </View>

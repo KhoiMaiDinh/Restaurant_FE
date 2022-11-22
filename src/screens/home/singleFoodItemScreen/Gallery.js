@@ -32,7 +32,7 @@ const Gallery = props => {
       </View>
     );
   };
-  console.log(props.images)
+
   return (
     <View style={styles.container}>
       {/* Scroll view */}
@@ -46,15 +46,19 @@ const Gallery = props => {
           paginationStyleItemInactive={styles.dot}
           pagingEnabled
           showsButtons>
-          {props.images.map(item =>(
+          {props.images.map(item => (
             <View
               key={item._id}
               style={styles.view}
               // title={
               //   <Text numberOfLines={1} style={styles.foodName}>{}</Text>
               // }
-              >
-              <Image style={styles.view} source={{uri: `${item.url}`}} resizeMode={'cover'}/>
+            >
+              <Image
+                style={styles.view}
+                source={{uri: `${item.url}`}}
+                resizeMode={'cover'}
+              />
             </View>
           ))}
         </Swiper>

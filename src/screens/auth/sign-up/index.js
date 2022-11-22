@@ -14,11 +14,14 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BASE_URL} from './../../../utils/api';
+import {useDispatch} from 'react-redux';
+import {signup} from '../../../features/auth/userSlice';
+import {BASE_URL} from '../../../utils/api';
+import axios from 'axios';
 
 const SignUpScreen = props => {
   const {navigation} = props;
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -26,21 +29,13 @@ const SignUpScreen = props => {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          name: name,
-          phoneNumber: phoneNumber,
-        }),
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email: email,
+        password: password,
+        name: name,
+        phoneNumber: phoneNumber,
       });
-      const data = await response.json();
-      await AsyncStorage.setItem('@token', data.token);
-      await AsyncStorage.setItem('@user', JSON.stringify(data.user));
+      dispatch(signup(response.data));
       navigation.navigate('AppStackScreen');
     } catch (error) {
       console.log(error);
@@ -98,7 +93,7 @@ const SignUpScreen = props => {
 
         <TouchableOpacity
           style={styles.SignUpButtonBoxPosition}
-          onPress={handleSignup}>
+          onPress={() => handleSignup()}>
           <View style={styles.SignUpButtonBox}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </View>

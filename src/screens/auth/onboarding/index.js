@@ -11,7 +11,7 @@ const {width: screenWidth} = Dimensions.get('window');
 const OnboardingScreen = (props) => {
         const navigation = props;
     const views = [
-        {source: IMG_RestaurantMenuWhite, titleText: "Browse  Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
+        {source: IMG_RestaurantMenuWhite, titleText: "Browse Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
         {source: IMG_Delivery, titleText: "Order Food", subText: "Hungry? Order food in just a few clicks\nand we'll take care of you.", id:1 },
         {source: IMG_Calendar, titleText: "Make Reservations", subText: "Book a table in advance to avoid\nwaiting in line.", id:2 },
         {source: IMG_Binoculars, titleText: "Quick Search", subText: "Quickly find food items you like\nthe most.", id:3 },

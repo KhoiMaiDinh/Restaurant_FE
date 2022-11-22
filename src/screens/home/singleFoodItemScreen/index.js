@@ -11,26 +11,29 @@ import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
-import { BASE_URL } from '../../../utils/api';
+import {BASE_URL} from '../../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {store} from './../../../redux/store';
+import axios from 'axios';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
   const [category, setCategory] = useState([]);
+  const {token} = store.getState().user;
   const getCategory = async () => {
-    const token = AsyncStorage.getItem(`@token`);
-    const categoryURL = `${BASE_URL}/category/${data.categoryId}`;
-    return fetch(categoryURL,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/category/${data.categoryId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
         },
-      },
-    )
-      .then(res => res.json())
-      .then(json => setCategory(json.category));
+      );
+      setCategory(response.data.category);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -100,7 +103,9 @@ const SingleFoodItemScreen = props => {
       </View>
       <View>
         <View style={styles.priceBox}>
-          <Text style={styles.price} adjustsFontSizeToFit>{Intl.NumberFormat('vn-VN').format(price)} ₫</Text>
+          <Text style={styles.price} adjustsFontSizeToFit>
+            {Intl.NumberFormat('vn-VN').format(price)} ₫
+          </Text>
         </View>
         <TouchableOpacity>
           <View style={styles.AddButtonBox}>
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
   },
   tittleBox: {
     position: 'absolute',
-    alignSelf:'center',
+    alignSelf: 'center',
     marginTop: scale(70),
   },
   tittleBox2: {
@@ -223,7 +228,6 @@ const styles = StyleSheet.create({
     borderRadius: scale(8),
     borderWidth: scale(1),
     justifyContent: 'center',
-    
   },
   price: {
     color: CUSTOM_COLOR.Black,

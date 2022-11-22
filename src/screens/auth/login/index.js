@@ -14,29 +14,24 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {login} from '../../../features/auth/userSlice';
+import axios from 'axios';
 import {BASE_URL} from '../../../utils/api';
 
 const LoginScreen = props => {
+  const dispatch = useDispatch();
   const {navigation} = props;
   const [email, setMail] = useState('');
   const [password, setPass] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email: email,
+        password: password,
       });
-      const data = await response.json();
-      await AsyncStorage.setItem('@token', data.token);
-      await AsyncStorage.setItem('@user', JSON.stringify(data.user));
+      dispatch(login(response.data));
       navigation.navigate('AppStackScreen');
     } catch (error) {
       console.log(error);

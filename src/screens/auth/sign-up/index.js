@@ -29,7 +29,7 @@ const SignUpScreen = props => {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, {
+      const response = await axios.post(`${BASE_URL}/auth/signup`, {
         email: email,
         password: password,
         name: name,
@@ -54,7 +54,7 @@ const SignUpScreen = props => {
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>Create new account</Text>
         </View>
-        <View style={styles.inputFullNameBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={name => setName(name)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -63,7 +63,7 @@ const SignUpScreen = props => {
             keyboardType="ascii-capable"
           />
         </View>
-        <View style={styles.inputPhoneNumberBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -72,7 +72,7 @@ const SignUpScreen = props => {
             keyboardType="numeric"
           />
         </View>
-        <View style={styles.inputEmailBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={email => setEmail(email)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -81,7 +81,7 @@ const SignUpScreen = props => {
             keyboardType="email-address"
           />
         </View>
-        <View style={styles.inputPasswordBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={password => setPassword(password)}
             secureTextEntry={true}
@@ -98,103 +98,61 @@ const SignUpScreen = props => {
             <Text style={styles.buttonText}>Sign Up</Text>
           </View>
         </TouchableOpacity>
-          <TouchableOpacity style={styles.SignUpButtonBoxPosition}>
-            <View style={styles.SignUpButtonBox}>
-              <Text style={styles.buttonText}>Sign Up</Text>
-            </View>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
-    );
-  };
-  
-  export default SignUpScreen;
-  
-  const styles = StyleSheet.create({
-    container: {
-      backgroundColor: CUSTOM_COLOR.White,
-      flex: 1,
-    },
-    goBackButton: {
-      position: 'absolute',
-      left: scale(9),
-      top: scale(50),
-    },
-    tittleBox: {
-      position: 'absolute',
-      top: scale(128),
-      left: scale(25),
-    },
-    screenTittle: {
-      color: CUSTOM_COLOR.Primary,
-      fontSize: scale(20),
-      fontFamily: FONT_FAMILY.NexaRegular,
-    },
-    inputFullNameBox: {
-      position: 'absolute',
-      top: scale(191),
-      alignSelf: 'center',
-      height: scale(38),
-      width: scale(323),
-      borderWidth: 1,
-      borderColor: CUSTOM_COLOR.Navy,
-      borderRadius: 26.5,
-    },
-    inputPhoneNumberBox: {
-      position: 'absolute',
-      top: scale(253),
-      alignSelf: 'center',
-      height: scale(38),
-      width: scale(323),
-      borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
-      borderRadius: 26.5,
-    },
-    inputEmailBox: {
-        position: 'absolute',
-        top: scale(315),
-        alignSelf: 'center',
-        height: scale(38),
-        width: scale(323),
-        borderWidth: 1,
-        borderColor: CUSTOM_COLOR.San_Juan,
-        borderRadius: 26.5,
-    },
-    inputText: {
-      paddingTop: scale(8),
-      fontSize: scale(15),
-      height: scale(40.5),
-      left: scale(15),
-      color: CUSTOM_COLOR.Black,
-      width: scale(299),
-      fontFamily: FONT_FAMILY.NexaRegular,
-    },
-    inputPasswordBox: {
-      position: 'absolute',
-      top: scale(377),
-      alignSelf: 'center',
-      height: scale(38),
-      width: scale(323),
-      borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
-      borderRadius: 26.5,
-    },
-    SignUpButtonBoxPosition: {
-      position: 'absolute',
-      top: scale(461),
-      alignSelf: 'center',
-    },
-    SignUpButtonBox: {
-      backgroundColor: CUSTOM_COLOR.San_Juan,
-      height: scale(38),
-      width: scale(278),
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 26.5,
-    },
-    buttonText: {
-      color: CUSTOM_COLOR.White,
-      fontFamily: FONT_FAMILY.NexaRegular,
-    },
-  });
-  
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export default SignUpScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: CUSTOM_COLOR.White,
+    flex: 1,
+  },
+  goBackButton: {
+    marginTop: scale(50),
+    marginLeft: scale(10),
+  },
+  tittleBox: {
+    marginTop: scale(50),
+    marginBottom: scale(30),
+    marginLeft: scale(25),
+  },
+  screenTittle: {
+    color: CUSTOM_COLOR.Primary,
+    fontSize: scale(20),
+    fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  inputTextContainer: {
+    alignSelf: 'center',
+    paddingHorizontal: scale(15),
+    width: scale(323),
+    borderWidth: 1,
+    borderColor: CUSTOM_COLOR.Navy,
+    borderRadius: 500,
+    marginBottom: scale(15),
+  },
+  inputText: {
+    fontSize: scale(15),
+    color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  SignUpButtonBoxPosition: {
+    alignSelf: 'center',
+  },
+  SignUpButtonBox: {
+    backgroundColor: CUSTOM_COLOR.San_Juan,
+    width: scale(278),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 26.5,
+    padding: scale(15),
+    margin: scale(20),
+  },
+  buttonText: {
+    color: CUSTOM_COLOR.White,
+    fontFamily: FONT_FAMILY.NexaRegular,
+    fontSize: scale(15),
+  },
+});

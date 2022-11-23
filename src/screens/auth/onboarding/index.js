@@ -27,17 +27,16 @@ const OnboardingScreen = (props) => {
             paginationStyleItemInactive={styles.dot}
             data={views}
             renderItem={({ item }) => (
-                <View key={item.id} style={{width: screenWidth, height:'100%'}}>
+                <View key={item.id} style={{width: screenWidth, height:'85%'}}>
                     <Image source={item.source} style={styles.icon}/>
                     <Text  style={styles.titleText}>{item.titleText}</Text>
                     <Text style={styles.subText}>{item.subText}</Text>
-                    <TouchableOpacity style={styles.skip} onPress={() => props.navigation.navigate("Landing_Screen")}>
-                        <Text style={4 == item.id ? styles.skipText:styles.skipTextHidden}>Skip</Text>
-                    </TouchableOpacity>
                 </View>
             )}
         />      
-
+        <TouchableOpacity style={styles.skip} onPress={() => props.navigation.navigate("AuthStackScreen")}>
+            <Text style={styles.skipText}>Skip</Text>
+        </TouchableOpacity>
 
     </SafeAreaView>
   )
@@ -94,7 +93,8 @@ const styles = StyleSheet.create({
     },
     skip: {
         left: scale(150),
-        top: 650,
+        paddingTop: scale(30),
+        height: '15%',
     },
     skipText: {
         fontSize: scale(17),
@@ -102,13 +102,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         fontFamily: FONT_FAMILY.NexaRegular,
         color: CUSTOM_COLOR.White,
-    },
-    skipTextHidden: {
-        fontSize: scale(17),
-        alignSelf: 'center',
-        justifyContent: 'center',
-        fontFamily: FONT_FAMILY.NexaRegular,
-        color: 'transparent',
     },
     icon: {
         position: 'absolute',

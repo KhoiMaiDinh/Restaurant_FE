@@ -14,6 +14,7 @@ const SvgComponent = (props) => (
     <Path
       d="M12 16v3H5V5h7v3"
       stroke={CUSTOM_COLOR.Primary}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -21,12 +22,14 @@ const SvgComponent = (props) => (
       clipRule="evenodd"
       d="M17 12H9h8Z"
       stroke={CUSTOM_COLOR.Primary}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
       d="m16 9 2 3-2 3"
       stroke={CUSTOM_COLOR.Primary}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     />

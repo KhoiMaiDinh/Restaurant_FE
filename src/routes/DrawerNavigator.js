@@ -8,6 +8,7 @@ import SearchScreen from '../screens/home/searchScreen/index';
 import MenuScreen from '../screens/home/menuScreen/index';
 import ReservationScreen from '../screens/home/reservationScreen/index';
 
+
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -29,6 +30,9 @@ import {
 import {IMG_LisaAvatar} from '../assets/images';
 import { BASE_URL } from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from '../features/auth/userSlice';
+import { useDispatch } from 'react-redux';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -48,6 +52,8 @@ const ButtonDrawer = props => {
 };
 
 const CustomScrollDrawer = props => {
+  const dispatch = useDispatch();
+
   return (
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
@@ -100,10 +106,15 @@ const CustomScrollDrawer = props => {
           component="Orders"
           navigation={props.navigation}
         />
-        <ButtonDrawer
-          label="Đăng xuất"
-          icon={<IC_LogOut/>}
-        />
+        <TouchableOpacity style={{
+          height: scale(78),
+          justifyContent: 'center',
+          flexDirection: 'row',}} 
+          onPress={() => {dispatch(logout());
+          props.navigation.replace('AuthStackScreen')}}>
+          <IC_LogOut/>
+          <Text style={styles.text}>Đăng xuất</Text>
+        </TouchableOpacity>
       </View>
     </DrawerContentScrollView>
   );
@@ -204,6 +215,7 @@ const DrawerScreen = () => {
           ),
         })}
       />
+      
     </Drawer.Navigator>
   );
 };

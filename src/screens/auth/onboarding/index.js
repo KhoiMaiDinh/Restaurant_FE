@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
     skip: {
         left: scale(150),
-        top: 650,
+        paddingTop: scale(600),
     },
     skipText: {
         fontSize: scale(17),

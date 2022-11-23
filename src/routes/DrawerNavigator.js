@@ -26,6 +26,8 @@ import {
   IC_Reservation,
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
+import { BASE_URL } from '../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 
@@ -58,41 +60,41 @@ const CustomScrollDrawer = props => {
             style={styles.userAvatar}
           />
         </View>
-        <Text style={styles.userName}>Đình Khôi</Text>
+        <Text style={styles.userName}>Lisa</Text>
       </View>
       <View style={styles.buttonContainer}>
         <ButtonDrawer
-          label="Home"
+          label="Trang chủ"
           icon={<IC_Home />}
           component="Home"
           navigation={props.navigation}
         />
         <ButtonDrawer
-          label="Menu"
-          icon={<IC_Menu />}
-          component="Menu"
-          navigation={props.navigation}
-        />
-        <ButtonDrawer
-          label="Search"
-          icon={<IC_Search />}
-          component="Search"
-          navigation={props.navigation}
-        />
-        <ButtonDrawer
-          label="Reservation"
-          icon={<IC_Reservation />}
-          component="Reservation"
-          navigation={props.navigation}
-        />
-        <ButtonDrawer
-          label="Profile"
+          label="Cá nhân"
           icon={<IC_Profile />}
           component="Profile"
           navigation={props.navigation}
         />
         <ButtonDrawer
-          label="Orders"
+          label="Thực đơn"
+          icon={<IC_Menu />}
+          component="Menu"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Tìm kiếm"
+          icon={<IC_Search />}
+          component="Search"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Đặt chỗ"
+          icon={<IC_Reservation />}
+          component="Reservation"
+          navigation={props.navigation}
+        />
+        <ButtonDrawer
+          label="Lịch sử"
           icon={<IC_Order />}
           component="Orders"
           navigation={props.navigation}
@@ -128,11 +130,20 @@ const DrawerScreen = () => {
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
 
-  const getSearchData = useCallback(() => {
-    const searchURL = `https://restaurant-uit-server.herokuapp.com/food/?search={${search}}`;
-    return fetch(searchURL)
-      .then(res => res.json())
-      .then(json => setSearchData(json.foods));
+  const getSearchData = useCallback(async () => {
+    const token = await AsyncStorage.getItem(`@token`);
+    const searchURL = `${BASE_URL}/food/?search={${search}}`;
+    const res = await fetch(searchURL,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      },
+    );
+    const json = await res.json();
+    return setSearchData(json.foods);
   }, [search]);
 
   useEffect(() => {
@@ -157,7 +168,7 @@ const DrawerScreen = () => {
         component={HomeScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Home'} navigation={navigation} />
+            <HeaderBar pageName={'Trang chủ'} navigation={navigation} />
           ),
         })}
       />
@@ -166,7 +177,7 @@ const DrawerScreen = () => {
         component={MenuScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Menu'} navigation={navigation} />
+            <HeaderBar pageName={'Thực đơn'} navigation={navigation} />
           ),
         })}
       />
@@ -175,7 +186,7 @@ const DrawerScreen = () => {
         component={OrdersScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Orders'} navigation={navigation} />
+            <HeaderBar pageName={'Lịch sử'} navigation={navigation} />
           ),
         })}
       />
@@ -184,7 +195,7 @@ const DrawerScreen = () => {
         component={ReservationScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Reservation'} navigation={navigation} />
+            <HeaderBar pageName={'Đặt chỗ'} navigation={navigation} />
           ),
         })}
       />
@@ -194,7 +205,7 @@ const DrawerScreen = () => {
         options={({navigation}) => ({
           headerTitle: () => (
             <HeaderBar
-              pageName={'Search'}
+              pageName={'Tìm kiếm'}
               navigation={navigation}
               setSearch={setSearch}
             />
@@ -206,7 +217,7 @@ const DrawerScreen = () => {
         component={EditProfileScreen}
         options={({navigation}) => ({
           headerTitle: () => (
-            <HeaderBar pageName={'Profile'} navigation={navigation} />
+            <HeaderBar pageName={'Cá nhân'} navigation={navigation} />
           ),
         })}
       />
@@ -234,12 +245,14 @@ const styles = StyleSheet.create({
     paddingLeft: '15%',
     justifyContent: 'center',
     borderBottomEndRadius: scale(15),
+    paddingRight: '15%'
   },
   userName: {
     color: CUSTOM_COLOR.White,
     fontSize: scale(20),
     fontFamily: FONT_FAMILY.NexaBold,
-    left: scale(40),
+    //left: scale(40),
+    alignSelf: 'center',
   },
   userAvatarBorder: {
     backgroundColor: CUSTOM_COLOR.White,

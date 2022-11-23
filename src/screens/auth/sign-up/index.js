@@ -1,68 +1,104 @@
+/* eslint-disable prettier/prettier */
 import {
-    Keyboard,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
-  } from 'react-native';
-  import React, {useState} from 'react';
-  import {CUSTOM_COLOR} from '../../../constants/color';
-  import {IC_GoBack} from '../../../assets/icons';
-  import scale from '../../../utils/responsive';
-  import FONT_FAMILY from '../../../constants/fonts';
-  
-  const SignUpScreen = (props) => {
-    const navigation = props;
-    const [mail, setMail] = useState('');
-    const [pass, setPass] = useState('');
-    return (
-      <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
-        <SafeAreaView style={styles.container}>
-          <TouchableOpacity style={styles.goBackButton} onPress={() => props.navigation.goBack()}>
-            <IC_GoBack />
-          </TouchableOpacity>
-          <View style={styles.tittleBox}>
-            <Text style={styles.screenTittle}>Create new account</Text>
-          </View>
-          <View style = {styles.inputFullNameBox}>
+  Keyboard,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+import {CUSTOM_COLOR} from '../../../constants/color';
+import {IC_GoBack} from '../../../assets/icons';
+import scale from '../../../utils/responsive';
+import FONT_FAMILY from '../../../constants/fonts';
+import {useDispatch} from 'react-redux';
+import {signup} from '../../../features/auth/userSlice';
+import {BASE_URL} from '../../../utils/api';
+import axios from 'axios';
+
+const SignUpScreen = props => {
+  const {navigation} = props;
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email: email,
+        password: password,
+        name: name,
+        phoneNumber: phoneNumber,
+      });
+      dispatch(signup(response.data));
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
+      <SafeAreaView style={styles.container}>
+        <TouchableOpacity
+          style={styles.goBackButton}
+          onPress={() => props.navigation.goBack()}>
+          <IC_GoBack />
+        </TouchableOpacity>
+        <View style={styles.tittleBox}>
+          <Text style={styles.screenTittle}>Create new account</Text>
+        </View>
+        <View style={styles.inputFullNameBox}>
           <TextInput
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Full Name"
-              style={styles.inputText}
-              keyboardType="ascii-capable"
-            />
+            onChangeText={name => setName(name)}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Full Name"
+            style={styles.inputText}
+            keyboardType="ascii-capable"
+          />
+        </View>
+        <View style={styles.inputPhoneNumberBox}>
+          <TextInput
+            onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Phone Number"
+            style={styles.inputText}
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.inputEmailBox}>
+          <TextInput
+            onChangeText={email => setEmail(email)}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Email Address"
+            style={styles.inputText}
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.inputPasswordBox}>
+          <TextInput
+            onChangeText={password => setPassword(password)}
+            secureTextEntry={true}
+            placeholderTextColor={CUSTOM_COLOR.Grey}
+            placeholder="Password"
+            style={styles.inputText}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.SignUpButtonBoxPosition}
+          onPress={() => handleSignup()}>
+          <View style={styles.SignUpButtonBox}>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </View>
-          <View style={styles.inputPhoneNumberBox}>
-            <TextInput
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Phone Number"
-              style={styles.inputText}
-              keyboardType="numeric"
-            />
-          </View>
-          <View style={styles.inputEmailBox}>
-            <TextInput
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Email Address"
-              style={styles.inputText}
-              keyboardType="email-address"
-            />
-          </View>
-          <View style={styles.inputPasswordBox}>
-            <TextInput
-              secureTextEntry={true}
-              onChangeText={Pass => setPass(Pass)}
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Password"
-              style={styles.inputText}
-            />
-          </View>
-          
-          <TouchableOpacity style={styles.SignUpButtonBoxPosition} onPress={() => props.navigation.navigate('AppStackScreen')}>
+        </TouchableOpacity>
+          <TouchableOpacity style={styles.SignUpButtonBoxPosition}>
             <View style={styles.SignUpButtonBox}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </View>
@@ -101,7 +137,7 @@ import {
       height: scale(38),
       width: scale(323),
       borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
+      borderColor: CUSTOM_COLOR.Navy,
       borderRadius: 26.5,
     },
     inputPhoneNumberBox: {
@@ -125,11 +161,13 @@ import {
         borderRadius: 26.5,
     },
     inputText: {
+      paddingTop: scale(8),
+      fontSize: scale(15),
+      height: scale(40.5),
       left: scale(15),
       color: CUSTOM_COLOR.Black,
       width: scale(299),
       fontFamily: FONT_FAMILY.NexaRegular,
-      lineHeight: scale(21,67),
     },
     inputPasswordBox: {
       position: 'absolute',

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Keyboard,
   SafeAreaView,
@@ -13,16 +14,37 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
+import {useDispatch} from 'react-redux';
+import {login} from '../../../features/auth/userSlice';
+import axios from 'axios';
+import {BASE_URL} from '../../../utils/api';
 
-const LoginScreen = (props) => {
-  const navigation = props;
-  const [mail, setMail] = useState('');
-  const [pass, setPass] = useState('');
+const LoginScreen = props => {
+  const dispatch = useDispatch();
+  const {navigation} = props;
+  const [email, setMail] = useState('');
+  const [password, setPass] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email: email,
+        password: password,
+      });
+      dispatch(login(response.data));
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.goBackButton} onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.goBackButton}
+          onPress={() => props.navigation.goBack()}>
           <IC_GoBack />
         </TouchableOpacity>
         <View style={styles.tittleBox}>
@@ -32,21 +54,23 @@ const LoginScreen = (props) => {
           <TextInput
             onChangeText={email => setMail(email)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
-            placeholder="Phone number"
+            placeholder="Email address"
             style={styles.inputText}
-            keyboardType="numeric"
+            keyboardType="email-address"
           />
         </View>
         <View style={styles.inputPasswordBox}>
           <TextInput
             secureTextEntry={true}
-            onChangeText={Pass => setPass(Pass)}
+            onChangeText={password => setPass(password)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
             placeholder="Password"
             style={styles.inputText}
           />
         </View>
-        <TouchableOpacity style={styles.loginButtonBoxPosition} onPress={() => props.navigation.navigate('AppStackScreen')}>
+        <TouchableOpacity
+          style={styles.loginButtonBoxPosition}
+          onPress={() => handleLogin()}>
           <View style={styles.loginButtonBox}>
             <Text style={styles.buttonText}>Login</Text>
           </View>

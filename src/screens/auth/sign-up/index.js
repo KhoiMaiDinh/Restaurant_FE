@@ -29,7 +29,7 @@ const SignUpScreen = props => {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, {
+      const response = await axios.post(`${BASE_URL}/auth/signup`, {
         email: email,
         password: password,
         name: name,
@@ -54,7 +54,7 @@ const SignUpScreen = props => {
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>Create new account</Text>
         </View>
-        <View style={styles.inputFullNameBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={name => setName(name)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -63,7 +63,7 @@ const SignUpScreen = props => {
             keyboardType="ascii-capable"
           />
         </View>
-        <View style={styles.inputPhoneNumberBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -72,7 +72,7 @@ const SignUpScreen = props => {
             keyboardType="numeric"
           />
         </View>
-        <View style={styles.inputEmailBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={email => setEmail(email)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -81,7 +81,7 @@ const SignUpScreen = props => {
             keyboardType="email-address"
           />
         </View>
-        <View style={styles.inputPasswordBox}>
+        <View style={styles.inputTextContainer}>
           <TextInput
             onChangeText={password => setPassword(password)}
             secureTextEntry={true}

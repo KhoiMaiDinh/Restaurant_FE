@@ -12,18 +12,8 @@ const AuthStack = createStackNavigator();
 export const AuthStackScreen = props => {
   return (
     <AuthStack.Navigator
-      initialRouteName="LoadingScreen"
+      initialRouteName="Landing_Screen"
       screenOptions={{headerShown: false}}>
-      <AuthStack.Screen
-        name="LoadingScreen"
-        component={LoadingScreen}
-        options={{headerShown: false}}
-      />
-      <AuthStack.Screen
-        name="OnboardingScreen"
-        component={OnboardingScreen}
-        options={{headerShown: false}}
-      />
       <AuthStack.Screen
         name="Landing_Screen"
         component={Landing_Screen}

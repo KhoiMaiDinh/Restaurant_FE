@@ -137,7 +137,7 @@ const SignUpScreen = props => {
       height: scale(38),
       width: scale(323),
       borderWidth: 1,
-      borderColor: CUSTOM_COLOR.Navy,
+      borderColor: CUSTOM_COLOR.Primary,
       borderRadius: 26.5,
     },
     inputPhoneNumberBox: {
@@ -147,7 +147,7 @@ const SignUpScreen = props => {
       height: scale(38),
       width: scale(323),
       borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
+      borderColor: CUSTOM_COLOR.Primary,
       borderRadius: 26.5,
     },
     inputEmailBox: {
@@ -157,7 +157,7 @@ const SignUpScreen = props => {
         height: scale(38),
         width: scale(323),
         borderWidth: 1,
-        borderColor: CUSTOM_COLOR.San_Juan,
+        borderColor: CUSTOM_COLOR.Primary,
         borderRadius: 26.5,
     },
     inputText: {
@@ -176,7 +176,7 @@ const SignUpScreen = props => {
       height: scale(38),
       width: scale(323),
       borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
+      borderColor: CUSTOM_COLOR.Primary,
       borderRadius: 26.5,
     },
     SignUpButtonBoxPosition: {
@@ -185,7 +185,7 @@ const SignUpScreen = props => {
       alignSelf: 'center',
     },
     SignUpButtonBox: {
-      backgroundColor: CUSTOM_COLOR.San_Juan,
+      backgroundColor: CUSTOM_COLOR.Primary,
       height: scale(38),
       width: scale(278),
       justifyContent: 'center',

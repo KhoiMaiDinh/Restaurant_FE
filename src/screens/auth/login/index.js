@@ -72,7 +72,6 @@ const LoginScreen = props => {
           style={styles.loginButtonBoxPosition}
           onPress={() => {
             handleLogin();
-            navigation.navigate('AppStackScreen');
             }}>
           <View style={styles.loginButtonBox}>
             <Text style={styles.buttonText}>Login</Text>

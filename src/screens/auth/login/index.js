@@ -18,7 +18,6 @@ import {useDispatch} from 'react-redux';
 import {login} from '../../../features/auth/userSlice';
 import axios from 'axios';
 import {BASE_URL} from '../../../utils/api';
-import { disabled } from 'deprecated-react-native-prop-types/DeprecatedTextPropTypes';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -41,8 +40,14 @@ const LoginScreen = props => {
     }
   };
   const handleCheckPassword = text =>{
+    let isNonWhiteSpace = /^\S*$/;
+    let isContainsNumber = /^(?=.*[0-9]).*$/;
+    let isValidLength = /^.{8,16}$/;
+
     setPass(text);
-    if(checkPasswordValidity(text)){
+    if(isNonWhiteSpace.test(text)
+    &&isContainsNumber.test(text)
+    &&isValidLength.test(text)){
       setCheckValidPassword(false);
     }
     else {
@@ -50,46 +55,7 @@ const LoginScreen = props => {
     }
   };
 
-  const checkPasswordValidity = value => {
-    
-    const isNonWhiteSpace = /^\S*$/;
-    if (!isNonWhiteSpace.test(value)) {
-      return 'Mật khẩu không được chứa khoảng trắng.';
-    }
-
-    const isContainsUppercase = /^(?=.*[A-Z]).*$/;
-    if (!isContainsUppercase.test(value)) {
-      return 'Password must have at least one Uppercase Character.';
-    }
-
-    const isContainsLowercase = /^(?=.*[a-z]).*$/;
-    if (!isContainsLowercase.test(value)) {
-      return 'Password must have at least one Lowercase Character.';
-    }
-
-    const isContainsNumber = /^(?=.*[0-9]).*$/;
-    if (!isContainsNumber.test(value)) {
-      return 'Password must contain at least one Digit.';
-    }
-
-    const isValidLength = /^.{8,16}$/;
-    if (!isValidLength.test(value)) {
-      return 'Password must be 8-16 Characters Long.';
-    }
-
-    const isContainsSymbol =
-      /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/;
-    if (!isContainsSymbol.test(value)) {
-      return 'Password must contain at least one Special Symbol.';
-    }
-
-    return null;
-  };
-  let validPassWordText = null;
-  const handleLogin = async () => {
-    const checkPassword = checkPasswordValidity(password);
-    if(!checkPassword)
-    {
+  const handleLogin = async () => {    
       try {
         const response = await axios.post(`${BASE_URL}/auth/login`, {
           email: email.toLocaleLowerCase(),
@@ -101,10 +67,6 @@ const LoginScreen = props => {
       catch (error) {
         console.log(error);
       }
-    }
-     else{
-      validPassWordText = checkPassword;
-    } 
   };
   return (
     <TouchableWithoutFeedback
@@ -116,49 +78,49 @@ const LoginScreen = props => {
           <IC_GoBack />
         </TouchableOpacity>
         <View style={styles.tittleBox}>
-          <Text style={styles.screenTittle}>Log In</Text>
+          <Text style={styles.screenTittle}>Đăng nhập</Text>
         </View>
         <View style={styles.inputMailBox}>
           <TextInput
             onChangeText={text => handleCheckEmail(text)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
-            placeholder="Email address"
+            placeholder="Địa chỉ email"
             value={email}
             style={styles.inputText}
             keyboardType="email-address"
           />
           {checkValidEmail ? (
-          <Text style={styles.emailFailed}>Sai định dạng email. VD:"abc@xyz"</Text>
+          <Text style={styles.textFailed}>Sai định dạng email. VD:"abc@xyz.mnp..."</Text>
         ) : (
-          <Text style={styles.emailFailed}> </Text>
+          <Text style={styles.textFailed}> </Text>
         )}
         </View>
         
         <View style={styles.inputPasswordBox}>
           <TextInput
             secureTextEntry={true}
-            onChangeText={text => setPass(text)}
+            onChangeText={text => handleCheckPassword(text)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
             value={password}
-            placeholder="Password"
+            placeholder="Mật khẩu"
             style={styles.inputText}
           />
           
-          {/* {checkValidPassword ? (
-          <Text style={styles.textFailed}>{checkPasswordValidity(password)}</Text>
-        ) : ( */}
-          <Text style={styles.passwordFailed}> {validPassWordText}</Text>
-        {/* )} */}
+          {checkValidPassword ? (
+          <Text style={styles.textFailed}>{"Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng"}</Text>
+        ) : (
+          <Text style={styles.textFailed}> </Text>
+        )}
         </View>
         
-        {email == '' || password == '' || checkValidEmail == true ? (
+        {email == '' || password == '' || checkValidEmail == true || checkValidPassword == true ? (
         <TouchableOpacity
           disabled
           style={styles.loginButtonBoxPosition}
           onPress={() =>
             {handleLogin()}}>
           <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Đăng nhập</Text>
           </View>
         </TouchableOpacity>
         ) : (<TouchableOpacity
@@ -173,7 +135,7 @@ const LoginScreen = props => {
         <Text style={styles.orText}>OR</Text>
         <TouchableOpacity style={styles.FBLoginButtonBoxPosition}>
           <View style={styles.FBLoginButtonBox}>
-            <Text style={styles.buttonText}>FaceBook Login</Text>
+            <Text style={styles.buttonText}>Đăng nhập bằng Facebook</Text>
           </View>
         </TouchableOpacity>
       </SafeAreaView>
@@ -231,7 +193,7 @@ const styles = StyleSheet.create({
   },
   loginButtonBoxPosition: {
     position: 'absolute',
-    marginTop: scale(343),
+    marginTop: scale(363),
     alignSelf: 'center',
   },
   loginButtonBox: {
@@ -246,12 +208,12 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(17),
-    marginTop: scale(450),
+    marginTop: scale(465),
     alignSelf: 'center',
   },
   FBLoginButtonBoxPosition: {
     position: 'absolute',
-    marginTop: scale(516),
+    marginTop: scale(536),
     alignSelf: 'center',
   },
   FBLoginButtonBox: {
@@ -266,20 +228,11 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
   },
-  emailFailed: {
-    marginLeft: scale(70),
-    paddingTop: scale(245),
+  textFailed: {
+    marginLeft: scale(25),
     alignSelf:'flex-start',
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
-    color: 'red',
-  },
-  passwordFailed: {
-    marginLeft: scale(70),
-    paddingTop: scale(275),
-    alignSelf:'flex-start',
-    fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: scale(12),
-    color: 'red',
+    color: CUSTOM_COLOR.Red,
   },
 });

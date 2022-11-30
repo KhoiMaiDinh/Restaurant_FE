@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     width: scale(385),
     flexDirection: 'row',
     marginTop: 10,
-    height: scale(80),
+    height: scale(60),
     justifyContent: 'flex-start',
   },
   itemContainer: {

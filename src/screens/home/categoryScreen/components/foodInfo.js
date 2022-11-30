@@ -96,10 +96,11 @@ const styles = StyleSheet.create({
     width: scale(250),
   },
   foodPrice: {
-    color: CUSTOM_COLOR.Grey,
+    color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
     letterSpacing: scale(-0.42),
     fontSize: scale(14),
     //top: scale(-5),
+    opacity: 0.5,
   },
 });

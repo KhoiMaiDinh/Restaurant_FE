@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
-import {IC_GoBack} from '../../../assets/icons';
+import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
@@ -50,39 +52,34 @@ const SingleFoodItemScreen = props => {
     }
   };
   let decCount = () => {
-    if (count1 > 1) {
+    if (count1 > 0) {
       setCount1(count1 - 1);
       setPrice(price - data.price);
-    }
-  };
-  let incPrice = () => {
-    if (count1 < 100) {
-      setPrice(price * count1);
-    }
-  };
-  let decPrice = () => {
-    if (count1 > 1) {
-      setPrice(price / count1);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.goBackButton}
-        onPress={() => {
-          props.navigation.goBack();
-        }}>
-        <IC_GoBack style={styles.goBack} />
-      </TouchableOpacity>
-      <View style={styles.tittleBox}>
-        <Text style={styles.screenTittle}>{data.name}</Text>
-      </View>
-      <View style={styles.tittleBox2}>
-        <Text style={styles.screenTittle2}>{category.name}</Text>
+      <View style={styles.header}>
+        <View style={styles.goBackButton}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.goBack();
+            }}>
+            <IC_GoBack style={styles.goBack} />
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.screenTittle2}>{category.name}</Text>
+          </View>
+        </View>
+        <View style={styles.tittleBox}>
+          <Text style={styles.screenTittle}>{data.name}</Text>
+        </View>
       </View>
 
-      <Gallery style={styles.galleryBox} images={data.images} />
+      <Text style={styles.titleText}>{data.name}</Text>
+
+      <Gallery images={data.images} />
 
       <View style={styles.contentBox}>
         <Text style={styles.content}>{data.description}</Text>
@@ -90,25 +87,25 @@ const SingleFoodItemScreen = props => {
 
       <View style={styles.countBox}>
         <TouchableOpacity onPress={decCount}>
-          <View style={styles.minusBox}>
-            <Text style={styles.minus}>-</Text>
+          <View style={styles.iconBox}>
+            <IC_Minus />
           </View>
         </TouchableOpacity>
         <Text style={styles.amount}>{count1}</Text>
         <TouchableOpacity onPress={inCount}>
-          <View style={styles.plusBox}>
-            <Text style={styles.plus}>+</Text>
+          <View style={styles.iconBox}>
+            <IC_Plus />
           </View>
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={styles.addContainer}>
         <View style={styles.priceBox}>
           <Text style={styles.price} adjustsFontSizeToFit>
             {Intl.NumberFormat('vn-VN').format(price)} ₫
           </Text>
         </View>
-        <TouchableOpacity>
-          <View style={styles.AddButtonBox}>
+        <TouchableOpacity style={styles.AddButtonBox}>
+          <View>
             <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
           </View>
         </TouchableOpacity>
@@ -124,21 +121,35 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
     flex: 1,
   },
+
+  header: {
+    backgroundColor: 'white',
+    position: 'relative',
+    paddingVertical: 10,
+    marginBottom: 20,
+  },
   goBackButton: {
-    position: 'absolute',
-    left: scale(9),
-    top: scale(18),
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tittleBox: {
     position: 'absolute',
-    alignSelf: 'center',
-    marginTop: scale(70),
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  tittleBox2: {
-    position: 'absolute',
-    top: scale(23),
-    left: scale(42),
+
+  titleText: {
+    color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
+    fontSize: scale(18),
+    marginHorizontal: scale(10),
+    marginBottom: scale(10),
   },
+
   screenTittle: {
     fontFamily: FONT_FAMILY.NexaBold,
     fontSize: scale(22),
@@ -150,104 +161,66 @@ const styles = StyleSheet.create({
     fontSize: scale(15),
     fontFamily: FONT_FAMILY.NexaRegular,
   },
-
-  galleryBox: {
-    position: 'absolute',
-    top: scale(135),
-    left: scale(15.5),
-    width: scale(324),
-    height: scale(215),
-  },
   contentBox: {
-    width: scale(385),
-    top: scale(130),
-    left: scale(15),
+    width: '100%',
+    paddingHorizontal: 20,
   },
   content: {
     color: CUSTOM_COLOR.Black,
-    fontSize: scale(15),
+    fontSize: scale(17),
     fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(18),
-    letterSpacing: scale(-0.39),
-    opacity: 0.8,
   },
+
+  addContainer: {
+    flexDirection: 'row',
+    width: '100%',
+  },
+
   countBox: {
-    position: 'absolute',
-    marginTop: scale(460),
     width: scale(108),
     height: scale(45),
-    borderRadius: scale(22.5),
+    borderRadius: scale(1000),
     borderWidth: scale(1),
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
     alignSelf: 'center',
+    marginVertical: 20,
   },
-  minusBox: {
-    position: 'absolute',
-    height: scale(45),
-    width: scale(11),
-    left: scale(13),
-    top: scale(-2),
-  },
-  minus: {
-    color: CUSTOM_COLOR.Gray,
-    fontSize: scale(35),
-    fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(44.6),
-    letterSpacing: scale(-0.97),
-    opacity: scale(0.4859),
-  },
-  plusBox: {
-    position: 'absolute',
-    height: scale(31),
-    width: scale(14),
-    left: scale(83),
-    top: scale(-15),
-  },
-  plus: {
-    color: CUSTOM_COLOR.San_Juan,
-    fontSize: scale(24),
-    fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(30.59),
-    letterSpacing: scale(-0.67),
-    opacity: scale(0.4859),
+  iconBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   amount: {
     color: CUSTOM_COLOR.Black,
     fontSize: scale(17),
-    fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(22),
-    letterSpacing: scale(-0.47),
-    left: scale(50.5),
-    top: scale(11),
+    fontFamily: FONT_FAMILY.NexaBold,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   priceBox: {
-    position: 'absolute',
-    marginTop: scale(240),
-    marginLeft: scale(28),
     height: scale(44),
     width: scale(90),
+    marginHorizontal: 20,
     borderRadius: scale(8),
     borderWidth: scale(1),
     justifyContent: 'center',
   },
   price: {
     color: CUSTOM_COLOR.Black,
-    fontSize: scale(25),
-    fontFamily: FONT_FAMILY.NexaLight,
-    lineHeight: scale(34.41),
-    letterSpacing: scale(-0.75),
-    alignSelf: 'center',
+    fontSize: Math.max(25),
+    fontFamily: FONT_FAMILY.NexaRegular,
   },
 
   AddButtonBox: {
-    position: 'absolute',
     backgroundColor: CUSTOM_COLOR.Primary,
-    width: scale(252),
-    right: scale(28),
+    flex: 1,
+    marginRight: 20,
+    height: scale(44.9),
     borderRadius: scale(8),
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: scale(240),
-    height: scale(44),
   },
   buttonText: {
     fontSize: scale(18),

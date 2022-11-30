@@ -90,7 +90,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Tìm kiếm"
-          icon={<IC_Search />}
+          icon={<IC_Search fill={CUSTOM_COLOR.Primary}/>}
           component="Search"
           navigation={props.navigation}
         />

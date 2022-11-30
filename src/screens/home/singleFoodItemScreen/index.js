@@ -72,12 +72,11 @@ const SingleFoodItemScreen = props => {
             <Text style={styles.screenTittle2}>{category.name}</Text>
           </View>
         </View>
-        <View style={styles.tittleBox}>
-          <Text style={styles.screenTittle}>{data.name}</Text>
-        </View>
       </View>
 
-      <Text style={styles.titleText}>{data.name}</Text>
+      <View style={styles.tittleBox}>
+        <Text style={styles.titleText}>{data.name}</Text>
+      </View>
 
       <Gallery images={data.images} />
 
@@ -125,32 +124,19 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: 'white',
     position: 'relative',
-    paddingVertical: 10,
-    marginBottom: 20,
+    paddingVertical: 8,
+    marginBottom: 0,
   },
   goBackButton: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   tittleBox: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   titleText: {
-    color: CUSTOM_COLOR.Black,
-    fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: scale(18),
-    marginHorizontal: scale(10),
-    marginBottom: scale(10),
-  },
-
-  screenTittle: {
     fontFamily: FONT_FAMILY.NexaBold,
     fontSize: scale(22),
     letterSpacing: scale(-0.42),

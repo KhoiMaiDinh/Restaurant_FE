@@ -15,5 +15,7 @@ export {default as IC_CartDrawer} from './ic_cartDrawer';
 export {default as IC_Menu} from './ic_menu';
 export {default as IC_Order} from './ic_order';
 export {default as IC_Reservation} from './ic_reservation';
+export {default as IC_Plus} from './ic_plus';
+export {default as IC_Minus} from './ic_minus';
 export {default as IC_NoInternet} from './ic_noInternet';
 export {default as IC_LogOut} from './ic_logOut';

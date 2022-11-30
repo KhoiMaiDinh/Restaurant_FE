@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingVertical: 10,
+    paddingVertical: scale(15),
   },
   food: {
     flexDirection: 'row',
@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.GreySecond,
   },
   textTitle: {
-    fontSize: 18,
-    fontFamily: FONT_FAMILY.NexaRegular,
     color: CUSTOM_COLOR.Black,
-    alignSelf: 'center',
-    letterSpacing: -0.7,
+    fontFamily: FONT_FAMILY.NexaBold,
+    fontSize: scale(18),
+    letterSpacing: scale(-0.7),
+    textAlign: 'center',
   },
   tittleBox: {
     position: 'absolute',
@@ -100,11 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   screenTittle2: {
-    fontSize: 18,
-    fontFamily: FONT_FAMILY.NexaRegular,
     color: CUSTOM_COLOR.Black,
+    fontSize: scale(15),
+    fontFamily: FONT_FAMILY.NexaRegular,
     alignSelf: 'center',
-    opacity: 0.6,
   },
   goBackButton: {
     alignSelf: 'center',

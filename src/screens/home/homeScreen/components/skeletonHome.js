@@ -9,17 +9,15 @@ const SkeletonHome = () => {
     <ScrollView>
         <SkeletonPlaceholder style={styles.container}>
             <View style={{flex: 1}}>
-                <View style={{marginTop:30, alignSelf:'center', width: scale(347), height: 30}}/>
-                {/* <View style={{marginTop:70, marginLeft: scale(22), width: scale(114), height: 22}}/> */}
                 <View style={{flexDirection: 'row', backgroundColor: 'transparent'}}>
-                    <View style={{marginTop:35, borderRadius: scale(360), marginLeft: scale(19), width: scale(73), height: 73}}/>
-                    <View style={{marginTop:35, borderRadius: scale(360), marginLeft: scale(24), width: scale(73), height: 73}}/>
-                    <View style={{marginTop:35, borderRadius: scale(360), marginLeft: scale(29), width: scale(73), height: 73}}/>
-                    <View style={{marginTop:35, borderRadius: scale(360), marginLeft: scale(34), width: scale(73), height: 73}}/>
+                    <View style={{marginTop:scale(35), borderRadius: scale(360), marginLeft: scale(19), width: scale(73), height: scale(73)}}/>
+                    <View style={{marginTop:scale(35), borderRadius: scale(360), marginLeft: scale(24), width: scale(73), height: scale(73)}}/>
+                    <View style={{marginTop:scale(35), borderRadius: scale(360), marginLeft: scale(29), width: scale(73), height: scale(73)}}/>
+                    <View style={{marginTop:scale(35), borderRadius: scale(360), marginLeft: scale(34), width: scale(73), height: scale(73)}}/>
                 </View>
-                <View style={{marginTop:130, alignSelf:'center', width: scale(375), height: 246}}/>
-                <View style={{marginTop:80, alignSelf:'center', width: scale(335), height: 180}}/>
-                <View style={{marginTop:80, alignSelf:'center', width: scale(335), height: 180}}/>
+                <View style={{marginTop:scale(130), alignSelf:'center', width: scale(375), height: scale(246)}}/>
+                <View style={{marginTop:scale(70), alignSelf:'center', width: scale(335), height: scale(180)}}/>
+                <View style={{marginTop:scale(70), alignSelf:'center', width: scale(335), height: scale(180)}}/>
             </View>
         </SkeletonPlaceholder>
     </ScrollView>

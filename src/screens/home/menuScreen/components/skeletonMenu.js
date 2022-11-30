@@ -9,17 +9,17 @@ const SkeletonMenu = () => {
     <ScrollView>
         <SkeletonPlaceholder style={styles.container}>
             <View style={{flex: 1}}>
-                <View style={{flexDirection: 'row',marginTop:45 }}>
-                    <View style={{ marginLeft: scale(14), width: scale(165), height: 115}}/>
-                    <View style={{ marginLeft: scale(35), width: scale(165), height: 115}}/>
+                <View style={{flexDirection: 'row',marginTop:scale(15) }}>
+                    <View style={{ marginLeft: scale(20), width: scale(165), height: scale(113)}}/>
+                    <View style={{ marginLeft: scale(45), width: scale(165), height: scale(113)}}/>
                 </View>
-                <View style={{flexDirection: 'row',marginTop:125 }}>
-                    <View style={{ marginLeft: scale(14), width: scale(165), height: 115}}/>
-                    <View style={{ marginLeft: scale(35), width: scale(165), height: 115}}/>
+                <View style={{flexDirection: 'row',marginTop:scale(142)  }}>
+                    <View style={{ marginLeft: scale(20), width: scale(165), height: scale(113)}}/>
+                    <View style={{ marginLeft: scale(45), width: scale(165), height: scale(113)}}/>
                 </View>
-                <View style={{flexDirection: 'row',marginTop:125 }}>
-                    <View style={{ marginLeft: scale(14), width: scale(165), height: 115}}/>
-                    <View style={{ marginLeft: scale(35), width: scale(165), height: 115}}/>
+                <View style={{flexDirection: 'row',marginTop:scale(142)}}>
+                    <View style={{ marginLeft: scale(20), width: scale(165), height: scale(113)}}/>
+                    <View style={{ marginLeft: scale(45), width: scale(165), height: scale(113)}}/>
                 </View>
             </View>
         </SkeletonPlaceholder>

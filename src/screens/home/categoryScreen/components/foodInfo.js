@@ -41,9 +41,9 @@ const OneFood = props => {
       <View style={styles.container}>
         <View style={styles.categoryBox}>
           <View style={styles.foodInfo}>
-            <Text style={styles.foodName}>{props.data.name}</Text>
-            <Text style={styles.foodContain}>{props.data.description}</Text>
-            <Text style={styles.foodPrice}>
+            <Text numberOfLines={1} style={styles.foodName}>{props.data.name}</Text>
+            <Text numberOfLines={3} style={styles.foodContain}>{props.data.description}</Text>
+            <Text numberOfLines={1} style={styles.foodPrice}>
               {Intl.NumberFormat('vn-VN').format(props.data.price)} ₫
             </Text>
           </View>

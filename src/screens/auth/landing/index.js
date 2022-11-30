@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 26.5,
-    borderColor: CUSTOM_COLOR.Black,
+    borderColor: CUSTOM_COLOR.Primary,
     borderWidth: 1,
   },
   signUpButtonText: {
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
     fontFamily: FONT_FAMILY.NexaRegular,
   },
 });

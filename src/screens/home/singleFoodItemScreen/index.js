@@ -13,16 +13,29 @@ import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
+import {BASE_URL} from '../../../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {store} from './../../../redux/store';
+import axios from 'axios';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
   const [category, setCategory] = useState([]);
-  const getCategory = () => {
-    const categoryURL = `https://restaurant-uit-server.herokuapp.com/category/${data.categoryId}`;
-
-    return fetch(categoryURL)
-      .then(res => res.json())
-      .then(json => setCategory(json.category));
+  const {token} = store.getState().user;
+  const getCategory = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/category/${data.categoryId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        },
+      );
+      setCategory(response.data.category);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -139,7 +152,7 @@ const styles = StyleSheet.create({
 
   screenTittle: {
     fontFamily: FONT_FAMILY.NexaBold,
-    fontSize: scale(17),
+    fontSize: scale(22),
     letterSpacing: scale(-0.42),
     color: CUSTOM_COLOR.Black,
   },
@@ -193,7 +206,6 @@ const styles = StyleSheet.create({
     borderRadius: scale(8),
     borderWidth: scale(1),
     justifyContent: 'center',
-    alignItems: 'center',
   },
   price: {
     color: CUSTOM_COLOR.Black,

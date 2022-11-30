@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Dimensions,
   SafeAreaView,
@@ -14,66 +15,79 @@ import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 import SkeletonHome from './components/skeletonHome';
+import {BASE_URL} from './../../../utils/api';
+import axios from 'axios';
+import {store} from './../../../redux/store';
 
 
 const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const getCategory = () => {
-    const categoryURL =
-      'https://restaurant-uit-server.herokuapp.com/category/popular/';
-    return fetch(categoryURL)
-      .then(res => res.json())
-      .then(json => {setCategoryData(json.categories);
-        if(loading) {
-          setLoading(false);
-        }
-      });
-  };
-
   const [bestFoodData, setBestFoodData] = useState([]);
-  const getBestFood = () => {
-    const bestFoodURL =
-      'https://restaurant-uit-server.herokuapp.com/food/best-deals/';
-    return fetch(bestFoodURL)
-      .then(res => res.json())
-      .then(json => {setBestFoodData(json.foods);
-        if(loading) {
-          setLoading(false);
-        }
+  const [foodData, setFoodData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const {token} = store.getState().user;
+
+  const getCategory = async () => {
+    try {
+      console.log(token);
+      const response = await axios.get(`${BASE_URL}/category/popular`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
+      setCategoryData(response.data.categories);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const [foodData, setFoodData] = useState([]);
-  const getPopularFood = () => {
-    const foodURL = 'https://restaurant-uit-server.herokuapp.com/food/popular/';
-    return fetch(foodURL)
-      .then(res => res.json())
-      .then(json => {setFoodData(json.foods);
-        if(loading) {
-          setLoading(false);
-        }
+  const getBestFood = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/food/best-deals`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
+      setBestFoodData(response.data.foods);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getPopularFood = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/food/popular`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setFoodData(response.data.foods);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getCategory();
     getBestFood();
     getPopularFood();
-    
+    if (categoryData && bestFoodData && foodData) {
+      setLoading(false);
+    }
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-      <SkeletonHome/>
-      ):(
+        <SkeletonHome />
+      ) : (
         <View style={{flex: 1}}>
           <ScrollView style={styles.scrollView}>
             <View style={styles.viewSecond}>
-              <Text style={styles.categoryText}>Danh mục nổi bật</Text>
+              <Text style={styles.categoryText}>Danh mục món ngon</Text>
               <CircularCategories
                 style={styles.categoryRow}
-                categoryData={categoryData}
+                categoryData={categoryData || []}
                 {...props}
               />
               <Text style={styles.dealText}>Best Deals</Text>
@@ -82,13 +96,14 @@ const HomeScreen = props => {
                 foodData={bestFoodData}
                 {...props}
               />
-              <Text style={styles.dealText}>Nhiều người đã thử, bạn có muốn?</Text>
-              <MostPopular foodData={foodData} {...props} />
+              <Text style={styles.dealText}>
+                Nhiều người đã thử, bạn có muốn?
+              </Text>
+              <MostPopular foodData={foodData || []} {...props} />
             </View>
           </ScrollView>
         </View>
-      )
-      }   
+      )}
     </SafeAreaView>
   );
 };
@@ -129,5 +144,5 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Dimensions.get('window').height * 0.95,
   },
-  viewSecond: {},
+  viewSecond: {marginTop: scale(10)},
 });

@@ -19,7 +19,7 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
       <TouchableOpacity style={styles.drawerButton} onPress={() => openMenu()}>
         <IC_Drawer />
       </TouchableOpacity>
-      {pageName === 'Search' ? (
+      {pageName === 'Tìm kiếm' ? (
         <SearchBar setSearch={setSearch} />
       ) : (
         <Text style={styles.homeName}>{pageName}</Text>

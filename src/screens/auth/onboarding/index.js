@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import {IMG_Binoculars,IMG_Calendar,IMG_Delivery,IMG_PaymentMethod,IMG_RestaurantMenuWhite, IMG_Logo} from '../../../assets/images'
+import {IMG_Binoculars,IMG_Calendar,IMG_Delivery,IMG_PaymentMethod,IMG_RestaurantMenuWhite,IMG_RestaurantAppWhite, IMG_Logo} from '../../../assets/images'
 import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { CUSTOM_COLOR } from '../../../constants/color'
@@ -11,11 +11,11 @@ const {width: screenWidth} = Dimensions.get('window');
 const OnboardingScreen = (props) => {
         const navigation = props;
     const views = [
-        {source: IMG_RestaurantMenuWhite, titleText: "Browse Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
-        {source: IMG_Delivery, titleText: "Order Food", subText: "Hungry? Order food in just a few clicks\nand we'll take care of you.", id:1 },
-        {source: IMG_Calendar, titleText: "Make Reservations", subText: "Book a table in advance to avoid\nwaiting in line.", id:2 },
-        {source: IMG_Binoculars, titleText: "Quick Search", subText: "Quickly find food items you like\nthe most.", id:3 },
-        {source: IMG_PaymentMethod, titleText: "Online Pay", subText: "We know you're busy, so you can pay\nwith your phone in just one click.", id:4 },
+        {source: IMG_RestaurantAppWhite, titleText: "Restaurant App", subText: "     Bạn cần gì Restaurant App lo \n Bạn đói bụng Restaurant App có.", id:0 },
+        {source: IMG_Delivery, titleText: "Gọi món", subText: "Tap liền tay, ship tới ngay.", id:1 },
+        {source: IMG_Calendar, titleText: "Đặt bàn", subText: "Đặt bàn dễ dàng.", id:2 },
+        {source: IMG_RestaurantMenuWhite, titleText: "Menu", subText: "                     Với thực đơn đa dạng,\n chúng tôi tự tin thỏa mãn nhu cầu của bạn.", id:3 },
+        {source: IMG_PaymentMethod, titleText: "Thanh toán online", subText: "Thanh toán trực tuyến, thuận tiện.", id:4 },
     ];
 
   return (
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     },
     titleText: {
         top: 351,
-        fontSize: scale(17),
+        fontSize: scale(27),
         letter: -0.5,
         alignSelf: 'center',
         justifyContent: 'center',
-        fontFamily: FONT_FAMILY.NexaRegular,
+        fontFamily: FONT_FAMILY.NexaBold,
         color: CUSTOM_COLOR.White,
     },
     subText: {

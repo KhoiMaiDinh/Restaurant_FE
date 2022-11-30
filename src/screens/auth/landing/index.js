@@ -23,23 +23,23 @@ const Landing_Screen = (props) => {
 
       <View style={styles.view1}>
         <View style={styles.viewTextWelcome}>
-          <Text style={styles.text1}>Welcome to our restaurant</Text>
+          <Text style={styles.text1}>{"Chào mừng bạn đến với App"}</Text>
         </View>
         <View style={styles.view1a}>
           <Text style={styles.text2}>
-            Order food and make reservations with one click.
+            {"Tap liền tay, đồ ăn có ngay"}
           </Text>
         </View>
       </View>
 
       <TouchableOpacity style={styles.loginButtonBoxPosition} onPress={() => props.navigation.navigate("LoginScreen")}>
         <View style={styles.loginButtonBox}>
-          <Text style={styles.loginButtonText}>Log In</Text>
+          <Text style={styles.loginButtonText}>Đăng nhập</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.signUpButtonBoxPosition} onPress={() => props.navigation.navigate("SignUpScreen")}>
         <View style={styles.signUpButtonBox}>
-          <Text style={styles.signUpButtonText}>Sign Up</Text>
+          <Text style={styles.signUpButtonText}>Đăng ký</Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>
@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   viewTextWelcome: {
-    height: scale(22),
+    height: scale(26),
     position: 'absolute',
     textAlign: 'center',
   },
   text1: {
-    fontSize: scale(17),
+    fontSize: scale(20),
     color: CUSTOM_COLOR.Primary,
     alignSelf: 'center',
     fontFamily: FONT_FAMILY.NexaRegular,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     top: scale(44),
   },
   text2: {
-    fontSize: scale(17),
+    fontSize: scale(16),
     alignSelf: 'center',
     color: CUSTOM_COLOR.Black,
     opacity: 0.8,

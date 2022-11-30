@@ -22,23 +22,23 @@ const Landing_Screen = () => {
 
       <View style={styles.view1}>
         <View style={styles.viewTextWelcome}>
-          <Text style={styles.text1}>Welcome to our restaurant</Text>
+          <Text style={styles.text1}>Chào mừng bạn đến với nhà hàng của chúng tôi!</Text>
         </View>
         <View style={styles.view1a}>
           <Text style={styles.text2}>
-            Order food and make reservations with one click.
+            Đặt món và bàn chỉ với một cú click chuột.
           </Text>
         </View>
       </View>
 
       <TouchableOpacity style={styles.loginButtonBoxPosition}>
         <View style={styles.loginButtonBox}>
-          <Text style={styles.loginbuttonText}>Log In</Text>
+          <Text style={styles.loginbuttonText}>Đăng nhập</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.signupButtonBoxPosition}>
         <View style={styles.signupButtonBox}>
-          <Text style={styles.signupbuttonText}>Sign Up</Text>
+          <Text style={styles.signupbuttonText}>Đăng ký</Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>

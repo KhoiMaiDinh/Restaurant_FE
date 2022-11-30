@@ -9,6 +9,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import PriceAttribute from '../ordersScreen/components/priceAttribute'
 import HeaderBar from '../../../components/headerBar'
 import ButtonPrice from './components/buttonPrice'
+import { useSelector } from 'react-redux'
 
 
 const data = [
@@ -53,11 +54,18 @@ const data = [
     {key: 39, number: 5, name: 'awn', price: 8000},
 ]
 
+
 const CartScreen = (props) => {
-const [totalAmount, setTotalAmount] = useState(0)
+    const items = useSelector((state) => state.cart.selectedItems.items); 
+    console.log(items);
+    const [totalAmount, setTotalAmount] = useState(0)
     useEffect(() => {
         onCalculateAmount()
     },[data])
+
+useEffect(() => {
+
+}, items)
 
     const onCalculateAmount = () => {
 

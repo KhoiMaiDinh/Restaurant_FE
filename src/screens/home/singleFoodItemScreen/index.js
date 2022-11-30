@@ -15,9 +15,12 @@ import {BASE_URL} from '../../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {store} from './../../../redux/store';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { add_to_cart } from '../../../redux/reducer/cartReducer';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
+  console.log(data);
   const [category, setCategory] = useState([]);
   const {token} = store.getState().user;
   const getCategory = async () => {
@@ -66,6 +69,11 @@ const SingleFoodItemScreen = props => {
     }
   };
 
+  const dispatch = useDispatch();
+  const selectItem = (food, qty) => dispatch({
+    type: "ADD_TO_CART",
+    payload: {...food, qty}
+  })
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -107,7 +115,8 @@ const SingleFoodItemScreen = props => {
             {Intl.NumberFormat('vn-VN').format(price)} ₫
           </Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => selectItem(data, count1)}>
           <View style={styles.AddButtonBox}>
             <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
           </View>

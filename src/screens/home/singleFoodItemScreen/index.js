@@ -17,10 +17,11 @@ import {store} from './../../../redux/store';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { add_to_cart } from '../../../redux/reducer/cartReducer';
+import { addToCart } from '../../../redux/actions/cartActions';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
-  console.log(data);
+  //console.log(data);
   const [category, setCategory] = useState([]);
   const {token} = store.getState().user;
   const getCategory = async () => {
@@ -70,10 +71,10 @@ const SingleFoodItemScreen = props => {
   };
 
   const dispatch = useDispatch();
-  const selectItem = (food, qty) => dispatch({
-    type: "ADD_TO_CART",
-    payload: {...food, qty}
-  })
+  const addToCartHandler = () => {
+    dispatch(addToCart(data._id, count1));
+    console.log(data._id, count1);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -116,7 +117,7 @@ const SingleFoodItemScreen = props => {
           </Text>
         </View>
         <TouchableOpacity
-        onPress={() => selectItem(data, count1)}>
+        onPress={addToCartHandler}>
           <View style={styles.AddButtonBox}>
             <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
           </View>

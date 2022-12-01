@@ -9,8 +9,8 @@ import { ScrollView } from 'react-native-gesture-handler'
 import PriceAttribute from '../ordersScreen/components/priceAttribute'
 import HeaderBar from '../../../components/headerBar'
 import ButtonPrice from './components/buttonPrice'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from '../../../redux/actions/cartActions'
 
 const data = [
     {key: 1, number: 23, name: 'dfdfgsdjfhsjdfcjshvjfgsjdhgvfsddbjsbjhcjsbhcjac hbdj', price: 1100000},
@@ -56,16 +56,16 @@ const data = [
 
 
 const CartScreen = (props) => {
-    const items = useSelector((state) => state.cart.selectedItems.items); 
-    console.log(items);
+    const dispatch = useDispatch();
+
+    const cart = useSelector((state) => state.cart);
+    const { cartItems } = cart; 
+    console.log(cartItems);
+
     const [totalAmount, setTotalAmount] = useState(0)
     useEffect(() => {
         onCalculateAmount()
     },[data])
-
-useEffect(() => {
-
-}, items)
 
     const onCalculateAmount = () => {
 
@@ -78,6 +78,10 @@ useEffect(() => {
          setTotalAmount(total);
     }
 
+
+    const qtyChangeHandler = (id, qty) => {
+        dispatch(addToCart(id, qty))
+    }
   return (
     <SafeAreaView style={styles.container }>
         <>
@@ -98,12 +102,12 @@ useEffect(() => {
         <>
         <View style={styles.viewScroll}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                {data.map(dataOrder=>(
+                {cartItems.map(item=>(
                     <PriceAttribute 
-                    key={dataOrder.key}
-                      textNumber={dataOrder.number}
-                      textName={dataOrder.name}
-                      textPrice={dataOrder.price}/>
+                    key={item.id}
+                      textNumber={item.qty}
+                      textName={item.name}
+                      textPrice={item.price}/>
                 ))}
 
             </ScrollView>

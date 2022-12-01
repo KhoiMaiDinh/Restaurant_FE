@@ -29,7 +29,7 @@ const HomeScreen = props => {
 
   const getCategory = async () => {
     try {
-      console.log(token);
+      //console.log(token);
       const response = await axios.get(`${BASE_URL}/category/popular`, {
         headers: {
           'Authorization': `Bearer ${token}`,

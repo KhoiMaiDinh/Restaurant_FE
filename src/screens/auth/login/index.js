@@ -27,7 +27,6 @@ const LoginScreen = props => {
   const [checkValidEmail, setCheckValidEmail] = useState(false);
   const [checkValidPassword, setCheckValidPassword] = useState(false);
 
-  
   const handleCheckEmail = text => {
     let re = /\S+@\S+\.\S+/;
     let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
@@ -39,34 +38,34 @@ const LoginScreen = props => {
       setCheckValidEmail(true);
     }
   };
-  const handleCheckPassword = text =>{
+  const handleCheckPassword = text => {
     let isNonWhiteSpace = /^\S*$/;
     let isContainsNumber = /^(?=.*[0-9]).*$/;
     let isValidLength = /^.{8,16}$/;
 
     setPass(text);
-    if(isNonWhiteSpace.test(text)
-    &&isContainsNumber.test(text)
-    &&isValidLength.test(text)){
+    if (
+      isNonWhiteSpace.test(text) &&
+      isContainsNumber.test(text) &&
+      isValidLength.test(text)
+    ) {
       setCheckValidPassword(false);
-    }
-    else {
+    } else {
       setCheckValidPassword(true);
     }
   };
 
-  const handleLogin = async () => {    
-      try {
-        const response = await axios.post(`${BASE_URL}/auth/login`, {
-          email: email.toLocaleLowerCase(),
-          password: password,
-        });
-        dispatch(login(response.data));
-        navigation.navigate('AppStackScreen');
-      } 
-      catch (error) {
-        console.log(error);
-      }
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email: email.toLocaleLowerCase(),
+        password: password,
+      });
+      await dispatch(login(response.data));
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <TouchableWithoutFeedback
@@ -90,12 +89,14 @@ const LoginScreen = props => {
             keyboardType="email-address"
           />
           {checkValidEmail ? (
-          <Text style={styles.textFailed}>Sai định dạng email. VD:"abc@xyz.mnp..."</Text>
-        ) : (
-          <Text style={styles.textFailed}> </Text>
-        )}
+            <Text style={styles.textFailed}>
+              Sai định dạng email. VD:"abc@xyz.mnp..."
+            </Text>
+          ) : (
+            <Text style={styles.textFailed}> </Text>
+          )}
         </View>
-        
+
         <View style={styles.inputPasswordBox}>
           <TextInput
             secureTextEntry={true}
@@ -105,33 +106,41 @@ const LoginScreen = props => {
             placeholder="Mật khẩu"
             style={styles.inputText}
           />
-          
+
           {checkValidPassword ? (
-          <Text style={styles.textFailed}>{"Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng"}</Text>
-        ) : (
-          <Text style={styles.textFailed}> </Text>
-        )}
+            <Text style={styles.textFailed}>
+              {
+                'Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng'
+              }
+            </Text>
+          ) : (
+            <Text style={styles.textFailed}> </Text>
+          )}
         </View>
-        
-        {email == '' || password == '' || checkValidEmail == true || checkValidPassword == true ? (
-        <TouchableOpacity
-          disabled
-          style={styles.loginButtonBoxPosition}
-          onPress={() =>
-            {handleLogin()}}>
-          <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Đăng nhập</Text>
-          </View>
-        </TouchableOpacity>
-        ) : (<TouchableOpacity
-          style={styles.loginButtonBoxPosition}
-          onPress={() =>
-            handleLogin()}>
-          <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Login</Text>
-          </View>
-        </TouchableOpacity>
-        )} 
+
+        {email == '' ||
+        password == '' ||
+        checkValidEmail == true ||
+        checkValidPassword == true ? (
+          <TouchableOpacity
+            disabled
+            style={styles.loginButtonBoxPosition}
+            onPress={() => {
+              handleLogin();
+            }}>
+            <View style={styles.loginButtonBox}>
+              <Text style={styles.buttonText}>Đăng nhập</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.loginButtonBoxPosition}
+            onPress={() => handleLogin()}>
+            <View style={styles.loginButtonBox}>
+              <Text style={styles.buttonText}>Login</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         <Text style={styles.orText}>OR</Text>
         <TouchableOpacity style={styles.FBLoginButtonBoxPosition}>
           <View style={styles.FBLoginButtonBox}>
@@ -141,7 +150,7 @@ const LoginScreen = props => {
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 export default LoginScreen;
 
@@ -230,7 +239,7 @@ const styles = StyleSheet.create({
   },
   textFailed: {
     marginLeft: scale(25),
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
     color: CUSTOM_COLOR.Red,

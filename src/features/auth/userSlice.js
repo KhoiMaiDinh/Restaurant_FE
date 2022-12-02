@@ -14,20 +14,19 @@ export const signup = createAsyncThunk('user/signup', async payload => {
   return {user: payload.user, token: payload.token};
 });
 
+export const logout = createAsyncThunk('user/logout', async payload => {
+  await AsyncStorage.removeItem('@token');
+  await AsyncStorage.removeItem('@user');
+  return {user: {}, token: ''};
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
     token: '',
     user: {},
   },
-  reducers: {
-    logout(state) {
-      AsyncStorage.removeItem('@token');
-      AsyncStorage.removeItem('@user');
-      state.token = '';
-      state.user = {};
-    },
-  },
+  reducers: {},
   extraReducers: {
     [login.fulfilled]: (state, action) => {
       state.token = action.payload.token;
@@ -37,9 +36,12 @@ const userSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
     },
+    [logout.fulfilled]: (state, action) => {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+    },
   },
 });
 
 const {actions, reducer} = userSlice;
-export const {logout} = actions;
 export default reducer;

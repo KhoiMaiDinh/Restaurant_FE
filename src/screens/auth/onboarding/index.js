@@ -12,7 +12,7 @@ const OnboardingScreen = (props) => {
         const navigation = props;
     const views = [
         {source: IMG_RestaurantMenuWhite, titleText: "Browse Food", subText: "Welcome to our restaurant app! Log in\n and check out our delicious food.", id:0 },
-        {source: IMG_Delivery, titleText: "Order Food", subText: "Hungry? Order food in just a few clicks\nand we'll take care of you.", id:1 },
+        {source: IMG_Delivery, titleText: "Đặt món", subText: "Hungry? Order food in just a few clicks\nand we'll take care of you.", id:1 },
         {source: IMG_Calendar, titleText: "Make Reservations", subText: "Book a table in advance to avoid\nwaiting in line.", id:2 },
         {source: IMG_Binoculars, titleText: "Quick Search", subText: "Quickly find food items you like\nthe most.", id:3 },
         {source: IMG_PaymentMethod, titleText: "Online Pay", subText: "We know you're busy, so you can pay\nwith your phone in just one click.", id:4 },

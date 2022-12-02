@@ -15,7 +15,7 @@ const SearchBar = (props) => {
   
   return (
     <View style={styles.container}>
-      <IC_Search marginLeft={scale(10)} />
+      <IC_Search marginLeft={scale(10)} fill={CUSTOM_COLOR.Black}/>
       <TextInput
         ref={input => {
           this.textInput = input;

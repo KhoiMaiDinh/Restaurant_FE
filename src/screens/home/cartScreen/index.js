@@ -12,7 +12,7 @@ import Iteam from './components/iteam'
 
 
 const data = [
-    {key: 1, number: 23, name: 'nem cong cha phuong ', price: 1100000, img: IMG_BestDeals1},
+    {key: 1, number: 1000, name: 'nem cong cha phuong ', price: 1100000, img: IMG_BestDeals1},
     {key: 2, number: 12, name: 'ca vien chien', price: 80000, img: IMG_BestDeals2},
     {key: 3, number: 9, name: 'bun dau mam tom', price: 90000,img: IMG_BestDeals3},
     {key: 4, number: 3, name: 'chan ga ngam sa tac', price: 2000,img: IMG_BestDeals4},

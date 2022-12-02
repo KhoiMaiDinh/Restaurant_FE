@@ -24,20 +24,49 @@ const LoginScreen = props => {
   const {navigation} = props;
   const [email, setMail] = useState('');
   const [password, setPass] = useState('');
+  const [checkValidEmail, setCheckValidEmail] = useState(false);
+  const [checkValidPassword, setCheckValidPassword] = useState(false);
+
+  const handleCheckEmail = text => {
+    let re = /\S+@\S+\.\S+/;
+    let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+    setMail(text);
+    if (re.test(text) || regex.test(text)) {
+      setCheckValidEmail(false);
+    } else {
+      setCheckValidEmail(true);
+    }
+  };
+  const handleCheckPassword = text => {
+    let isNonWhiteSpace = /^\S*$/;
+    let isContainsNumber = /^(?=.*[0-9]).*$/;
+    let isValidLength = /^.{8,16}$/;
+
+    setPass(text);
+    if (
+      isNonWhiteSpace.test(text) &&
+      isContainsNumber.test(text) &&
+      isValidLength.test(text)
+    ) {
+      setCheckValidPassword(false);
+    } else {
+      setCheckValidPassword(true);
+    }
+  };
 
   const handleLogin = async () => {
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, {
-        email: email,
+        email: email.toLocaleLowerCase(),
         password: password,
       });
-      dispatch(login(response.data));
+      await dispatch(login(response.data));
       navigation.navigate('AppStackScreen');
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <TouchableWithoutFeedback
       onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
@@ -48,37 +77,74 @@ const LoginScreen = props => {
           <IC_GoBack />
         </TouchableOpacity>
         <View style={styles.tittleBox}>
-          <Text style={styles.screenTittle}>Sign In</Text>
+          <Text style={styles.screenTittle}>Đăng nhập</Text>
         </View>
         <View style={styles.inputMailBox}>
           <TextInput
-            onChangeText={email => setMail(email)}
+            onChangeText={text => handleCheckEmail(text)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
-            placeholder="Email address"
+            placeholder="Địa chỉ email"
+            value={email}
             style={styles.inputText}
             keyboardType="email-address"
           />
+          {checkValidEmail ? (
+            <Text style={styles.textFailed}>
+              Sai định dạng email. VD:"abc@xyz.mnp..."
+            </Text>
+          ) : (
+            <Text style={styles.textFailed}> </Text>
+          )}
         </View>
+
         <View style={styles.inputPasswordBox}>
           <TextInput
             secureTextEntry={true}
-            onChangeText={password => setPass(password)}
+            onChangeText={text => handleCheckPassword(text)}
             placeholderTextColor={CUSTOM_COLOR.Grey}
-            placeholder="Password"
+            value={password}
+            placeholder="Mật khẩu"
             style={styles.inputText}
           />
+
+          {checkValidPassword ? (
+            <Text style={styles.textFailed}>
+              {
+                'Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng'
+              }
+            </Text>
+          ) : (
+            <Text style={styles.textFailed}> </Text>
+          )}
         </View>
-        <TouchableOpacity
-          style={styles.loginButtonBoxPosition}
-          onPress={() => handleLogin()}>
-          <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Login</Text>
-          </View>
-        </TouchableOpacity>
+
+        {email == '' ||
+        password == '' ||
+        checkValidEmail == true ||
+        checkValidPassword == true ? (
+          <TouchableOpacity
+            disabled
+            style={styles.loginButtonBoxPosition}
+            onPress={() => {
+              handleLogin();
+            }}>
+            <View style={styles.loginButtonBox}>
+              <Text style={styles.buttonText}>Đăng nhập</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.loginButtonBoxPosition}
+            onPress={() => handleLogin()}>
+            <View style={styles.loginButtonBox}>
+              <Text style={styles.buttonText}>Login</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         <Text style={styles.orText}>OR</Text>
         <TouchableOpacity style={styles.FBLoginButtonBoxPosition}>
           <View style={styles.FBLoginButtonBox}>
-            <Text style={styles.buttonText}>FaceBook Login</Text>
+            <Text style={styles.buttonText}>Đăng nhập bằng Facebook</Text>
           </View>
         </TouchableOpacity>
       </SafeAreaView>
@@ -95,13 +161,13 @@ const styles = StyleSheet.create({
   },
   goBackButton: {
     position: 'absolute',
-    left: scale(9),
-    top: scale(50),
+    marginLeft: scale(9),
+    marginTop: scale(50),
   },
   tittleBox: {
     position: 'absolute',
-    top: scale(128),
-    left: scale(25),
+    marginTop: scale(128),
+    marginLeft: scale(25),
   },
   screenTittle: {
     color: CUSTOM_COLOR.Primary,
@@ -110,7 +176,7 @@ const styles = StyleSheet.create({
   },
   inputMailBox: {
     position: 'absolute',
-    top: scale(191),
+    marginTop: scale(191),
     alignSelf: 'center',
     height: scale(53),
     width: scale(323),
@@ -119,14 +185,14 @@ const styles = StyleSheet.create({
     borderRadius: 26.5,
   },
   inputText: {
-    left: scale(17),
+    marginLeft: scale(17),
     color: CUSTOM_COLOR.Black,
     width: scale(299),
     fontFamily: FONT_FAMILY.NexaRegular,
   },
   inputPasswordBox: {
     position: 'absolute',
-    top: scale(267),
+    marginTop: scale(267),
     alignSelf: 'center',
     height: scale(53),
     width: scale(323),
@@ -136,7 +202,7 @@ const styles = StyleSheet.create({
   },
   loginButtonBoxPosition: {
     position: 'absolute',
-    top: scale(343),
+    marginTop: scale(363),
     alignSelf: 'center',
   },
   loginButtonBox: {
@@ -151,12 +217,12 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(17),
-    top: scale(445),
+    marginTop: scale(465),
     alignSelf: 'center',
   },
   FBLoginButtonBoxPosition: {
     position: 'absolute',
-    top: scale(516),
+    marginTop: scale(536),
     alignSelf: 'center',
   },
   FBLoginButtonBox: {
@@ -170,5 +236,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  textFailed: {
+    marginLeft: scale(25),
+    alignSelf: 'flex-start',
+    fontFamily: FONT_FAMILY.NexaRegular,
+    fontSize: scale(12),
+    color: CUSTOM_COLOR.Red,
   },
 });

@@ -24,10 +24,13 @@ import {
   IC_CartDrawer,
   IC_Menu,
   IC_Reservation,
+  IC_LogOut,
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
-import { BASE_URL } from '../utils/api';
+import {BASE_URL} from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {logout} from '../features/auth/userSlice';
+import {useDispatch} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -47,6 +50,8 @@ const ButtonDrawer = props => {
 };
 
 const CustomScrollDrawer = props => {
+  const dispatch = useDispatch();
+
   return (
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
@@ -83,7 +88,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Tìm kiếm"
-          icon={<IC_Search />}
+          icon={<IC_Search fill={CUSTOM_COLOR.Primary} />}
           component="Search"
           navigation={props.navigation}
         />
@@ -99,29 +104,20 @@ const CustomScrollDrawer = props => {
           component="Orders"
           navigation={props.navigation}
         />
-      </View>
-      {/* <TouchableOpacity
+        <TouchableOpacity
           style={{
-            position: 'absolute',
-            bottom: scale(36),
-            left: scale(35),
-            width: '100%',
+            height: scale(78),
+            justifyContent: 'center',
             flexDirection: 'row',
           }}
-
-          onPress={() => {auth()
-            .signOut()
-            .then(() =>  props.navigation.replace("Login"))
-            .catch((error) => console.log(error.message))}}>
-          <Text style={[styles.text, { position: 'relative' }]}>
-            {'Sign-out'}
-          </Text>
-          {/* <Image
-            source={IMG_ToRightArrow}
-            style={{ marginLeft: scale(12), alignSelf: 'center' }}
-          /> */}
-
-      {/* </TouchableOpacity> */}
+          onPress={async () => {
+            await dispatch(logout());
+            props.navigation.replace('AuthStackScreen');
+          }}>
+          <IC_LogOut />
+          <Text style={styles.text}>Đăng xuất</Text>
+        </TouchableOpacity>
+      </View>
     </DrawerContentScrollView>
   );
 };
@@ -133,15 +129,13 @@ const DrawerScreen = () => {
   const getSearchData = useCallback(async () => {
     const token = await AsyncStorage.getItem(`@token`);
     const searchURL = `${BASE_URL}/food/?search={${search}}`;
-    const res = await fetch(searchURL,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+    const res = await fetch(searchURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     const json = await res.json();
     return setSearchData(json.foods);
   }, [search]);
@@ -221,11 +215,6 @@ const DrawerScreen = () => {
           ),
         })}
       />
-      {/* <Drawer.Screen name="ChangeProfile" component={MyProfileScreen} />
-        <Drawer.Screen name="Offer" component={OfferScreen} />
-        <Drawer.Screen name="Privacy" component={PrivacyScreen} />
-        <Drawer.Screen name="Security" component={SecurityScreen} />
-        <Drawer.Screen name ='Checkout' component={CheckOut1Screen} /> */}
     </Drawer.Navigator>
   );
 };
@@ -245,7 +234,7 @@ const styles = StyleSheet.create({
     paddingLeft: '15%',
     justifyContent: 'center',
     borderBottomEndRadius: scale(15),
-    paddingRight: '15%'
+    paddingRight: '15%',
   },
   userName: {
     color: CUSTOM_COLOR.White,

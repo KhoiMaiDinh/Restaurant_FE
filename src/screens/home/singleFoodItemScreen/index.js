@@ -87,7 +87,7 @@ const SingleFoodItemScreen = props => {
       <View style={styles.countBox}>
         <TouchableOpacity onPress={decCount}>
           <View style={styles.iconBox}>
-            <IC_Minus />
+            <IC_Minus   />
           </View>
         </TouchableOpacity>
         <Text style={styles.amount}>{count1}</Text>

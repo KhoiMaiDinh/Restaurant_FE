@@ -19,3 +19,4 @@ export {default as IC_Plus} from './ic_plus';
 export {default as IC_Minus} from './ic_minus';
 export {default as IC_NoInternet} from './ic_noInternet';
 export {default as IC_LogOut} from './ic_logOut';
+export {default as IC_CartDelete} from './ic_cartDelete';

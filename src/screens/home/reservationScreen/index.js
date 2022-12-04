@@ -22,6 +22,18 @@ import {
     const navigation = props;
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [checkValidNumber, setCheckValidNumber] = useState(false);
+    const handleCheckNumber = text => {
+      let phoneNumber = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  
+      setPhoneNumber(text);
+      if (phoneNumber.test(text)) {
+        setCheckValidNumber(false);
+      } else {
+        setCheckValidNumber(true);
+      }
+    };
     return (
       <ScrollView>
         <SafeAreaView style={styles.container}>
@@ -49,15 +61,23 @@ import {
                   keyboardType="ascii-capable"
                   />
                 </View>
-                <View style={styles.inputPhoneNumberBox}>
-                  <TextInput
-                  placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Số điện thoại"
-                  style={styles.inputText}
-                  keyboardType="numeric"
-                  />
-                </View>
-
+                
+                  <View style={styles.inputPhoneNumberBox}>
+                    <TextInput
+                    onChangeText={text => handleCheckNumber(text)}
+                    placeholderTextColor={CUSTOM_COLOR.Grey}
+                    placeholder="Số điện thoại"
+                    style={styles.inputText}
+                    keyboardType="numeric"
+                    />
+                  </View>
+                  <View style={{marginTop: scale(270)}}>
+                    {checkValidNumber ? (
+                      <Text style={styles.textFailed}>Sai định dạng số điện thoại VD: 033 388 3127</Text>
+                      ) : (
+                        <Text style={styles.textFailed}> </Text>
+                        )}                  
+                  </View>
                 <View style={styles.inputReservationDetailsBox}>
                   <TextInput
                   placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -176,6 +196,12 @@ import {
     buttonText: {
       color: CUSTOM_COLOR.White,
       fontFamily: FONT_FAMILY.NexaRegular,
+    },
+    textFailed: {
+      marginLeft: scale(50), 
+      fontFamily: FONT_FAMILY.NexaRegular,
+      fontSize: scale(12),
+      color: CUSTOM_COLOR.Red,
     },
   });
   

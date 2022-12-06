@@ -3,6 +3,7 @@ import React,{useEffect,useState} from 'react';
 import scale from '../../../../utils/responsive';
 import FONT_FAMILY from '../../../../constants/fonts';
 import {CUSTOM_COLOR} from '../../../../constants/color';
+import { IC_CartDelete, IC_Delete } from '../../../../assets/icons';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -22,9 +23,11 @@ const Iteam = props => {
       
     <View style={[props.style, styles.view2]}>
       
+    
       <View style={styles.viewImage}>
         <Image style={styles.image} source={props.img}></Image>
       </View>
+
       <>
       <View style={styles.viewInfo}>
         <View style={styles.viewTextName}>
@@ -48,6 +51,12 @@ const Iteam = props => {
           <Text style={styles.styleTextPrice}>{props.textPrice} VND</Text>
         </View>
       </View>
+      </>
+
+      <>
+      <TouchableOpacity> 
+        <IC_CartDelete/>
+      </TouchableOpacity>
       </>
 
     </View>
@@ -90,7 +99,7 @@ const styles = StyleSheet.create({
   },
   viewInfo:{
     // borderWidth: 1,
-    width: screenWidth,
+    width: scale(210),
     height: scale(120),
     marginLeft: scale(20),
     flexDirection: 'column',
@@ -103,14 +112,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: 1,
     borderColor: CUSTOM_COLOR.Grey,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
+
     
   },
   AddSub:{
-    // fontSize: 17,
-    marginLeft: scale(5),
-    marginRight: scale(5),
     color: CUSTOM_COLOR.San_Juan,
     fontSize: scale(24),
     fontFamily: FONT_FAMILY.NexaRegular,
@@ -128,17 +135,15 @@ const styles = StyleSheet.create({
     letterSpacing: -0.47,
   },
   viewTextName: {
+    // borderWidth: 1,
     width: scale(200),
     height: scale(27),
-    // justifyContent: 'center',
     overflow: 'hidden',
   },
   styleTextName: {
     color: CUSTOM_COLOR.Black,
-    // fontStyle: 'italic',
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: 17,
-    // textAlign: 'left',
     letterSpacing: -0.39,
   },
   viewPrice: {

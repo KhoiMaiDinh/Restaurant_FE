@@ -55,7 +55,7 @@ const CartScreen = (props) => {
         let total = 0
         if(Array.isArray(cartItems)){
             cartItems.map(food => {
-                total += food.price * food.number
+                total += food.price * food.qty
             })
         }
          setTotalAmount(total);

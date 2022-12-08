@@ -56,7 +56,7 @@ const SingleFoodItemScreen = props => {
     }
   };
   let decCount = () => {
-    if (count1 > 0) {
+    if (count1 > 1) {
       setCount1(count1 - 1);
       setPrice(price - data.price);
     }
@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     fontSize: Math.max(25),
     fontFamily: FONT_FAMILY.NexaRegular,
+    alignSelf: 'center',
   },
 
   AddButtonBox: {

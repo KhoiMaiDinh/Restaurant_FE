@@ -6,9 +6,6 @@ import { IC_GoBack } from '../../../assets/icons'
 import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { ScrollView } from 'react-native-gesture-handler'
-import PriceAttribute from '../ordersScreen/components/priceAttribute'
-import HeaderBar from '../../../components/headerBar'
-import ButtonPrice from './components/buttonPrice'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromCart, adjustQTY } from '../../../redux/actions/cartActions'
 import { IMG_BestDeals1, IMG_BestDeals2, IMG_BestDeals3, IMG_BestDeals4, IMG_BestDeals5, IMG_BestDeals6, IMG_BestDeals7, IMG_BestDeals8} from "../../../assets/images/index"
@@ -74,15 +71,19 @@ const CartScreen = (props) => {
     <SafeAreaView style={styles.container }>
         <>
         <View style={styles.view}>
-            <View style={styles.viewIconText}> 
-                <TouchableOpacity style={styles.goBackButton} onPress={() => {props.navigation.goBack()}}>
-                    <IC_GoBack style={styles.icon}/>
-                    <Text style={styles.textBack}>Back</Text>
+            <View style={styles.viewGoBackText}>
+                <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={() => {
+                    props.navigation.goBack();
+                    }}>
+                    <IC_GoBack style={styles.goBack} />
+                    <Text style={styles.screenTittle2}>Quay lại</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.viewTitle}>
-                <Text style={styles.textTitle}>YOUR CART</Text>
+                <Text style={styles.textTitle}>Giỏ hàng</Text>
             </View>
         </View>
         </>
@@ -138,13 +139,14 @@ const styles = StyleSheet.create({
         width: '70%',
         height: scale(32),
         flexDirection: 'row',
+        alignItems: 'center',
     },
     textTitle:{
-        fontSize: 18,
-        fontFamily: FONT_FAMILY.NexaRegular,
         color: CUSTOM_COLOR.Black,
-        alignSelf: 'center',
-        letterSpacing: -0.7,
+        fontFamily: FONT_FAMILY.NexaBold,
+        fontSize: scale(18),
+        letterSpacing: scale(-0.7),
+        textAlign: 'center',
     },
     viewTitle:{
         justifyContent: 'center',
@@ -152,31 +154,11 @@ const styles = StyleSheet.create({
         height: scale(32),
         alignSelf: 'center',
     },
-    viewIconText:{
-        justifyContent: 'center',
-        width: scale(120),
-        height: scale(32),
-        flexDirection: 'row',
-        alignSelf: 'center',
-    },
-    textBack:{
-        fontSize: 18,
-        top: -13,
-        fontFamily: FONT_FAMILY.NexaRegular,
-        color: CUSTOM_COLOR.Black,
-        alignSelf: 'center',
-        opacity: 0.6,
-    },
     goBackButton: {
         alignSelf: 'center',
-        width: scale(120),
+        flexDirection: 'row',
         height: scale(32),
         justifyContent: 'center',
-    },
-    icon:{
-        width: '100%',
-        height: '100%',
-        top: 10,
     },
     buttonPlace:{
         flex: 0.06,
@@ -219,7 +201,6 @@ const styles = StyleSheet.create({
         letterSpacing: -0.3,
         right: scale(40),
     },
-
     viewScroll:{
         flex: 0.84,
         width: Dimensions.get('window').width-scale(10),
@@ -227,5 +208,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: scale(20),
 
+    },
+    screenTittle2: {
+        color: CUSTOM_COLOR.Black,
+        fontSize: scale(15),
+        fontFamily: FONT_FAMILY.NexaRegular,
+        alignSelf: 'center',
     },
 })

@@ -58,7 +58,7 @@ const LoginScreen = props => {
   const handleLogin = async () => {    
       try {
         const response = await axios.post(`${BASE_URL}/auth/login`, {
-          email: email.toLocaleLowerCase(),
+          email: email,
           password: password,
         });
         dispatch(login(response.data));
@@ -90,7 +90,7 @@ const LoginScreen = props => {
             keyboardType="email-address"
           />
           {checkValidEmail ? (
-          <Text style={styles.textFailed}>Sai định dạng email. VD:"abc@xyz.mnp..."</Text>
+          <Text style={styles.textFailed}>Sai định dạng email. VD:"user@gmail.com"</Text>
         ) : (
           <Text style={styles.textFailed}> </Text>
         )}
@@ -128,7 +128,7 @@ const LoginScreen = props => {
           onPress={() =>
             handleLogin()}>
           <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Đăng nhập</Text>
           </View>
         </TouchableOpacity>
         )} 

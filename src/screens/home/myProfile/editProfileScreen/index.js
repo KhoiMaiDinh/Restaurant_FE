@@ -1,5 +1,5 @@
 import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, ScrollView, KeyboardAvoidingView } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import {IC_GoBack} from '../../../../assets/icons/index';
 import scale from '../../../../utils/responsive';
@@ -7,6 +7,32 @@ import FONT_FAMILY from '../../../../constants/fonts';
 import { IMG_LisaAvatar } from '../../../../assets/images';
 
 const EditProfileScreen = () => {
+    const [email, setEmail] = useState('');
+    const [checkValidEmail, setCheckValidEmail] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [checkValidNumber, setCheckValidNumber] = useState(false);
+
+    const handleCheckEmail = text => {
+        let re = /\S+@\S+\.\S+/;
+        let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    
+        setEmail(text);
+        if (re.test(text) || regex.test(text)) {
+          setCheckValidEmail(false);
+        } else {
+          setCheckValidEmail(true);
+        }
+      };
+    const handleCheckNumber = text => {
+        let phoneNumber = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    
+        setPhoneNumber(text);
+        if (phoneNumber.test(text)) {
+          setCheckValidNumber(false);
+        } else {
+          setCheckValidNumber(true);
+        }
+      };
   return (
     <ScrollView>
         <SafeAreaView style={styles.container}>
@@ -76,12 +102,20 @@ const EditProfileScreen = () => {
                                 Email
                             </Text>
                             <TextInput 
+                                onChangeText={text => handleCheckEmail(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Email"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
                             />
                         </View>
+                            <View style={{marginTop: scale(30)}}>
+                                {checkValidEmail ? (
+                                    <Text style={styles.textFailed}>Sai định dạng email. VD:"abc@xyz.mnp..."</Text>
+                                ) : (
+                                    <Text style={styles.textFailed}> </Text>
+                                )}
+                            </View>
                     </>
                     {/* Number */}
                     <>
@@ -90,11 +124,19 @@ const EditProfileScreen = () => {
                                 Phone Number
                             </Text>
                             <TextInput 
+                                onChangeText={text => handleCheckNumber(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Phone Number"
                                 style={styles.input}
                                 keyboardType="numeric"
                             />
+                        </View>
+                        <View style={{marginTop: scale(40)}}>
+                                {checkValidNumber ? (
+                                    <Text style={styles.textFailed}>Sai định dạng số điện thoại VD: 033 388 3127</Text>
+                                ) : (
+                                    <Text style={styles.textFailed}> </Text>
+                                )}
                         </View>
                     </>
                     {/* Location */}
@@ -173,7 +215,7 @@ const styles = StyleSheet.create({
     firstNameInput: {
         width: scale(150),
         height: scale(50),
-        top: scale(70),
+        top: scale(60),
         left: scale(35),
     },
     lastNameInput: {
@@ -191,13 +233,13 @@ const styles = StyleSheet.create({
     numberInput: {
         width: scale(345),
         height: scale(50),
-        top: scale(30),
+        top: scale(8),
         left: scale(35),
     },
     locationInput: {
         width: scale(345),
         height: scale(50),
-        top: scale(60),
+        top: scale(8),
         left: scale(35),
     },
     inputText: {
@@ -233,4 +275,10 @@ const styles = StyleSheet.create({
         top: scale(7),
         color: CUSTOM_COLOR.White,
     },
+    textFailed: {
+        marginLeft: scale(40), 
+        fontFamily: FONT_FAMILY.NexaRegular,
+        fontSize: scale(12),
+        color: CUSTOM_COLOR.Red,
+      },
 })

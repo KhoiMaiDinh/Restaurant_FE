@@ -21,7 +21,7 @@ const LoadingScreen = () => {
         < SafeAreaView style={styles.container}>
             <ImageBackground source={IMG_LOADING} resizeMode={'cover'} style={styles.backGround}>
                 <View style={styles.circle}>
-                    <Image source={IMG_LOGO} resizeMode={'center'} style={styles.logo}> 
+                    <Image source={IMG_LOGO} resizeMode={'contain'} style={styles.logo}> 
                     </Image>
                     <View style={styles.ellipse}>
                         <ActivityIndicator
@@ -44,12 +44,13 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.Primary,
   },
   circle: {
-    width: scale(262),
-    height: scale(262),
-    borderRadius: scale(262 / 2),
+    width: scale(300),
+    height: scale(300),
+    borderRadius: 360,
     backgroundColor: CUSTOM_COLOR.White,
     alignSelf: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   backGround: {
     flex: 1,
@@ -59,6 +60,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
+    height: '60%',
+    width: '60%',
   },
   ellipse: {
     backgroundColor: 'transparent',

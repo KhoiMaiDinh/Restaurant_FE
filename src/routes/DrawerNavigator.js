@@ -8,7 +8,6 @@ import SearchScreen from '../screens/home/searchScreen/index';
 import MenuScreen from '../screens/home/menuScreen/index';
 import ReservationScreen from '../screens/home/reservationScreen/index';
 
-
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -25,14 +24,13 @@ import {
   IC_CartDrawer,
   IC_Menu,
   IC_Reservation,
-  IC_LogOut
+  IC_LogOut,
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
-import { BASE_URL } from '../utils/api';
+import {BASE_URL} from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logout } from '../features/auth/userSlice';
-import { useDispatch } from 'react-redux';
-
+import {logout} from '../features/auth/userSlice';
+import {useDispatch} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -90,7 +88,7 @@ const CustomScrollDrawer = props => {
         />
         <ButtonDrawer
           label="Tìm kiếm"
-          icon={<IC_Search fill={CUSTOM_COLOR.Primary}/>}
+          icon={<IC_Search fill={CUSTOM_COLOR.Primary} />}
           component="Search"
           navigation={props.navigation}
         />
@@ -106,13 +104,17 @@ const CustomScrollDrawer = props => {
           component="Orders"
           navigation={props.navigation}
         />
-        <TouchableOpacity style={{
-          height: scale(78),
-          justifyContent: 'center',
-          flexDirection: 'row',}} 
-          onPress={() => {dispatch(logout());
-          props.navigation.replace('AuthStackScreen')}}>
-          <IC_LogOut/>
+        <TouchableOpacity
+          style={{
+            height: scale(78),
+            justifyContent: 'center',
+            flexDirection: 'row',
+          }}
+          onPress={async () => {
+            await dispatch(logout());
+            props.navigation.replace('AuthStackScreen');
+          }}>
+          <IC_LogOut />
           <Text style={styles.text}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
@@ -127,15 +129,13 @@ const DrawerScreen = () => {
   const getSearchData = useCallback(async () => {
     const token = await AsyncStorage.getItem(`@token`);
     const searchURL = `${BASE_URL}/food/?search={${search}}`;
-    const res = await fetch(searchURL,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+    const res = await fetch(searchURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     const json = await res.json();
     return setSearchData(json.foods);
   }, [search]);
@@ -215,7 +215,6 @@ const DrawerScreen = () => {
           ),
         })}
       />
-      
     </Drawer.Navigator>
   );
 };
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
     paddingLeft: '15%',
     justifyContent: 'center',
     borderBottomEndRadius: scale(15),
-    paddingRight: '15%'
+    paddingRight: '15%',
   },
   userName: {
     color: CUSTOM_COLOR.White,

@@ -27,7 +27,6 @@ const LoginScreen = props => {
   const [checkValidEmail, setCheckValidEmail] = useState(false);
   const [checkValidPassword, setCheckValidPassword] = useState(false);
 
-  
   const handleCheckEmail = text => {
     let re = /\S+@\S+\.\S+/;
     let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
@@ -39,18 +38,19 @@ const LoginScreen = props => {
       setCheckValidEmail(true);
     }
   };
-  const handleCheckPassword = text =>{
+  const handleCheckPassword = text => {
     let isNonWhiteSpace = /^\S*$/;
     let isContainsNumber = /^(?=.*[0-9]).*$/;
     let isValidLength = /^.{8,16}$/;
 
     setPass(text);
-    if(isNonWhiteSpace.test(text)
-    &&isContainsNumber.test(text)
-    &&isValidLength.test(text)){
+    if (
+      isNonWhiteSpace.test(text) &&
+      isContainsNumber.test(text) &&
+      isValidLength.test(text)
+    ) {
       setCheckValidPassword(false);
-    }
-    else {
+    } else {
       setCheckValidPassword(true);
     }
   };
@@ -95,7 +95,7 @@ const LoginScreen = props => {
           <Text style={styles.textFailed}> </Text>
         )}
         </View>
-        
+
         <View style={styles.inputPasswordBox}>
           <TextInput
             secureTextEntry={true}
@@ -105,12 +105,16 @@ const LoginScreen = props => {
             placeholder="Mật khẩu"
             style={styles.inputText}
           />
-          
+
           {checkValidPassword ? (
-          <Text style={styles.textFailed}>{"Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng"}</Text>
-        ) : (
-          <Text style={styles.textFailed}> </Text>
-        )}
+            <Text style={styles.textFailed}>
+              {
+                'Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng'
+              }
+            </Text>
+          ) : (
+            <Text style={styles.textFailed}> </Text>
+          )}
         </View>
         
         {email == '' || password == '' || checkValidEmail == true || checkValidPassword == true ? (
@@ -141,7 +145,7 @@ const LoginScreen = props => {
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 export default LoginScreen;
 
@@ -230,7 +234,7 @@ const styles = StyleSheet.create({
   },
   textFailed: {
     marginLeft: scale(25),
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
     color: CUSTOM_COLOR.Red,

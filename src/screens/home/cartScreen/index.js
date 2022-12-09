@@ -6,10 +6,10 @@ import { IC_GoBack } from '../../../assets/icons'
 import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { ScrollView } from 'react-native-gesture-handler'
-import { IMG_BestDeals1, IMG_BestDeals2, IMG_BestDeals3, IMG_BestDeals4, IMG_BestDeals5,IMG_BestDeals6, IMG_BestDeals7, IMG_BestDeals8 } from '../../../assets/images'
-import Iteam from './components/iteam'
-
-
+import { useDispatch, useSelector } from 'react-redux'
+import { removeFromCart, adjustQTY } from '../../../redux/actions/cartActions'
+import { IMG_BestDeals1, IMG_BestDeals2, IMG_BestDeals3, IMG_BestDeals4, IMG_BestDeals5, IMG_BestDeals6, IMG_BestDeals7, IMG_BestDeals8} from "../../../assets/images/index"
+import Item from './components/iteam'
 
 const data = [
     {key: 1, number: 1000, name: 'nem cong cha phuong ', price: 1100000, img: IMG_BestDeals1},
@@ -37,34 +37,53 @@ const data = [
 ]
 
 const CartScreen = (props) => {
-const [totalAmount, setTotalAmount] = useState(0)
+    const dispatch = useDispatch();
+
+    const cart = useSelector((state) => state.cart);
+    const { cartItems } = cart; 
+    console.log(cartItems);
+
+    const [totalAmount, setTotalAmount] = useState(0)
     useEffect(() => {
         onCalculateAmount()
-    },[data])
+    },[cartItems])
 
     const onCalculateAmount = () => {
 
         let total = 0
-        if(Array.isArray(data)){
-            data.map(food => {
-                total += food.price * food.number
+        if(Array.isArray(cartItems)){
+            cartItems.map(food => {
+                total += food.price * food.qty
             })
         }
          setTotalAmount(total);
+    }
+
+
+    const qtyChangeHandler = (data, qty) => {
+        dispatch(adjustQTY(data, qty))
+    }
+    
+    const removeFromCartHandler = (id) => {
+        dispatch(removeFromCart(id))
     }
   return (
     <SafeAreaView style={styles.container }>
         <>
         <View style={styles.view}>
-            <View style={styles.viewIconText}> 
-                <TouchableOpacity style={styles.goBackButton} onPress={() => {props.navigation.goBack()}}>
-                    <IC_GoBack style={styles.icon}/>
-                    <Text style={styles.textBack}>Back</Text>
+            <View style={styles.viewGoBackText}>
+                <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={() => {
+                    props.navigation.goBack();
+                    }}>
+                    <IC_GoBack style={styles.goBack} />
+                    <Text style={styles.screenTittle2}>Quay lại</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.viewTitle}>
-                <Text style={styles.textTitle}>YOUR CART</Text>
+                <Text style={styles.textTitle}>Giỏ hàng</Text>
             </View>
         </View>
         </>
@@ -72,13 +91,17 @@ const [totalAmount, setTotalAmount] = useState(0)
         <>
         <View style={styles.viewScroll}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                {data.map(dataOrder=>(
-                    <Iteam 
-                        key={dataOrder.key}
-                      img={dataOrder.img}
-                      textNumber={dataOrder.number}
-                      textName={dataOrder.name}
-                      textPrice={dataOrder.price}/>
+                {cartItems.map(item=>(
+                    <Item 
+                    key={item.id}
+                      textNumber={item.qty}
+                      textName={item.name}
+                      textPrice={item.price}
+                      img={item.imgUrl}
+                      id={item.id}
+                      qtyChangeHandler={qtyChangeHandler}
+                      removeHandler={removeFromCartHandler}/>
+                      
                 ))}
 
             </ScrollView>
@@ -116,13 +139,14 @@ const styles = StyleSheet.create({
         width: '70%',
         height: scale(32),
         flexDirection: 'row',
+        alignItems: 'center',
     },
     textTitle:{
-        fontSize: 18,
-        fontFamily: FONT_FAMILY.NexaRegular,
         color: CUSTOM_COLOR.Black,
-        alignSelf: 'center',
-        letterSpacing: -0.7,
+        fontFamily: FONT_FAMILY.NexaBold,
+        fontSize: scale(18),
+        letterSpacing: scale(-0.7),
+        textAlign: 'center',
     },
     viewTitle:{
         justifyContent: 'center',
@@ -130,31 +154,11 @@ const styles = StyleSheet.create({
         height: scale(32),
         alignSelf: 'center',
     },
-    viewIconText:{
-        justifyContent: 'center',
-        width: scale(120),
-        height: scale(32),
-        flexDirection: 'row',
-        alignSelf: 'center',
-    },
-    textBack:{
-        fontSize: 18,
-        top: -13,
-        fontFamily: FONT_FAMILY.NexaRegular,
-        color: CUSTOM_COLOR.Black,
-        alignSelf: 'center',
-        opacity: 0.6,
-    },
     goBackButton: {
         alignSelf: 'center',
-        width: scale(120),
+        flexDirection: 'row',
         height: scale(32),
         justifyContent: 'center',
-    },
-    icon:{
-        width: '100%',
-        height: '100%',
-        top: 10,
     },
     buttonPlace:{
         flex: 0.06,
@@ -197,7 +201,6 @@ const styles = StyleSheet.create({
         letterSpacing: -0.3,
         right: scale(40),
     },
-
     viewScroll:{
         flex: 0.84,
         width: Dimensions.get('window').width-scale(10),
@@ -205,5 +208,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: scale(20),
 
+    },
+    screenTittle2: {
+        color: CUSTOM_COLOR.Black,
+        fontSize: scale(15),
+        fontFamily: FONT_FAMILY.NexaRegular,
+        alignSelf: 'center',
     },
 })

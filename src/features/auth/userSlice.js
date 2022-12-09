@@ -27,19 +27,19 @@ const userSlice = createSlice({
     user: {},
   },
   reducers: {},
-  extraReducers: {
-    [login.fulfilled]: (state, action) => {
+  extraReducers: builder => {
+    builder.addCase(login.fulfilled, (state, action) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
-    },
-    [signup.fulfilled]: (state, action) => {
+    });
+    builder.addCase(signup.fulfilled, (state, action) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
-    },
-    [logout.fulfilled]: (state, action) => {
+    });
+    builder.addCase(logout.fulfilled, (state, action) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
-    },
+    });
   },
 });
 

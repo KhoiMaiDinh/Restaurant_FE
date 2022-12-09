@@ -9,15 +9,18 @@ const {width: screenWidth} = Dimensions.get('window');
 
 
 
-const Iteam = props => {
+const Item = props => {
   const [count1, setCount1] = useState(props.textNumber);
-  let inCount = () => {
-  
-      setCount1(count1 + 1)
+  const inCount = () => {
+      setCount1(count1 + 1);
     };
-  let decCount = () => {
-        setCount1(count1 - 1)
+  const decCount = () => {
+    if(count1 > 1)
+      setCount1(count1 - 1);
+    else
+      props.removeHandler(props.id);
     };
+  useEffect(() => props.qtyChangeHandler(props.id, count1), [count1])
   return (
     <View style={[props.style, styles.view1]}>
       
@@ -25,7 +28,7 @@ const Iteam = props => {
       
     
       <View style={styles.viewImage}>
-        <Image style={styles.image} source={props.img}></Image>
+        <Image style={styles.image} source={{uri: `${props.img}`}}></Image>
       </View>
 
       <>
@@ -37,13 +40,15 @@ const Iteam = props => {
 
         <View style={styles.viewValue}>
           <TouchableOpacity style={styles.AddSub}
-            onPress={decCount}>
-            <Text style={styles.texttouch}>-</Text>
+            onPress={decCount}
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+            <Text style={styles.textTouch}>-</Text>
           </TouchableOpacity>
-          <Text style={styles.styleTextNumber} >{count1}</Text>
+          <Text onChange style={styles.styleTextNumber}>{count1}</Text>
           <TouchableOpacity style={styles.AddSub}
-            onPress={inCount}>
-            <Text style={styles.texttouch}>+</Text>
+            onPress={inCount}
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+            <Text style={styles.textTouch}>+</Text>
           </TouchableOpacity>
         </View>
         
@@ -54,7 +59,7 @@ const Iteam = props => {
       </>
 
       <>
-      <TouchableOpacity> 
+      <TouchableOpacity onPress={() => props.removeHandler(props.id)}> 
         <IC_CartDelete/>
       </TouchableOpacity>
       </>
@@ -64,7 +69,7 @@ const Iteam = props => {
   );
 };
 
-export default Iteam;
+export default Item;
 
 const styles = StyleSheet.create({
   view1: {
@@ -81,7 +86,6 @@ const styles = StyleSheet.create({
   },
 
   viewImage:{
-    // borderWidth: 1,
     width: scale(120),
     height: scale(120),
     flexDirection: 'column',
@@ -90,7 +94,6 @@ const styles = StyleSheet.create({
     },
 
   image:{
-    // borderWidth: 1,
     width: '75%',
     height: '75%',
     flexDirection: 'column',
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     
   },
   viewValue: {
-    width: scale(50),
+    width: scale(70),
     height: scale(30),
     flexDirection: 'row',
     borderWidth: 1,
@@ -135,7 +138,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.47,
   },
   viewTextName: {
-    // borderWidth: 1,
     width: scale(200),
     height: scale(27),
     overflow: 'hidden',
@@ -156,5 +158,8 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: 14,
     letterSpacing: -0.39,
+  },
+  textTouch: {
+    color: CUSTOM_COLOR.Black,
   },
 });

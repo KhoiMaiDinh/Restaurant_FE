@@ -60,7 +60,7 @@ const SvgComponent = props => (
           top: 0,
           borderRadius: 360,
         }}>
-        <Text style={{fontSize: scale(10), alignSelf: 'center', color: CUSTOM_COLOR.White}}>96</Text>
+        <Text style={{fontSize: scale(10), alignSelf: 'center', color: CUSTOM_COLOR.White}}>{props.nOP}</Text>
       </View>
     </Defs>
   </Svg>

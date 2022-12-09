@@ -102,8 +102,8 @@ const CartScreen = (props) => {
 
         <>
         <View style={styles.viewTotal}>
-                <Text style={styles.textTotal}>Tổng Cộng</Text>
-                <Text style={styles.textPrice}>{totalAmount} VND</Text>
+                <Text style={styles.textTotal}>Tổng số tiền</Text>
+                <Text style={styles.textPrice}>{Intl.NumberFormat('vn-VN').format(totalAmount)} ₫</Text>
         </View>
         </>
         <>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     textPlace:{
         color: CUSTOM_COLOR.White,
         fontFamily: FONT_FAMILY.NexaRegular,
-        fontSize: scale(18),
+        fontSize: 13,
         letterSpacing: -0.3,
         alignSelf:'center',
     },

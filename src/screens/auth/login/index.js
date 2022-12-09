@@ -116,26 +116,30 @@ const LoginScreen = props => {
             <Text style={styles.textFailed}> </Text>
           )}
         </View>
-        
-        {email == '' || password == '' || checkValidEmail == true || checkValidPassword == true ? (
-        <TouchableOpacity
-          disabled
-          style={styles.loginButtonBoxPosition}
-          onPress={() =>
-            {handleLogin()}}>
-          <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Đăng nhập</Text>
-          </View>
-        </TouchableOpacity>
-        ) : (<TouchableOpacity
-          style={styles.loginButtonBoxPosition}
-          onPress={() =>
-            handleLogin()}>
-          <View style={styles.loginButtonBox}>
-            <Text style={styles.buttonText}>Đăng nhập</Text>
-          </View>
-        </TouchableOpacity>
-        )} 
+
+        {email == '' ||
+        password == '' ||
+        checkValidEmail == true ||
+        checkValidPassword == true ? (
+          <TouchableOpacity
+            disabled
+            style={styles.loginButtonBoxPosition}
+            onPress={() => {
+              handleLogin();
+            }}>
+            <View style={styles.loginButtonBox}>
+              <Text style={styles.buttonText}>Đăng nhập</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.loginButtonBoxPosition}
+            onPress={() => handleLogin()}>
+            <View style={styles.loginButtonBox}>
+              <Text style={styles.buttonText}>Đăng nhập</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         <Text style={styles.orText}>OR</Text>
         <TouchableOpacity style={styles.FBLoginButtonBoxPosition}>
           <View style={styles.FBLoginButtonBox}>

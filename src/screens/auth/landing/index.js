@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   },
 
   view1: {
-    width: scale(303),
     height: scale(88),
     position: 'absolute',
     alignItems: 'center',
@@ -80,7 +79,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   viewTextWelcome: {
-    height: scale(26),
     position: 'absolute',
     textAlign: 'center',
   },

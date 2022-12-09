@@ -12,11 +12,13 @@ const {width: screenWidth} = Dimensions.get('window');
 const Item = props => {
   const [count1, setCount1] = useState(props.textNumber);
   const inCount = () => {
-  
       setCount1(count1 + 1);
     };
   const decCount = () => {
+    if(count1 > 1)
       setCount1(count1 - 1);
+    else
+      props.removeHandler(props.id);
     };
   useEffect(() => props.qtyChangeHandler(props.id, count1), [count1])
   return (
@@ -84,7 +86,6 @@ const styles = StyleSheet.create({
   },
 
   viewImage:{
-    // borderWidth: 1,
     width: scale(120),
     height: scale(120),
     flexDirection: 'column',
@@ -93,7 +94,6 @@ const styles = StyleSheet.create({
     },
 
   image:{
-    // borderWidth: 1,
     width: '75%',
     height: '75%',
     flexDirection: 'column',
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.47,
   },
   viewTextName: {
-    // borderWidth: 1,
     width: scale(200),
     height: scale(27),
     overflow: 'hidden',

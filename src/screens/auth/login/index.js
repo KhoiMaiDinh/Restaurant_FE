@@ -137,7 +137,7 @@ const LoginScreen = props => {
             style={styles.loginButtonBoxPosition}
             onPress={() => handleLogin()}>
             <View style={styles.loginButtonBox}>
-              <Text style={styles.buttonText}>Login</Text>
+              <Text style={styles.buttonText}>Đăng nhập</Text>
             </View>
           </TouchableOpacity>
         )}

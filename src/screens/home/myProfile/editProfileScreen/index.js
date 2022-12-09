@@ -58,9 +58,13 @@ const EditProfileScreen = () => {
                             Public Profile
                         </Text>
                     </>
+                    {/* Name View */}
+                    <View style={styles.nameView}>
+
+                   
                     {/* First Name */}
                     <>
-                        <View style={styles.firstNameInput}>
+                        <View style={styles.NameInput}>
                             <Text style={styles.inputText}>
                                 First Name
                             </Text>
@@ -73,11 +77,11 @@ const EditProfileScreen = () => {
                         </View>
                     </>
                     <>
-                    <View style={{borderColor: CUSTOM_COLOR.Primary, borderWidth: 1, left:scale(207.5), top:20, height:75, width: scale(1)}}/>
+                    <View style={{borderColor: CUSTOM_COLOR.Primary, borderWidth: 1,justifyContent: 'center',marginLeft:scale(6),  width: scale(1)}}/>
                     </>
                     {/* Last Name */}
                     <>
-                        <View style={styles.lastNameInput}>
+                        <View style={styles.NameInput}>
                             <Text style={styles.inputText}>
                                 Last Name
                             </Text>
@@ -89,6 +93,7 @@ const EditProfileScreen = () => {
                             />
                         </View>
                     </>
+                     </View>
                     {/* Private Profile */}
                     <>
                         <Text style={styles.privateProfileText} >
@@ -158,7 +163,7 @@ const EditProfileScreen = () => {
             {/* Save Profile */}
             <>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Save Profile</Text>
+                    <Text style={styles.buttonText}>Lưu</Text>
                 </TouchableOpacity>
             </>
         </SafeAreaView>
@@ -178,51 +183,50 @@ const styles = StyleSheet.create({
         width:scale(110),
         height:scale(110),
         borderRadius: 360,
-        top: scale(20),
+        marginTop: scale(20),
         alignSelf: 'center',
     },
     editProfilePictureTouch: {
         width:scale(150),
         height:scale(30),
-        top: scale(20),
+        paddingTop: scale(2),
         alignSelf: 'center',
     },
     avatar: {
         width:scale(102),
         height:scale(100),
     },
+    nameView: {
+        flexDirection: 'row',
+        marginTop: scale(20),
+        height: scale(80),
+        width: Dimensions.get('window').width,
+    },
     editProfilePictureText: {
         fontFamily: FONT_FAMILY.NexaLight,
         fontSize: scale(14),
         textAlign: 'center',
         color: CUSTOM_COLOR.Primary,
-        top: scale(5),
+        marginTop: scale(5),
     },
     publicProfileText: {
         fontFamily: FONT_FAMILY.NexaBold,
         fontSize: scale(25),
         color: CUSTOM_COLOR.Primary,
         textAlign: 'center',
-        top: scale(40),
+        marginTop: scale(15),
     },
     privateProfileText: {
         fontFamily: FONT_FAMILY.NexaBold,
         fontSize: scale(25),
         color: CUSTOM_COLOR.Primary,
         textAlign: 'center',
-        top: scale(0),
+        // marginTop: scale(10),
     },
-    firstNameInput: {
-        width: scale(150),
+    NameInput: {
+        width: scale(200),
         height: scale(50),
-        top: scale(60),
-        left: scale(35),
-    },
-    lastNameInput: {
-        width: scale(150),
-        height: scale(50),
-        top: scale(-55),
-        left: scale(230),
+        paddingLeft: scale(10),   
     },
     emailInput: {
         width: scale(345),
@@ -261,8 +265,8 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        top: scale(105),
-        width: scale(250),
+        marginTop: scale(50),
+        width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,
         borderRadius: scale(20),
@@ -272,7 +276,7 @@ const styles = StyleSheet.create({
         fontSize: scale(17),
         alignSelf: 'center',
         justifyContent: 'center',
-        top: scale(7),
+        marginTop: scale(7),
         color: CUSTOM_COLOR.White,
     },
     textFailed: {

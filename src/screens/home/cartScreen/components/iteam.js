@@ -3,7 +3,7 @@ import React,{useEffect,useState} from 'react';
 import scale from '../../../../utils/responsive';
 import FONT_FAMILY from '../../../../constants/fonts';
 import {CUSTOM_COLOR} from '../../../../constants/color';
-import { IC_CartDelete, IC_Delete } from '../../../../assets/icons';
+import { IC_Binoculars, IC_Cart, IC_CartDelete, IC_Delete, IC_Drawer, IC_Menu } from '../../../../assets/icons';
 import Swipeable from 'react-native-swipeable-row';
 
 const {width: screenWidth} = Dimensions.get('window');
@@ -22,12 +22,21 @@ const Item = props => {
       props.removeHandler(props.id);
     };
   useEffect(() => props.qtyChangeHandler(props.id, count1), [count1])
+
+  const rightButtons = [ 
+    <TouchableOpacity style={styles.viewDelete} onPress={() => props.removeHandler(props.id)}>
+      <Text style={{color: CUSTOM_COLOR.White, fontSize: 11, fontFamily: FONT_FAMILY.NexaRegular}}>DELETE</Text>
+      <IC_CartDelete/>
+    </TouchableOpacity>,
+  ];
   return (
       
     <View style={[props.style, styles.view2]} >
     
-      
-    <Swipeable  rightButtons={rightButtons} rightActionActivationDistance={100}>
+   
+    <Swipeable  rightButtons={rightButtons} 
+
+    >
   
 <View style={styles.view2}>
       <View style={styles.viewImage}>
@@ -36,7 +45,6 @@ const Item = props => {
 
       <>
       <View style={styles.viewDad}>
-      {/* <Swipeable  rightButtons={rightButtons} rightActionActivationDistance={100}> */}
       <View style={styles.viewInfo}>
         <View style={styles.viewTextName}>
           <Text style={styles.styleTextName} numberOfLines={1}>{props.textName}</Text>
@@ -61,14 +69,13 @@ const Item = props => {
           <Text style={styles.styleTextPrice}>{props.textPrice} VND</Text>
         </View>
       </View>
-      {/* </Swipeable> */}
       </View>
       </>
 
       <>
-      <TouchableOpacity onPress={() => props.removeHandler(props.id)}> 
+      {/* <TouchableOpacity onPress={() => props.removeHandler(props.id)}> 
         <IC_CartDelete/>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       </>
 
       </View>
@@ -87,11 +94,12 @@ const styles = StyleSheet.create({
   //   flexDirection: 'column',
   // },
   view2: {
-    borderWidth: 1,
+    // borderWidth: 1,
     width: screenWidth,
     height: scale(130),
     flexDirection: 'row',
     alignItems: 'center',
+    // backgroundColor: CUSTOM_COLOR.Grey,
   },
 
   viewImage:{
@@ -111,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   viewDad:{
-    borderWidth: 1,
+    // borderWidth: 1,
     width: scale(210),
     height: scale(120),
     marginLeft: scale(20),
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
     
   },
   viewInfo:{
-    borderWidth: 1,
+    // borderWidth: 1,
     width: scale(210),
     height: scale(120),
     // marginLeft: scale(20),
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.39,
   },
   viewPrice: {
-    borderWidth: 1,
+    // borderWidth: 1,
     width: scale(130),
     height: scale(35),
     justifyContent: 'center',
@@ -181,5 +189,12 @@ const styles = StyleSheet.create({
   },
   textTouch: {
     color: CUSTOM_COLOR.Black,
+  },
+  viewDelete:{
+    justifyContent: 'center',
+    backgroundColor: CUSTOM_COLOR.Primary,
+    flexGrow: 1,
+    alignItems: 'center',
+    width: scale(65),
   },
 });

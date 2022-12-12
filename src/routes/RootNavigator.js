@@ -4,10 +4,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {AuthStackScreen} from './AuthNavigator';
 import AppStackScreen from './AppNavigator';
 import { WelcomeStackScreen } from './WelcomeNavigator';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RootStack = createStackNavigator();
 
-const RootStackScreen = props => {
+const RootStackScreenWelcome = props => {
   return (
     <RootStack.Navigator
       initialRouteName="WelcomeStackScreen"
@@ -19,10 +22,35 @@ const RootStackScreen = props => {
   );
 };
 
+const RootStackScreen = props => {
+  return (
+    <RootStack.Navigator
+      initialRouteName="AuthStackScreen"
+      screenOptions={{headerShown: false}}>
+      <RootStack.Screen name="AuthStackScreen" component={AuthStackScreen} />
+      <RootStack.Screen name="AppStackScreen" component={AppStackScreen} />
+    </RootStack.Navigator>
+  );
+};
+
 const RootNavigator = props => {
+  const [firstLaunch, setFirstLaunch] = useState(null);
+  useEffect(() => {
+    async function setData() {
+      const appData = await AsyncStorage.getItem("appLaunched");
+      if (appData == null) {
+        setFirstLaunch(true);
+        AsyncStorage.setItem("appLaunched", "false");
+      } else {
+        setFirstLaunch(false);
+      }
+    }
+    setData();
+  }, []);
   return (
     <NavigationContainer>
-      <RootStackScreen {...props} />
+      { firstLaunch ? <RootStackScreenWelcome {...props} /> : <RootStackScreen {...props} /> }
+      
     </NavigationContainer>
   );
 };

@@ -137,7 +137,7 @@ const SignUpScreen = props => {
             />
           </View>
             {checkValidEmail ? (
-            <Text style={styles.textFailed}>Sai định dạng email. VD:"abc@xyz.mnp..."</Text>
+            <Text style={styles.textFailed}>Sai định dạng email. VD:"user@gmail.com"</Text>
           ) : (
             <Text style={styles.textFailed}> </Text>
           )}

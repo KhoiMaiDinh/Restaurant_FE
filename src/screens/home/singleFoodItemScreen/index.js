@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
-import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
+import {IC_GoBack, IC_Minus, IC_Plus, IC_Cart} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
@@ -17,7 +17,7 @@ import {BASE_URL} from '../../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {store} from './../../../redux/store';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { add_to_cart } from '../../../redux/reducer/cartReducer';
 import { addToCart } from '../../../redux/actions/cartActions';
 
@@ -67,6 +67,12 @@ const SingleFoodItemScreen = props => {
     dispatch(addToCart(data._id, count1));
     console.log(data._id, count1);
   };
+  const openCart = () => {
+    props.navigation.navigate('CartScreen');
+  };
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+  const numberOfProduct = cartItems.length;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -81,6 +87,9 @@ const SingleFoodItemScreen = props => {
             <Text style={styles.screenTittle2}>{category.name}</Text>
           </View>
         </View>
+        <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
+            <IC_Cart nOP = {numberOfProduct}/>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.tittleBox}>
@@ -130,12 +139,16 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
     flex: 1,
   },
-
+  cartButton: {
+    justifyContent: 'flex-end',
+    marginLeft: scale(270),
+  },
   header: {
     backgroundColor: 'white',
     position: 'relative',
     paddingVertical: 8,
     marginBottom: 0,
+    flexDirection: 'row',
   },
   goBackButton: {
     flexDirection: 'row',

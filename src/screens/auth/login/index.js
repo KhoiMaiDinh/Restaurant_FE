@@ -57,11 +57,11 @@ const LoginScreen = props => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, {
+      const data = {
         email: email.toLocaleLowerCase(),
         password: password,
-      });
-      await dispatch(login(response.data));
+      };
+      await dispatch(login(data));
       navigation.navigate('AppStackScreen');
     } catch (error) {
       console.log(error);

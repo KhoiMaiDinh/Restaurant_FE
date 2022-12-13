@@ -18,24 +18,20 @@ import SkeletonHome from './components/skeletonHome';
 import {BASE_URL} from './../../../utils/api';
 import axios from 'axios';
 import {store} from './../../../redux/store';
-
+import categoryApi from '../../../services/categoryApi';
 
 const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const [bestFoodData, setBestFoodData] = useState([]);
   const [foodData, setFoodData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const {token} = store.getState().user;
+  const {accessToken} = store.getState().user;
 
   const getCategory = async () => {
     try {
-      console.log(token);
-      const response = await axios.get(`${BASE_URL}/category/popular`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setCategoryData(response.data.categories);
+      const {categories} = await categoryApi.getPopular();
+      console.log(categories);
+      setCategoryData(categories);
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +41,7 @@ const HomeScreen = props => {
     try {
       const response = await axios.get(`${BASE_URL}/food/best-deals`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       setBestFoodData(response.data.foods);
@@ -58,7 +54,7 @@ const HomeScreen = props => {
     try {
       const response = await axios.get(`${BASE_URL}/food/popular`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       setFoodData(response.data.foods);

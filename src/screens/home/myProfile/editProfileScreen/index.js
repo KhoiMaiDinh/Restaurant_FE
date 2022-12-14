@@ -127,12 +127,6 @@ const EditProfileScreen = () => {
             </>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
                 <KeyboardAvoidingView>
-                    {/* Public Profile */}
-                    <>
-                        <Text style={styles.publicProfileText} >
-                            Public Profile
-                        </Text>
-                    </>
                     {/* Name View */}
                     <View style={styles.nameView}>
 

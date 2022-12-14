@@ -1,30 +1,18 @@
 import {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, View, SafeAreaView, FlatList} from 'react-native';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import scale from '../../../utils/responsive';
 import ImageTab from './components/imageTab';
 import SkeletonMenu from './components/skeletonMenu';
-import {BASE_URL} from '../../../utils/api';
-import {store} from './../../../redux/store';
-import axios from 'axios';
+import categoryApi from '../../../services/categoryApi';
 
 const MenuScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const {token} = store.getState().user;
   const getCategory = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/category`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setCategoryData(response.data.categories);
+      const {categories} = await categoryApi.getAll();
+      setCategoryData(categories);
       setLoading(false);
     } catch (error) {
       console.log(error);

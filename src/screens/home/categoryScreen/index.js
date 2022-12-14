@@ -11,23 +11,16 @@ import Foods from './components/foodInfo';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import {IC_GoBack} from '../../../assets/icons';
-import {BASE_URL} from '../../../utils/api';
-import {store} from './../../../redux/store';
-import axios from 'axios';
+import foodApi from '../../../services/foodApi';
 
 const CategoryScreen = props => {
   const category = props.route.params;
   const [foodData, setFoodData] = useState([]);
-  const {token} = store.getState().user;
 
   const getFoods = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/food/?category=${category._id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setFoodData(response.data.foods);
+      const {foods} = await foodApi.getAll('', category._id, '');
+      setFoodData(foods);
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +49,11 @@ const CategoryScreen = props => {
         </View>
       </View>
       <View style={styles.food}>
-        <Foods {...props} foodData={foodData} categoryName={category.name} />
+        <Foods
+          {...props}
+          foodData={foodData || []}
+          categoryName={category.name}
+        />
       </View>
     </SafeAreaView>
   );

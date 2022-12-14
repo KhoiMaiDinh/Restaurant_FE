@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Image
 } from 'react-native';
 import React, {useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
@@ -18,6 +19,9 @@ import {useDispatch} from 'react-redux';
 import {login} from '../../../features/auth/userSlice';
 import axios from 'axios';
 import {BASE_URL} from '../../../utils/api';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
+import { IMG_Warning } from '../../../assets/images';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -55,23 +59,45 @@ const LoginScreen = props => {
     }
   };
 
-  const handleLogin = async () => {    
-      try {
-        const response = await axios.post(`${BASE_URL}/auth/login`, {
-          email: email,
-          password: password,
-        });
-        dispatch(login(response.data));
-        navigation.navigate('AppStackScreen');
-      } 
-      catch (error) {
-        console.log(error);
-      }
+  const handleLogin = async () => {
+    try {
+      const data = {
+        email: email,
+        password: password,
+      };
+      await dispatch(login(data));
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      this.bs.current.snapTo(0);
+      console.log(error);
+    }
   };
+  renderInner = () => (
+    <View style={stylePanel.panel}>
+      <View style={{alignItems: 'center'}}>
+        <Text style={stylePanel.panelTitle}>Thất bại</Text>
+        <Text style={stylePanel.panelSubtitle}>Mật khẩu không chính xác</Text>
+      </View>
+    </View>
+  );
+
+  bs = React.createRef();
+  fall = new Animated.Value(1);
   return (
     <TouchableWithoutFeedback
       onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
       <SafeAreaView style={styles.container}>
+      <BottomSheet
+        ref={this.bs}
+        snapPoints={[100, 0]}
+        renderContent={this.renderInner}
+        initialSnap={1}
+        callbackNode={this.fall}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View style={{margin: 20,
+        opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+    }}>
         <TouchableOpacity
           style={styles.goBackButton}
           onPress={() => props.navigation.goBack()}>
@@ -134,7 +160,7 @@ const LoginScreen = props => {
         ) : (
           <TouchableOpacity
             style={styles.loginButtonBoxPosition}
-            onPress={() => handleLogin()}>
+            onPress={() => handleLogin() }>
             <View style={styles.loginButtonBox}>
               <Text style={styles.buttonText}>Đăng nhập</Text>
             </View>
@@ -146,6 +172,7 @@ const LoginScreen = props => {
             <Text style={styles.buttonText}>Đăng nhập bằng Facebook</Text>
           </View>
         </TouchableOpacity>
+        </Animated.View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -243,4 +270,24 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     color: CUSTOM_COLOR.Red,
   },
+});
+const stylePanel = StyleSheet.create({
+panel: {
+  padding: scale(20),
+  backgroundColor: CUSTOM_COLOR.Red,
+  paddingTop: scale(20),
+},
+panelTitle: {
+  fontSize: 27,
+  color: CUSTOM_COLOR.White,
+  height: scale(35),
+},
+panelSubtitle: {
+  fontSize: scale(14),
+  color: CUSTOM_COLOR.White,
+  height: scale(30),
+  marginBottom: scale(10),
+},
+
+
 });

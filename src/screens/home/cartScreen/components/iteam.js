@@ -72,7 +72,7 @@ const Item = props => {
           <IC_CartDelete/>
         </TouchableOpacity>
 
-        <YesNoMsgBox visible={visible} clickCancel={() => setVisible(false)} setMsg={setMsg} title={"XÓA MÓN"} message={"Bạn có món xóa món ăn siu ngon số một thế giới này?"}/>
+        <YesNoMsgBox visible={visible} clickCancel={() => setVisible(false)} setMsg={setMsg} title={"XÓA MÓN"} message={"Bạn có món xóa món ăn siu ngon số một thế giới này ?"}/>
         </>
 
       </View>

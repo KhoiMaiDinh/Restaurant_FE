@@ -13,13 +13,13 @@ const SvgComponent = (props) => (
     <Path
       clipRule="evenodd"
       d="M7 10h10v9H7v-9Z"
-      stroke="white"
+      stroke="red"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
       d="M10.5 12.278v4.431M13.5 12.278v4.431M7 6h10v2H7zM11 5h2v1h-2z"
-      stroke="white"
+      stroke="red"
       strokeLinecap="round"
       strokeLinejoin="round"
     />

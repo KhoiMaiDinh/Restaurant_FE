@@ -19,7 +19,7 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
         };
       } 
       else {
-        console.log([...state.cartItems, item]);
+        //console.log([...state.cartItems, item]);
         return {
           ...state,
           cartItems: [...state.cartItems, item],

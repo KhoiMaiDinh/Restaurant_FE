@@ -120,13 +120,17 @@ const EditProfileScreen = () => {
             {/* Edit Profile Picture */}
             <>
                 <TouchableOpacity style={styles.editProfilePictureTouch} onPress={() => this.bs.current.snapTo(0)} >
-                    <Text style={styles.editProfilePictureText} >
-                        Edit Profile Picture
-                    </Text>
+                    <Text style={styles.editProfilePictureText}>Chọn ảnh đại diện</Text>
                 </TouchableOpacity>
             </>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
                 <KeyboardAvoidingView>
+                    {/* Public Profile */}
+                    <>
+                        <Text style={styles.publicProfileText} >
+                            Tài khoản
+                        </Text>
+                    </>
                     {/* Name View */}
                     <View style={styles.nameView}>
 
@@ -135,11 +139,11 @@ const EditProfileScreen = () => {
                     <>
                         <View style={styles.NameInput}>
                             <Text style={styles.inputText}>
-                                First Name
+                                Họ 
                             </Text>
                             <TextInput 
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="First Name"
+                                placeholder="Họ"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
                             />
@@ -152,11 +156,11 @@ const EditProfileScreen = () => {
                     <>
                         <View style={styles.NameInput}>
                             <Text style={styles.inputText}>
-                                Last Name
+                                Tên
                             </Text>
                             <TextInput 
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Last Name"
+                                placeholder="Tên"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
                             />
@@ -166,7 +170,7 @@ const EditProfileScreen = () => {
                     {/* Private Profile */}
                     <>
                         <Text style={styles.privateProfileText} >
-                        Private Profile
+                        Hồ sơ Cá nhân
                         </Text>
                     </>
                     {/* Email */}
@@ -195,12 +199,12 @@ const EditProfileScreen = () => {
                     <>
                         <View style={styles.numberInput}>
                             <Text style={styles.inputText}>
-                                Phone Number
+                                Số điện thoại
                             </Text>
                             <TextInput 
                                 onChangeText={text => handleCheckNumber(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Phone Number"
+                                placeholder="Số điện thoại"
                                 style={styles.input}
                                 keyboardType="numeric"
                             />
@@ -217,11 +221,11 @@ const EditProfileScreen = () => {
                     <>
                         <View style={styles.locationInput}>
                             <Text style={styles.inputText}>
-                                Location
+                                Địa chỉ
                             </Text>
                             <TextInput 
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Location"
+                                placeholder="Địa chỉ"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
                             />
@@ -404,11 +408,12 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        marginTop: scale(50),
+        marginTop: scale(40),
         width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,
         borderRadius: scale(20),
+        
     },
     buttonText: {
         fontFamily: FONT_FAMILY.NexaBold,

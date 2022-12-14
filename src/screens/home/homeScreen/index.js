@@ -15,22 +15,18 @@ import FONT_FAMILY from '../../../constants/fonts';
 import MostPopular from './components/mostPopular';
 import BestDeals from './components/bestDeals';
 import SkeletonHome from './components/skeletonHome';
-import {BASE_URL} from './../../../utils/api';
-import axios from 'axios';
-import {store} from './../../../redux/store';
 import categoryApi from '../../../services/categoryApi';
+import foodApi from './../../../services/foodApi';
 
 const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const [bestFoodData, setBestFoodData] = useState([]);
   const [foodData, setFoodData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const {accessToken} = store.getState().user;
 
   const getCategory = async () => {
     try {
       const {categories} = await categoryApi.getPopular();
-      console.log(categories);
       setCategoryData(categories);
     } catch (error) {
       console.log(error);
@@ -39,12 +35,8 @@ const HomeScreen = props => {
 
   const getBestFood = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/food/best-deals`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setBestFoodData(response.data.foods);
+      const {foods} = await foodApi.getBestDeals();
+      setBestFoodData(foods);
     } catch (error) {
       console.log(error);
     }
@@ -52,12 +44,8 @@ const HomeScreen = props => {
 
   const getPopularFood = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/food/popular`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setFoodData(response.data.foods);
+      const {foods} = await foodApi.getPopular();
+      setFoodData(foods);
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +58,7 @@ const HomeScreen = props => {
     if (categoryData && bestFoodData && foodData) {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

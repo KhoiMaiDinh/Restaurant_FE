@@ -13,26 +13,15 @@ import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
-import {BASE_URL} from '../../../utils/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {store} from './../../../redux/store';
-import axios from 'axios';
+import categoryApi from '../../../services/categoryApi';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
   const [category, setCategory] = useState([]);
-  const {token} = store.getState().user;
   const getCategory = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/category/${data.categoryId}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        },
-      );
-      setCategory(response.data.category);
+      const {category} = await categoryApi.get(data.categoryId);
+      setCategory(category);
     } catch (error) {
       console.log(error);
     }

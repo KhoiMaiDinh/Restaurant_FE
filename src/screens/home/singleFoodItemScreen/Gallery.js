@@ -1,17 +1,6 @@
 /* eslint-disable prettier/prettier */
-import {
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  Icon,
-  ScrollView,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import React, {Component, useEffect, useState, useRef} from 'react';
-import {IMG_1, IMG_2, IMG_3, IMG_4} from '../../../assets/images/index';
+import {StyleSheet, Image, View, TouchableOpacity} from 'react-native';
+import React, {useRef} from 'react';
 import scale from '../../../utils/responsive';
 import Swiper from 'react-native-swiper';
 import {CUSTOM_COLOR} from '../../../constants/color';

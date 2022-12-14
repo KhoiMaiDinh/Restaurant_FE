@@ -1,9 +1,12 @@
 import axios from 'axios';
-import {getAccessToken} from './../utils/get-token';
+import {getAccessToken} from './token/get-token';
+import {refreshToken} from './token/refresh-token';
+import {BASE_URL} from './../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const axiosClient = axios.create({
   // baseURL: 'https://restaurant-uit-server.herokuapp.com',
-  baseURL: 'http://10.0.124.252:8080',
+  baseURL: BASE_URL,
 });
 
 // Interceptors
@@ -11,7 +14,6 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   async function (config) {
     const token = await getAccessToken();
-    console.log(token);
     if (token) {
       config.headers = {
         'Content-Type': 'application/json',
@@ -29,19 +31,36 @@ axiosClient.interceptors.request.use(
 // Add a response interceptor
 axiosClient.interceptors.response.use(
   function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     return response.data;
   },
-  function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+  async function (err) {
+    const originalConfig = err.config;
 
-    console.log(error);
+    if (err.response) {
+      if (err.response.status === 401 && !originalConfig._retry) {
+        originalConfig._retry = true;
 
-    const err = new Error(error.response.data.message);
+        try {
+          const accessToken = await refreshToken();
+          await AsyncStorage.setItem('@access-token', accessToken);
+          axiosClient.defaults.headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          };
 
-    return Promise.reject(err);
+          return axiosClient(originalConfig);
+        } catch (error) {
+          if (error.response && error.response.data) {
+            return Promise.reject(error.response.data);
+          }
+
+          return Promise.reject(error);
+        }
+      }
+    }
+
+    console.log(err);
+    return Promise.reject(err.response.data);
   },
 );
 

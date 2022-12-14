@@ -68,7 +68,7 @@ const LoginScreen = props => {
       await dispatch(login(data));
       navigation.navigate('AppStackScreen');
     } catch (error) {
-      this.bs.current.snapTo(0)
+      this.bs.current.snapTo(0);
       console.log(error);
     }
   };

@@ -62,12 +62,13 @@ const LoginScreen = props => {
   const handleLogin = async () => {
     try {
       const data = {
-        email: email.toLocaleLowerCase(),
+        email: email,
         password: password,
       };
       await dispatch(login(data));
       navigation.navigate('AppStackScreen');
     } catch (error) {
+      this.bs.current.snapTo(0)
       console.log(error);
     }
   };

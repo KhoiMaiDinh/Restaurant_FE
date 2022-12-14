@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
 import scale from '../../../utils/responsive';

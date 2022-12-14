@@ -52,6 +52,15 @@ const ButtonDrawer = props => {
 const CustomScrollDrawer = props => {
   const dispatch = useDispatch();
 
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
+      props.navigation.replace('AuthStackScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
@@ -110,10 +119,7 @@ const CustomScrollDrawer = props => {
             justifyContent: 'center',
             flexDirection: 'row',
           }}
-          onPress={async () => {
-            await dispatch(logout());
-            props.navigation.replace('AuthStackScreen');
-          }}>
+          onPress={() => handleLogout()}>
           <IC_LogOut />
           <Text style={styles.text}>Đăng xuất</Text>
         </TouchableOpacity>

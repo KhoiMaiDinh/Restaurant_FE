@@ -59,19 +59,18 @@ const LoginScreen = props => {
     }
   };
 
-  const handleLogin = async () => {    
-      try {
-        const response = await axios.post(`${BASE_URL}/auth/login`, {
-          email: email,
-          password: password,
-        });
-        await dispatch(login(response.data));
-        navigation.navigate('AppStackScreen');
-      } 
-      catch (error) {
-        this.bs.current.snapTo(0)
-        console.log(error);
-      }
+  const handleLogin = async () => {
+    try {
+      const data = {
+        email: email,
+        password: password,
+      };
+      await dispatch(login(data));
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      this.bs.current.snapTo(0)
+      console.log(error);
+    }
   };
   renderInner = () => (
     <View style={stylePanel.panel}>

@@ -48,14 +48,23 @@ const userSlice = createSlice({
       state.refreshToken = action.payload.refreshToken;
       state.user = action.payload.user;
     },
+    [login.rejected]: (state, action) => {
+      throw action.error;
+    },
     [signup.fulfilled]: (state, action) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
+    },
+    [signup.rejected]: (state, action) => {
+      throw action.error;
     },
     [logout.fulfilled]: (state, action) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.user = action.payload.user;
+    },
+    [logout.rejected]: (state, action) => {
+      throw action.error;
     },
   },
 });

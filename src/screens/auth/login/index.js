@@ -55,17 +55,18 @@ const LoginScreen = props => {
     }
   };
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, {
-        email: email.toLocaleLowerCase(),
-        password: password,
-      });
-      await dispatch(login(response.data));
-      navigation.navigate('AppStackScreen');
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLogin = async () => {    
+      try {
+        const response = await axios.post(`${BASE_URL}/auth/login`, {
+          email: email,
+          password: password,
+        });
+        dispatch(login(response.data));
+        navigation.navigate('AppStackScreen');
+      } 
+      catch (error) {
+        console.log(error);
+      }
   };
   return (
     <TouchableWithoutFeedback
@@ -89,12 +90,10 @@ const LoginScreen = props => {
             keyboardType="email-address"
           />
           {checkValidEmail ? (
-            <Text style={styles.textFailed}>
-              Sai định dạng email. VD:"abc@xyz.mnp..."
-            </Text>
-          ) : (
-            <Text style={styles.textFailed}> </Text>
-          )}
+          <Text style={styles.textFailed}>Sai định dạng email. VD:"user@gmail.com"</Text>
+        ) : (
+          <Text style={styles.textFailed}> </Text>
+        )}
         </View>
 
         <View style={styles.inputPasswordBox}>

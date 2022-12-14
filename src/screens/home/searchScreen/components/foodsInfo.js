@@ -21,6 +21,7 @@ const Foods = ({searchData, props}) => {
           description={item.description}
           price={item.price}
           img = {{uri: `${item.posterImage.url}`}}
+          item= {item}
           {...props}
         />
       ))}
@@ -33,7 +34,7 @@ export default Foods;
 const OneFood = props => {
   console.log(props.name);
   return (
-    <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
+    <TouchableOpacity onPress={() => props.navigation.navigate("SingleFoodItemScreen", {data: props.item})}>
       <View style={styles.container}>
         <View style={styles.foodInfo}>
           <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>

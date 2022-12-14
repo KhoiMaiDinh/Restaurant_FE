@@ -31,6 +31,7 @@ import {BASE_URL} from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
+import foodApi from '../services/foodApi';
 
 const Drawer = createDrawerNavigator();
 
@@ -133,17 +134,8 @@ const DrawerScreen = () => {
   const [searchData, setSearchData] = useState([]);
 
   const getSearchData = useCallback(async () => {
-    const token = await AsyncStorage.getItem(`@token`);
-    const searchURL = `${BASE_URL}/food/?search={${search}}`;
-    const res = await fetch(searchURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const json = await res.json();
-    return setSearchData(json.foods);
+    const {foods} = await foodApi.getAll('', '', search);
+    return setSearchData(foods);
   }, [search]);
 
   useEffect(() => {

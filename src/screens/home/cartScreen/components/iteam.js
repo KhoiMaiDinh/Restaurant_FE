@@ -3,24 +3,41 @@ import React,{useEffect,useState} from 'react';
 import scale from '../../../../utils/responsive';
 import FONT_FAMILY from '../../../../constants/fonts';
 import {CUSTOM_COLOR} from '../../../../constants/color';
-import { IC_CartDelete, IC_Delete } from '../../../../assets/icons';
+import YesNoMsgBox from '../../../../components/yesNoMsgBox';
+import { IC_Binoculars, IC_Cart, IC_CartDelete, IC_Delete, IC_Drawer, IC_Menu } from '../../../../assets/icons';
+import Swipeable from 'react-native-swipeable-row';
 
 const {width: screenWidth} = Dimensions.get('window');
 
 
 
 const Item = props => {
+  const [visible, setVisible] = useState(false);
   const [count1, setCount1] = useState(props.textNumber);
+  const [msg, setMsg] = useState();
   const inCount = () => {
       setCount1(count1 + 1);
     };
   const decCount = () => {
     if(count1 > 1)
       setCount1(count1 - 1);
-    else
-      props.removeHandler(props.id);
+    else{
+      setVisible(true);
+      if(msg)
+        props.removeHandler(props.id);
+    }
     };
   useEffect(() => props.qtyChangeHandler(props.id, count1), [count1])
+  useEffect(() => {
+    if(msg)
+      props.removeHandler(props.id) }, [msg])
+
+  const rightButtons = [ 
+    <TouchableOpacity style={styles.viewDelete} onPress={() => props.removeHandler(props.id)}>
+      <Text style={{color: CUSTOM_COLOR.White, fontSize: 11, fontFamily: FONT_FAMILY.NexaRegular}}>DELETE</Text>
+      <IC_CartDelete/>
+    </TouchableOpacity>,
+  ];
   return (
     <View style={[props.style, styles.view1]}>
       
@@ -52,9 +69,46 @@ const Item = props => {
           </TouchableOpacity>
         </View>
         
-        <View style={styles.viewPrice}>
-          <Text style={styles.styleTextPrice}>{props.textPrice} VND</Text>
+      
+        <View style={styles.viewImage}>
+          <Image style={styles.image} source={{uri: `${props.img}`}}></Image>
         </View>
+
+        <>
+        <View style={styles.viewInfo}>
+          <View style={styles.viewTextName}>
+            <Text style={styles.styleTextName} numberOfLines={1}>{props.textName}</Text>
+          </View>
+          <View style={{marginTop: scale(10)}}></View>
+
+          <View style={styles.viewValue}>
+            <TouchableOpacity style={styles.AddSub}
+              onPress={decCount}
+              hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+              <Text style={styles.textTouch}>-</Text>
+            </TouchableOpacity>
+            <Text onChange style={styles.styleTextNumber}>{count1}</Text>
+            <TouchableOpacity style={styles.AddSub}
+              onPress={inCount}
+              hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+              <Text style={styles.textTouch}>+</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.viewPrice}>
+            <Text style={styles.styleTextPrice}>{props.textPrice} VND{msg}</Text>
+          </View>
+        </View>
+        </>
+
+        <>
+        <TouchableOpacity onPress={() => setVisible(true)}> 
+          <IC_CartDelete/>
+        </TouchableOpacity>
+
+        <YesNoMsgBox visible={visible} clickCancel={() => setVisible(false)} setMsg={setMsg} title={"XÓA MÓN"} message={"Bạn có món xóa món ăn siu ngon số một thế giới này ?"}/>
+        </>
+
       </View>
       </>
 

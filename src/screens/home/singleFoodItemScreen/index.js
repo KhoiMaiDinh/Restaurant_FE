@@ -15,6 +15,7 @@ import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
 import categoryApi from '../../../services/categoryApi';
+import { addToCart } from '../../../redux/actions/cartActions';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;

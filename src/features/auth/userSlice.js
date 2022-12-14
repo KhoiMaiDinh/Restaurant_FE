@@ -47,8 +47,8 @@ const userSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.user = action.payload.user;
-    });
-    builder.addCase(signup.fulfilled, (state, action) => {
+    },
+    [signup.fulfilled]: (state, action) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
     },
@@ -56,9 +56,10 @@ const userSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.user = action.payload.user;
-    });
+    },
   },
 });
 
 const {actions, reducer} = userSlice;
 export default reducer;
+

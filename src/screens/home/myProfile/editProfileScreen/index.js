@@ -65,19 +65,19 @@ const EditProfileScreen = () => {
       renderInner = () => (
         <View style={stylePanel.panel}>
           <View style={{alignItems: 'center'}}>
-            <Text style={stylePanel.panelTitle}>Upload Photo</Text>
-            <Text style={stylePanel.panelSubtitle}>Choose Your Profile Picture</Text>
+            <Text style={stylePanel.panelTitle}>Tải ảnh</Text>
+            <Text style={stylePanel.panelSubtitle}>Chọn ảnh đại diện của bạn</Text>
           </View>
           <TouchableOpacity style={stylePanel.panelButton} onPress={takePhotoFromCamera}>
-            <Text style={stylePanel.panelButtonTitle}>Take Photo</Text>
+            <Text style={stylePanel.panelButtonTitle}>Chụp ảnh</Text>
           </TouchableOpacity>
           <TouchableOpacity style={stylePanel.panelButton} onPress={choosePhotoFromLibrary}>
-            <Text style={stylePanel.panelButtonTitle}>Choose From Library</Text>
+            <Text style={stylePanel.panelButtonTitle}>Chọn từ thư viện</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={stylePanel.panelButton}
             onPress={() => this.bs.current.snapTo(1)}>
-            <Text style={stylePanel.panelButtonTitle}>Cancel</Text>
+            <Text style={stylePanel.panelButtonTitle}>Thoát</Text>
           </TouchableOpacity>
         </View>
       );
@@ -120,43 +120,25 @@ const EditProfileScreen = () => {
             {/* Edit Profile Picture */}
             <>
                 <TouchableOpacity style={styles.editProfilePictureTouch} onPress={() => this.bs.current.snapTo(0)} >
-                    <Text style={styles.editProfilePictureText} >
-                        Edit Profile Picture
-                    </Text>
+                    <Text style={styles.editProfilePictureText}>Thay đổi ảnh đại diện</Text>
                 </TouchableOpacity>
             </>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
                 <KeyboardAvoidingView>
+                    
                     {/* Name View */}
                     <View style={styles.nameView}>
 
                    
-                    {/* First Name */}
+                    {/* Name */}
                     <>
                         <View style={styles.NameInput}>
                             <Text style={styles.inputText}>
-                                First Name
+                                Họ và Tên
                             </Text>
                             <TextInput 
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="First Name"
-                                style={styles.input}
-                                keyboardType="ascii-capable"
-                            />
-                        </View>
-                    </>
-                    <>
-                    <View style={{borderColor: CUSTOM_COLOR.Primary, borderWidth: 1,justifyContent: 'center',marginLeft:scale(6),  width: scale(1)}}/>
-                    </>
-                    {/* Last Name */}
-                    <>
-                        <View style={styles.NameInput}>
-                            <Text style={styles.inputText}>
-                                Last Name
-                            </Text>
-                            <TextInput 
-                                placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Last Name"
+                                placeholder="Họ và Tên"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
                             />
@@ -166,7 +148,7 @@ const EditProfileScreen = () => {
                     {/* Private Profile */}
                     <>
                         <Text style={styles.privateProfileText} >
-                        Private Profile
+                        Thông tin Cá nhân
                         </Text>
                     </>
                     {/* Email */}
@@ -195,12 +177,12 @@ const EditProfileScreen = () => {
                     <>
                         <View style={styles.numberInput}>
                             <Text style={styles.inputText}>
-                                Phone Number
+                                Số điện thoại
                             </Text>
                             <TextInput 
                                 onChangeText={text => handleCheckNumber(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Phone Number"
+                                placeholder="Số điện thoại"
                                 style={styles.input}
                                 keyboardType="numeric"
                             />
@@ -217,11 +199,11 @@ const EditProfileScreen = () => {
                     <>
                         <View style={styles.locationInput}>
                             <Text style={styles.inputText}>
-                                Location
+                                Địa chỉ
                             </Text>
                             <TextInput 
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Location"
+                                placeholder="Địa chỉ"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
                             />
@@ -363,27 +345,27 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     NameInput: {
-        width: scale(160),
+        width: scale(345),
         height: scale(50),
-        //paddingLeft: scale(10),   
+        paddingLeft: scale(35),   
     },
     emailInput: {
         width: scale(345),
         height: scale(50),
-        top: scale(0),
-        left: scale(35),
+        paddingTop: scale(0),
+        paddingLeft: scale(35),
     },
     numberInput: {
         width: scale(345),
         height: scale(50),
-        top: scale(8),
-        left: scale(35),
+        paddingTop: scale(8),
+        paddingLeft: scale(35),
     },
     locationInput: {
         width: scale(345),
         height: scale(50),
-        top: scale(8),
-        left: scale(35),
+        paddingTop: scale(8),
+        paddingLeft: scale(35),
     },
     inputText: {
         fontFamily: FONT_FAMILY.NexaRegular,
@@ -404,11 +386,12 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        marginTop: scale(50),
+        marginTop: scale(70),
         width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,
         borderRadius: scale(20),
+        
     },
     buttonText: {
         fontFamily: FONT_FAMILY.NexaBold,

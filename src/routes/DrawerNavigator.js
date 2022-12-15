@@ -141,7 +141,7 @@ const DrawerScreen = () => {
   useEffect(() => {
     getSearchData();
   }, [getSearchData, search]);
-  console.log(searchData);
+  //console.log(searchData);
 
   const Search = () => <SearchScreen searchData={searchData} />;
 

@@ -17,6 +17,7 @@ import {
   import { IMG_2 } from '../../../assets/images';
   import scale from '../../../utils/responsive';
   import FONT_FAMILY from '../../../constants/fonts';
+  import RestaurantsList from './components/resList';
 
   const ReservationScreen = (props) => {
     const navigation = props;
@@ -90,7 +91,7 @@ import {
           </TouchableWithoutFeedback>
           <TouchableOpacity style={styles.MakeReservationButtonBoxPosition}>
               <View style={styles.MakeReservationButtonBox}>
-              <Text style={styles.buttonText}>Đặt chỗ</Text>
+                <RestaurantsList></RestaurantsList>
               </View>
           </TouchableOpacity>
         </SafeAreaView>

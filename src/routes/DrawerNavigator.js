@@ -32,6 +32,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
 import foodApi from '../services/foodApi';
+import ProfileScreen from '../screens/home/myProfile/profile';
 
 const Drawer = createDrawerNavigator();
 
@@ -206,7 +207,7 @@ const DrawerScreen = () => {
       />
       <Drawer.Screen
         name="Profile"
-        component={EditProfileScreen}
+        component={ProfileScreen}
         options={({navigation}) => ({
           headerTitle: () => (
             <HeaderBar pageName={'Cá nhân'} navigation={navigation} />

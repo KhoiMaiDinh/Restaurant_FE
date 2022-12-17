@@ -5,7 +5,7 @@ import scale from '../../../utils/responsive'
 import { CUSTOM_COLOR } from '../../../constants/color'
 import { IC_GoBack } from '../../../assets/icons'
 
-const ReviewScreen = () => {
+const ReviewScreen = props => {
     const [defaultRating, setDefaultRating] =useState(0)
     const [maxRating,setMaxRating] = useState([1,2,3,4,5])
 
@@ -49,8 +49,8 @@ const ReviewScreen = () => {
                 <TouchableOpacity
                     style={styles.goBackButton}
                     onPress={() => {
-                    props.navigation.goBack();
-                    }}>
+                        props.navigation.goBack();
+                      }}>
                     <IC_GoBack />
                     <Text style={styles.screenTittle2}>Quay lại</Text>
                 </TouchableOpacity>

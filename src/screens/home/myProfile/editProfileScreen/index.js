@@ -37,7 +37,7 @@ const EditProfileScreen = props => {
           setCheckValidNumber(true);
         }
       };
-      const [image, setImage] = useState('https://drive.google.com/file/d/1Snr93Bao8zv0tBTNONR7T2NpRs_gTtkz/view?usp=share_link');
+      const [image, setImage] = useState();
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: scale(300),
@@ -93,7 +93,6 @@ const EditProfileScreen = props => {
       fall = new Animated.Value(1);
 
   return (
-    <ScrollView>
         <SafeAreaView style={styles.container}>
         <>
         <View style={styles.view}>
@@ -131,11 +130,14 @@ const EditProfileScreen = props => {
             {/* Avatar */}
             <>
                 <TouchableOpacity style={styles.avatarTouch} >
-                    <Image  source={{
+                    {image ? <Image  source={{
                     uri: image,
                     }}
                     style={{height: '100%', width: '100%', borderRadius: scale(360)}}
-                    />
+                    /> : <Image  source={IMG_LisaAvatar}
+                      style={{height: '100%', width: '100%', borderRadius: scale(360)}}
+                      />}
+                    
                 </TouchableOpacity>
             </>
             {/* Edit Profile Picture */}
@@ -235,7 +237,6 @@ const EditProfileScreen = props => {
             </>
             </Animated.View>
         </SafeAreaView>
-    </ScrollView>
   )
 }
 

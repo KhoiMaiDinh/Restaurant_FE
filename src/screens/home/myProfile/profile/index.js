@@ -1,5 +1,6 @@
 import { ScaleFromCenterAndroid } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets';
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   Avatar,
@@ -10,14 +11,30 @@ import {
 } from 'react-native-paper';
 import { IMG_BestDeals1, IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
-import { Icon } from 'react-native-vector-icons/MaterialCommunityIcons';
-import { IC_Binoculars, IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
+import {  IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import HeaderBar from '../../../../components/headerBar';
 import FONT_FAMILY from '../../../../constants/fonts';
+import userApi from '../../../../services/userApi';
 
 
 const ProfileScreen = props => {
+  const [image, setImage] = useState();
+  const [user, setUser] = useState([]);
+  const getUserData = async () => {
+    try {
+      const {userData} = await userApi.get();
+      setUser(userData);
+      console.log(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUserData();
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.headerBar} />

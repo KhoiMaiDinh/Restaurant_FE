@@ -37,7 +37,7 @@ const EditProfileScreen = props => {
           setCheckValidNumber(true);
         }
       };
-      const [image, setImage] = useState('https://drive.google.com/file/d/1Snr93Bao8zv0tBTNONR7T2NpRs_gTtkz/view?usp=share_link');
+      const [image, setImage] = useState();
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: scale(300),
@@ -93,7 +93,6 @@ const EditProfileScreen = props => {
       fall = new Animated.Value(1);
 
   return (
-    <ScrollView>
         <SafeAreaView style={styles.container}>
         <>
         <View style={styles.view}>
@@ -131,11 +130,14 @@ const EditProfileScreen = props => {
             {/* Avatar */}
             <>
                 <TouchableOpacity style={styles.avatarTouch} >
-                    <Image  source={{
+                    {image ? <Image  source={{
                     uri: image,
                     }}
                     style={{height: '100%', width: '100%', borderRadius: scale(360)}}
-                    />
+                    /> : <Image  source={IMG_LisaAvatar}
+                      style={{height: '100%', width: '100%', borderRadius: scale(360)}}
+                      />}
+                    
                 </TouchableOpacity>
             </>
             {/* Edit Profile Picture */}
@@ -235,7 +237,6 @@ const EditProfileScreen = props => {
             </>
             </Animated.View>
         </SafeAreaView>
-    </ScrollView>
   )
 }
 
@@ -370,19 +371,19 @@ const styles = StyleSheet.create({
     emailInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(12),
+        paddingTop: scale(13),
         paddingLeft: scale(35),
     },
     numberInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(10),
+        paddingTop: scale(12),
         paddingLeft: scale(35),
     },
     locationInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(2),
+        paddingTop: scale(0),
         paddingLeft: scale(35),
     },
     inputText: {
@@ -404,7 +405,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        marginTop: scale(70),
+        marginTop: scale(50),
         width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,

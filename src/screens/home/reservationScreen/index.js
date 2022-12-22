@@ -1,4 +1,5 @@
 import {
+    ImageBackground,
     Keyboard,
     SafeAreaView,
     StyleSheet,
@@ -14,14 +15,13 @@ import {
   } from 'react-native';
   import React, {useState} from 'react';
   import {CUSTOM_COLOR} from '../../../constants/color';
-  import { IMG_2 } from '../../../assets/images';
+  import { IMG_2, IMG_ReservationBackground } from '../../../assets/images';
   import scale from '../../../utils/responsive';
   import FONT_FAMILY from '../../../constants/fonts';
+  import { IC_Plus, IC_Minus } from '../../../assets/icons';
 
   const ReservationScreen = (props) => {
     const navigation = props;
-    const [mail, setMail] = useState('');
-    const [pass, setPass] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [checkValidNumber, setCheckValidNumber] = useState(false);
     const handleCheckNumber = text => {
@@ -34,29 +34,42 @@ import {
         setCheckValidNumber(true);
       }
     };
+    const [count1, setCount1] = useState(1);
+
+  let inCount = () => {
+    if (count1 < 10) {
+      setCount1(count1 + 1);
+    }
+  };
+  let decCount = () => {
+    if (count1 > 0) {
+      setCount1(count1 - 1);
+    }
+  };
+
     return (
-      <ScrollView>
         <SafeAreaView style={styles.container}>
+          <ImageBackground source={IMG_ReservationBackground} resizeMode={'cover'} style={styles.backGround}>
           <View style={styles.tittleBox}>
               <Text style={styles.screenTittle}>UIT group 3</Text>
               <Text style={styles.restaurantAdd}>Đại học Công nghệ Thông tin, ĐHQG TPHCM</Text>
           </View>
-          <Image style={styles.image} source={IMG_2} />
+          {/* <Image style={styles.image} source={IMG_2} /> */}
           <TouchableWithoutFeedback
             onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
               <KeyboardAvoidingView>
                 <View style = {styles.inputFullNameBox}>
                   <TextInput
                     placeholderTextColor={CUSTOM_COLOR.Grey}
-                    placeholder="Tên"
+                    placeholder="Họ Tên"
                     style={styles.inputText}
                     keyboardType="ascii-capable"
                   />
                 </View>
-                <View style={styles.inputLastNameBox}>
+                <View style={styles.inputReservationDetailsBox}>
                   <TextInput
                   placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Họ"
+                  placeholder="Thời gian nhận bàn"
                   style={styles.inputText}
                   keyboardType="ascii-capable"
                   />
@@ -70,31 +83,39 @@ import {
                     style={styles.inputText}
                     keyboardType="numeric"
                     />
-                  </View>
-                  <View style={{marginTop: scale(270)}}>
+                  <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
                     {checkValidNumber ? (
                       <Text style={styles.textFailed}>Sai định dạng số điện thoại VD: 033 388 3127</Text>
                       ) : (
-                        <Text style={styles.textFailed}> </Text>
+                        <Text st  yle={styles.textFailed}> </Text>
                         )}                  
                   </View>
-                <View style={styles.inputReservationDetailsBox}>
-                  <TextInput
-                  placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Chi tiết đặt chỗ"
-                  style={styles.inputText}
-                  keyboardType="ascii-capable"
-                  />
+                  </View>
+                <View style={styles.inputGuestBox}>
+                  <Text style={styles.ClientAmount}>Số lượng khách</Text>
+                  <View style={styles.countBox}>
+                    <TouchableOpacity onPress={decCount}>
+                      <View style={styles.iconBox}>
+                        <Text style={styles.minus}>-</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <Text style={styles.amount}>{count1}</Text>
+                    <TouchableOpacity onPress={inCount}>
+                      <View style={styles.iconBox}>
+                        <Text>+</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </KeyboardAvoidingView>
           </TouchableWithoutFeedback>
           <TouchableOpacity style={styles.MakeReservationButtonBoxPosition}>
               <View style={styles.MakeReservationButtonBox}>
-              <Text style={styles.buttonText}>Đặt chỗ</Text>
+                <Text style={styles.buttonText}>Đặt chỗ</Text>
               </View>
           </TouchableOpacity>
+          </ImageBackground>
         </SafeAreaView>
-      </ScrollView>
     );
   };
   
@@ -102,13 +123,19 @@ import {
   
   const styles = StyleSheet.create({
     container: {
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width,
+      // height: Dimensions.get('window').height,
+      // width: Dimensions.get('window').width,
+      flex: 1,
       backgroundColor: CUSTOM_COLOR.White,
+    },
+    backGround: {
+      height: Dimensions.get('window').height*0.9,
+      width: Dimensions.get('window').width,
+      justifyContent: 'center',
     },
     tittleBox: {
       position: 'absolute',
-      top: scale(183),
+      top: scale(50),
       //left: scale(90),
       width: '100%',
       
@@ -125,7 +152,6 @@ import {
       fontFamily: FONT_FAMILY.NexaRegular,
       top: scale(4),
       alignSelf: 'center',
-      //left: scale(-30),
     },
     image: {
         width: '100%',
@@ -135,59 +161,109 @@ import {
       },
     inputFullNameBox: {
       position: 'absolute',
-      top: scale(110),
+      top: scale(-200),
       alignSelf: 'center',
-      height: scale(38),
+      height: scale(43),
       width: scale(323),
       borderWidth: 1,
       borderColor: CUSTOM_COLOR.San_Juan,
       borderRadius: 4,
-    },
-    inputLastNameBox: {
-      position: 'absolute',
-      top: scale(170),
-      alignSelf: 'center',
-      height: scale(38),
-      width: scale(323),
-      borderWidth: 1,
-      borderColor: CUSTOM_COLOR.San_Juan,
-      borderRadius: 4,
+      backgroundColor: CUSTOM_COLOR.White,
     },
     inputPhoneNumberBox: {
       position: 'absolute',
-      top: scale(230),
+      top: scale(-130),
       alignSelf: 'center',
-      height: scale(38),
+      height: scale(43),
       width: scale(323),
       borderWidth: 1,
       borderColor: CUSTOM_COLOR.San_Juan,
       borderRadius: 4,
+      backgroundColor: CUSTOM_COLOR.White,
+    },
+    inputLocationBox: {
+      position: 'absolute',
+      top: scale(-60),
+      alignSelf: 'center',
+      height: scale(43),
+      width: scale(323),
+      borderColor: CUSTOM_COLOR.San_Juan,
+      borderRadius: 4,
+      backgroundColor: CUSTOM_COLOR.White,
     },
     inputReservationDetailsBox: {
         position: 'absolute',
-        top: scale(290),
+        marginTop: scale(-60),
         alignSelf: 'center',
-        height: scale(38),
+        height: scale(43),
         width: scale(323),
         borderWidth: 1,
         borderColor: CUSTOM_COLOR.San_Juan,
         borderRadius: 4,
+        backgroundColor: CUSTOM_COLOR.White,
     },
+    inputGuestBox: {
+      position: 'absolute',
+      marginTop: scale(30),
+      alignSelf: 'center',
+      height: scale(43),
+      width: scale(323),
+      //borderWidth: 1,
+      borderColor: CUSTOM_COLOR.San_Juan,
+      borderRadius: 4,
+  },
+  countBox: {
+    width: scale(80),
+    height: scale(43),
+    borderRadius: scale(1000),
+    borderWidth: scale(1),
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginVertical: -25,
+  },
+  amount: {
+    color: CUSTOM_COLOR.Black,
+    fontSize: scale(16),
+    fontFamily: FONT_FAMILY.NexaRegular,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  minus:
+  {
+    top: scale(-2),
+    fontSize: scale(30),
+  },
+  plus:
+  {
+    fontSize: scale(30),
+  },
+  ClientAmount: {
+    marginLeft: scale(15),
+    color: CUSTOM_COLOR.Black,
+    width: scale(299),
+    fontFamily: FONT_FAMILY.NexaRegular,
+    lineHeight: scale(20.6),
+    fontSize: scale(15),
+  },
     inputText: {
       left: scale(15),
       color: CUSTOM_COLOR.Black,
       width: scale(299),
       fontFamily: FONT_FAMILY.NexaRegular,
-      lineHeight: scale(21,67),
+      lineHeight: scale(20.6),
+      fontSize: scale(15),
     },
     MakeReservationButtonBoxPosition: {
       position: 'absolute',
-      top: scale(528),
+      top: scale(460),
       alignSelf: 'center',
     },
     MakeReservationButtonBox: {
       backgroundColor: CUSTOM_COLOR.Primary,
-      height: scale(38),
+      height: scale(43),
       width: scale(278),
       justifyContent: 'center',
       alignItems: 'center',

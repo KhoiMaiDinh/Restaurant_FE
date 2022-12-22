@@ -10,7 +10,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 
 
-const EditProfileScreen = () => {
+const EditProfileScreen = props => {
     const [email, setEmail] = useState('');
     const [checkValidEmail, setCheckValidEmail] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -95,6 +95,27 @@ const EditProfileScreen = () => {
   return (
     <ScrollView>
         <SafeAreaView style={styles.container}>
+        <>
+        <View style={styles.view}>
+            <View >
+                <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={() => {
+                      props.navigation.goBack();
+                    }}>
+                    <IC_GoBack />
+                    <Text style={styles.screenTittle2}>Quay lại</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    </>
+     {/* Private Profile */}
+     <>
+                        <Text style={styles.privateProfileText} >
+                        Thông tin Cá nhân
+                        </Text>
+                    </>
+
         <BottomSheet
         ref={this.bs}
         snapPoints={[330, 0]}
@@ -145,12 +166,7 @@ const EditProfileScreen = () => {
                         </View>
                     </>
                      </View>
-                    {/* Private Profile */}
-                    <>
-                        <Text style={styles.privateProfileText} >
-                        Thông tin Cá nhân
-                        </Text>
-                    </>
+                   
                     {/* Email */}
                     <>
                         <View style={styles.emailInput}>
@@ -228,6 +244,7 @@ const stylePanel = StyleSheet.create({panel: {
     padding: scale(20),
     backgroundColor: CUSTOM_COLOR.White,
     paddingTop: scale(20),
+    
 },
 commandButton: {
     padding: scale(15),
@@ -299,6 +316,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height,
         width: Dimensions.get('window').width,
         backgroundColor: CUSTOM_COLOR.White,
+        flex: 1,
     },
     avatarTouch: {
         width:scale(110),
@@ -352,19 +370,19 @@ const styles = StyleSheet.create({
     emailInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(0),
+        paddingTop: scale(10),
         paddingLeft: scale(35),
     },
     numberInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(8),
+        paddingTop: scale(10),
         paddingLeft: scale(35),
     },
     locationInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(8),
+        paddingTop: scale(10),
         paddingLeft: scale(35),
     },
     inputText: {
@@ -407,4 +425,25 @@ const styles = StyleSheet.create({
         fontSize: scale(12),
         color: CUSTOM_COLOR.Red,
       },
+      view:{
+        marginTop: scale(15),
+        marginLeft: scale(10),
+        justifyContent: 'space-between',
+        width: '70%',
+        height: scale(32),
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+      goBackButton: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        height: scale(32),
+        justifyContent: 'center',
+    },
+    screenTittle2: {
+      color: CUSTOM_COLOR.Black,
+      fontSize: scale(15),
+      fontFamily: FONT_FAMILY.NexaRegular,
+      alignSelf: 'center',
+  },
 })

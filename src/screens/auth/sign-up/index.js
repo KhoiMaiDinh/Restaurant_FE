@@ -209,7 +209,7 @@ const SignUpScreen = props => {
       paddingHorizontal: scale(15),
       width: scale(323),
       borderWidth: 1,
-      borderColor: CUSTOM_COLOR.Navy,
+      borderColor: CUSTOM_COLOR.Primary,
       borderRadius: 500,
       //marginBottom: scale(15),
     },
@@ -222,7 +222,7 @@ const SignUpScreen = props => {
       alignSelf: 'center',
     },
     SignUpButtonBox: {
-      backgroundColor: CUSTOM_COLOR.San_Juan,
+      backgroundColor: CUSTOM_COLOR.Primary,
       width: scale(278),
       justifyContent: 'center',
       alignItems: 'center',

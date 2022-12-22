@@ -371,19 +371,19 @@ const styles = StyleSheet.create({
     emailInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(10),
+        paddingTop: scale(13),
         paddingLeft: scale(35),
     },
     numberInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(10),
+        paddingTop: scale(12),
         paddingLeft: scale(35),
     },
     locationInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(10),
+        paddingTop: scale(0),
         paddingLeft: scale(35),
     },
     inputText: {
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        marginTop: scale(70),
+        marginTop: scale(50),
         width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,

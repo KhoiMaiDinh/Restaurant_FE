@@ -18,7 +18,6 @@ import {
   import { IMG_2, IMG_ReservationBackground } from '../../../assets/images';
   import scale from '../../../utils/responsive';
   import FONT_FAMILY from '../../../constants/fonts';
-  import RestaurantsList from './components/resList';
   import { IC_Plus, IC_Minus } from '../../../assets/icons';
 
   const ReservationScreen = (props) => {

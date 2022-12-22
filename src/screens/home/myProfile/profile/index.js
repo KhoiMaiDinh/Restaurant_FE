@@ -46,7 +46,7 @@ const ProfileScreen = props => {
                 />
                 <View style={{marginLeft: scale(20)}}>
                     <Title style={[styles.title,styles.text]}>
-                        Thu Hien
+                        Thu Hiền
                     </Title>
                     <Caption style={[styles.caption,styles.text]}>@thuhien_07</Caption>
                 </View>

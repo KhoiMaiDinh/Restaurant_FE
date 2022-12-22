@@ -8,31 +8,23 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
-import {BASE_URL} from '../../../utils/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {store} from './../../../redux/store';
-import axios from 'axios';
+import categoryApi from '../../../services/categoryApi';
+import { addToCart } from '../../../redux/actions/cartActions';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
+  //console.log(data);
   const [category, setCategory] = useState([]);
-  const {token} = store.getState().user;
   const getCategory = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/category/${data.categoryId}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        },
-      );
-      setCategory(response.data.category);
+      const {category} = await categoryApi.get(data.categoryId);
+      setCategory(category);
     } catch (error) {
       console.log(error);
     }
@@ -52,12 +44,17 @@ const SingleFoodItemScreen = props => {
     }
   };
   let decCount = () => {
-    if (count1 > 0) {
+    if (count1 > 1) {
       setCount1(count1 - 1);
       setPrice(price - data.price);
     }
   };
 
+  const dispatch = useDispatch();
+  const addToCartHandler = () => {
+    dispatch(addToCart(data._id, count1));
+    console.log(data._id, count1);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -103,8 +100,9 @@ const SingleFoodItemScreen = props => {
             {Intl.NumberFormat('vn-VN').format(price)} ₫
           </Text>
         </View>
-        <TouchableOpacity style={styles.AddButtonBox}>
-          <View>
+        <TouchableOpacity
+        onPress={addToCartHandler}>
+          <View style={styles.AddButtonBox}>
             <Text style={styles.buttonText}>Thêm vào giỏ hàng</Text>
           </View>
         </TouchableOpacity>
@@ -197,6 +195,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Black,
     fontSize: Math.max(25),
     fontFamily: FONT_FAMILY.NexaRegular,
+    alignSelf: 'center',
   },
 
   AddButtonBox: {

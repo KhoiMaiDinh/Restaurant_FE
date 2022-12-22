@@ -5,6 +5,7 @@ import scale from '../utils/responsive';
 import {CUSTOM_COLOR} from '../constants/color';
 import FONT_FAMILY from '../constants/fonts';
 import SearchBar from '../screens/home/searchScreen/components/searchBar';
+import { useSelector } from 'react-redux';
 
 const HeaderBar = ({pageName, style, navigation, setSearch}) => {
   const openMenu = () => {
@@ -13,6 +14,10 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
   const openCart = () => {
     navigation.navigate('CartScreen');
   };
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+  const numberOfProduct = cartItems.length;
+  
 
   return (
     <View style={styles.container}>
@@ -26,7 +31,7 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
       )}
 
       <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
-        <IC_Cart />
+        <IC_Cart nOP = {numberOfProduct}/>
       </TouchableOpacity>
     </View>
   );

@@ -7,4 +7,6 @@ export const CUSTOM_COLOR = {
   Grey: '#9B9B9B',
   GreySecond: 'rgba(142, 142, 147, 0.12)',
   San_Juan: '#374B6D',
+  Sonic_Silver: '#777777',
+  Gainsboro: '#dddddd',
 }

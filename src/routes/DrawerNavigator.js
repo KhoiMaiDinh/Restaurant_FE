@@ -31,6 +31,8 @@ import {BASE_URL} from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
+import foodApi from '../services/foodApi';
+import ProfileScreen from '../screens/home/myProfile/profile';
 
 const Drawer = createDrawerNavigator();
 
@@ -51,6 +53,15 @@ const ButtonDrawer = props => {
 
 const CustomScrollDrawer = props => {
   const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
+      props.navigation.replace('AuthStackScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <DrawerContentScrollView
@@ -110,10 +121,7 @@ const CustomScrollDrawer = props => {
             justifyContent: 'center',
             flexDirection: 'row',
           }}
-          onPress={async () => {
-            await dispatch(logout());
-            props.navigation.replace('AuthStackScreen');
-          }}>
+          onPress={() => handleLogout()}>
           <IC_LogOut />
           <Text style={styles.text}>Đăng xuất</Text>
         </TouchableOpacity>
@@ -127,23 +135,14 @@ const DrawerScreen = () => {
   const [searchData, setSearchData] = useState([]);
 
   const getSearchData = useCallback(async () => {
-    const token = await AsyncStorage.getItem(`@token`);
-    const searchURL = `${BASE_URL}/food/?search={${search}}`;
-    const res = await fetch(searchURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const json = await res.json();
-    return setSearchData(json.foods);
+    const {foods} = await foodApi.getAll('', '', search);
+    return setSearchData(foods);
   }, [search]);
 
   useEffect(() => {
     getSearchData();
   }, [getSearchData, search]);
-  console.log(searchData);
+  //console.log(searchData);
 
   const Search = () => <SearchScreen searchData={searchData} />;
 
@@ -208,7 +207,7 @@ const DrawerScreen = () => {
       />
       <Drawer.Screen
         name="Profile"
-        component={EditProfileScreen}
+        component={ProfileScreen}
         options={({navigation}) => ({
           headerTitle: () => (
             <HeaderBar pageName={'Cá nhân'} navigation={navigation} />

@@ -10,6 +10,7 @@ import React from 'react';
 import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
+import { useNavigation } from '@react-navigation/native';
 
 const Foods = ({searchData, props}) => {
   return (
@@ -21,6 +22,7 @@ const Foods = ({searchData, props}) => {
           description={item.description}
           price={item.price}
           img = {{uri: `${item.posterImage.url}`}}
+          item= {item}
           {...props}
         />
       ))}
@@ -32,8 +34,9 @@ export default Foods;
 
 const OneFood = props => {
   console.log(props.name);
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={() => {props.navigation.navigate("SingleFoodItemScreen")}}>
+    <TouchableOpacity onPress={() => navigation.navigate("SingleFoodItemScreen", {data: props.item})}>
       <View style={styles.container}>
         <View style={styles.foodInfo}>
           <Text numberOfLines={1} style={styles.foodName}>{props.name}</Text>

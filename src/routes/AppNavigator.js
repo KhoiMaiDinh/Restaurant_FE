@@ -3,7 +3,10 @@ import DrawerScreen from './DrawerNavigator';
 import SingleFoodItemScreen from '../screens/home/singleFoodItemScreen/index';
 import CartScreen from '../screens/home/cartScreen';
 import CategoryScreen from '../screens/home/categoryScreen/index';
+import ReviewScreen from '../screens/home/reviewScreen';
 import {createStackNavigator} from '@react-navigation/stack';
+import EditProfileScreen from '../screens/home/myProfile/editProfileScreen';
+import ProfileScreen from '../screens/home/myProfile/profile';
 
 const AppStack = createStackNavigator();
 
@@ -19,6 +22,9 @@ const AppStackScreen = props => {
       />
       <AppStack.Screen name={'CartScreen'} component={CartScreen} />
       <AppStack.Screen name={'CategoryScreen'} component={CategoryScreen} />
+      <AppStack.Screen name={'ReviewScreen'} component={ReviewScreen}/>
+      <AppStack.Screen name={'EditProfileScreen'} component={EditProfileScreen}/>
+      <AppStack.Screen name ={'ProfileScreen'} component={ProfileScreen}/>
     </AppStack.Navigator>
   );
 };

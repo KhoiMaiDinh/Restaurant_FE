@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     emailInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(10),
+        paddingTop: scale(12),
         paddingLeft: scale(35),
     },
     numberInput: {
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     locationInput: {
         width: scale(345),
         height: scale(50),
-        paddingTop: scale(10),
+        paddingTop: scale(2),
         paddingLeft: scale(35),
     },
     inputText: {

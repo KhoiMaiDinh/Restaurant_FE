@@ -1,6 +1,7 @@
 import { ScaleFromCenterAndroid } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets';
 import React from 'react';
 import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import { useEffect } from 'react';
 import {
   Avatar,
   Title,
@@ -15,9 +16,25 @@ import { IC_Binoculars, IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } 
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import HeaderBar from '../../../../components/headerBar';
 import FONT_FAMILY from '../../../../constants/fonts';
+import userApi from '../../../../services/userApi';
 
 
 const ProfileScreen = props => {
+  // const [profileData, setProfileData] = useState([]);
+  // const {data} = props.route.params;
+
+  // const getProfile = async () => {
+  //   try {
+  //     const {userData} = await userApi.get(data.userId);
+  //     setProfileData(userData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.headerBar} />
@@ -29,7 +46,7 @@ const ProfileScreen = props => {
                 />
                 <View style={{marginLeft: scale(20)}}>
                     <Title style={[styles.title,styles.text]}>
-                        Thu Hien
+                        Thu Hiền
                     </Title>
                     <Caption style={[styles.caption,styles.text]}>@thuhien_07</Caption>
                 </View>

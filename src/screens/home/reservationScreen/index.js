@@ -49,7 +49,6 @@ import {
   };
 
     return (
-      <ScrollView>
         <SafeAreaView style={styles.container}>
           <ImageBackground source={IMG_ReservationBackground} resizeMode={'cover'} style={styles.backGround}>
           <View style={styles.tittleBox}>
@@ -89,15 +88,12 @@ import {
                     {checkValidNumber ? (
                       <Text style={styles.textFailed}>Sai định dạng số điện thoại VD: 033 388 3127</Text>
                       ) : (
-                        <Text style={styles.textFailed}> </Text>
+                        <Text st  yle={styles.textFailed}> </Text>
                         )}                  
                   </View>
                   </View>
-                <View style={styles.inputLocationBox}>
-                  <RestaurantsList></RestaurantsList>
-                </View>
                 <View style={styles.inputGuestBox}>
-                  <Text style={styles.inputText}>Số lượng khách</Text>
+                  <Text style={styles.ClientAmount}>Số lượng khách</Text>
                   <View style={styles.countBox}>
                     <TouchableOpacity onPress={decCount}>
                       <View style={styles.iconBox}>
@@ -121,7 +117,6 @@ import {
           </TouchableOpacity>
           </ImageBackground>
         </SafeAreaView>
-      </ScrollView>
     );
   };
   
@@ -135,7 +130,7 @@ import {
       backgroundColor: CUSTOM_COLOR.White,
     },
     backGround: {
-      height: Dimensions.get('window').height,
+      height: Dimensions.get('window').height*0.9,
       width: Dimensions.get('window').width,
       justifyContent: 'center',
     },
@@ -199,7 +194,7 @@ import {
     },
     inputReservationDetailsBox: {
         position: 'absolute',
-        top: scale(10),
+        marginTop: scale(-60),
         alignSelf: 'center',
         height: scale(43),
         width: scale(323),
@@ -210,7 +205,7 @@ import {
     },
     inputGuestBox: {
       position: 'absolute',
-      top: scale(80),
+      marginTop: scale(30),
       alignSelf: 'center',
       height: scale(43),
       width: scale(323),
@@ -246,6 +241,14 @@ import {
   {
     fontSize: scale(30),
   },
+  ClientAmount: {
+    marginLeft: scale(15),
+    color: CUSTOM_COLOR.Black,
+    width: scale(299),
+    fontFamily: FONT_FAMILY.NexaRegular,
+    lineHeight: scale(20.6),
+    fontSize: scale(15),
+  },
     inputText: {
       left: scale(15),
       color: CUSTOM_COLOR.Black,
@@ -256,7 +259,7 @@ import {
     },
     MakeReservationButtonBoxPosition: {
       position: 'absolute',
-      top: scale(520),
+      top: scale(460),
       alignSelf: 'center',
     },
     MakeReservationButtonBox: {

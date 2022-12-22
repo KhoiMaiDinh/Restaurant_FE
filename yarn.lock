@@ -6398,6 +6398,11 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
+"react-native-element-dropdown@^2.5.1":
+  "integrity" "sha512-RJcfvTr73EL10aeEp8WA2j1X6H7w4TpS8ZdERB4uahr9KohkwbyE5SI3cIlbytP3ptMGsBz5UPRycyTMHxmuDQ=="
+  "resolved" "https://registry.npmjs.org/react-native-element-dropdown/-/react-native-element-dropdown-2.5.1.tgz"
+  "version" "2.5.1"
+
 "react-native-gesture-handler@^2.7.1":
   "integrity" "sha512-Rnak7U4v3ZB+vjVghv5CvAGS+UfRLsXUq7Nq+FycloxZ7jUZjBo+7rPnt+EdTIE2zc2pKhQHIQKcD+IAPg2Scg=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.7.1.tgz"

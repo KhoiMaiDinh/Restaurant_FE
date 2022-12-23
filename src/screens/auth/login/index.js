@@ -21,7 +21,6 @@ import axios from 'axios';
 import {BASE_URL} from '../../../utils/api';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import { IMG_Warning } from '../../../assets/images';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();

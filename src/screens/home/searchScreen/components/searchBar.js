@@ -11,16 +11,13 @@ import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import {IC_Delete, IC_Search} from '../../../../assets/icons';
 
-const SearchBar = (props) => {
+const SearchBar = ({search, setSearch}) => {
   
   return (
     <View style={styles.container}>
       <IC_Search marginLeft={scale(10)} fill={CUSTOM_COLOR.Black}/>
       <TextInput
-        ref={input => {
-          this.textInput = input;
-        }}
-        onChangeText={text => props.setSearch(text)}
+        onChangeText={text => setSearch(text)}
         selectionColor={CUSTOM_COLOR.Grey}
         placeholder="Search"
         placeholderTextColor={CUSTOM_COLOR.Grey}
@@ -32,7 +29,7 @@ const SearchBar = (props) => {
         }}
       />
       <TouchableOpacity
-        onPress={() => props.setSearch('') & this.textInput.clear()}>
+        onPress={() => setSearch('')}>
         <IC_Delete marginRight={scale(10)} />
       </TouchableOpacity>
     </View>

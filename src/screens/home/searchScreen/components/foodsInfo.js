@@ -33,7 +33,6 @@ const Foods = ({searchData, props}) => {
 export default Foods;
 
 const OneFood = props => {
-  console.log(props.name);
   const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={() => navigation.navigate("SingleFoodItemScreen", {data: props.item})}>

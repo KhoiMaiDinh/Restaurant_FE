@@ -21,7 +21,7 @@ const userApi = {
 
   refreshToken(refreshToken) {
     const url = '/auth/refresh';
-    return axiosClient.post(url, refreshToken);
+    return axiosClient.post(url, {refreshToken});
   },
 
   reservate(payload) {

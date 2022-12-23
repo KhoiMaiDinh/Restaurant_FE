@@ -1,14 +1,33 @@
 import {SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import Foods from './components/foodsInfo';
 import SearchBar from './components/searchBar';
 import { IC_GoBack } from '../../../assets/icons';
-import scale from '../../../utils/responsive';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+import foodApi from '../../../services/foodApi';
 
-const SearchScreen = ({searchData, props, setSearch}) => {
+const SearchScreen = ({ props }) => {
   const navigation = useNavigation();
+  const [search, setSearch] = useState('');
+  const [searchData, setSearchData] = useState([]);
+
+  useEffect(() => {
+    const getSearchData = async () => {
+      try {
+        if (search) {
+          const {foods} = await foodApi.getAll('', '', search);
+          setSearchData(foods);
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    getSearchData();
+  }, [search]);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.viewGoBackText}>
@@ -20,8 +39,9 @@ const SearchScreen = ({searchData, props, setSearch}) => {
           <IC_GoBack style={styles.goBack} />
           {/* <Text style={styles.screenTittle2}>Quay lại</Text> */}
         </TouchableOpacity>
+        <SearchBar setSearch={setSearch} search={search}/>
+        <View style={{width: 1, height: 1}}/>
       </View>
-      <SearchBar setSearch={setSearch}/>
       <Foods searchData={searchData} {...props} />
     </SafeAreaView>
   );
@@ -34,5 +54,17 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
     flex: 1,
   },
-  
+  goBack: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    //height: scale(32),
+    justifyContent: 'center',
+  },
+  viewGoBackText: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    justifyContent: 'space-between',
+    //alignItems: 'center',
+    //paddingHorizontal: 10,  
+  }
 });

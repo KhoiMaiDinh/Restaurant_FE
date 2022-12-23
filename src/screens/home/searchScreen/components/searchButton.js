@@ -13,8 +13,8 @@ import {
   import FONT_FAMILY from '../../../../constants/fonts';
   import { useNavigation } from '@react-navigation/native';
   
-  const SearchButton = () => {
-    const navigation=useNavigation();
+  const SearchButton = ({navigation}) => {
+    //const navigation=useNavigation();
     return (
       <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('SearchScreen')}>
         <IC_Search marginLeft={scale(10)} fill={CUSTOM_COLOR.Black}/>

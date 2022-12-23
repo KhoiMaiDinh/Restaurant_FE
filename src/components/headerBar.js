@@ -26,7 +26,7 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
         <IC_Drawer />
       </TouchableOpacity>
       {pageName === 'Trang chủ' ? (
-        <SearchButton />
+        <SearchButton navigation = {navigation}/>
       ) : (
         <Text style={styles.homeName}>{pageName}</Text>
       )}

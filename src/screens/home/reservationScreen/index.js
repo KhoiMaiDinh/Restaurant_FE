@@ -99,7 +99,7 @@ import {
                         <Text style={styles.minus}>-</Text>
                       </View>
                     </TouchableOpacity>
-                    <Text style={styles.amount}>{count1}</Text>
+                    <Text style={styles.amount}>{count1}</Text>   
                     <TouchableOpacity onPress={inCount}>
                       <View style={styles.iconBox}>
                         <Text>+</Text>

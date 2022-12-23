@@ -1,4 +1,4 @@
-import React,{useCallback, useState, useEffect} from 'react';
+import React,{useCallback, useState, useEffect, useRef} from 'react';
 import DrawerScreen from './DrawerNavigator';
 import SingleFoodItemScreen from '../screens/home/singleFoodItemScreen/index';
 import CartScreen from '../screens/home/cartScreen';
@@ -13,29 +13,15 @@ import foodApi from '../services/foodApi';
 const AppStack = createStackNavigator();
 
 const AppStackScreen = props => {
-  const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState([]);
 
-  const getSearchData = useCallback(async () => {
-    const {foods} = await foodApi.getAll('', '', search);
-    return setSearchData(foods);
-  }, [search]);
 
-  useEffect(() => {
-    getSearchData();
-  }, [getSearchData, search]);
-  //console.log(searchData);
-
-  const Search = () => <SearchScreen setSearch={setSearch} searchData={searchData} />;
+  const Search = () => <SearchScreen/>;
   return (
     <AppStack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName={DrawerScreen}>
       <AppStack.Screen name={'DrawerScreen'} component={DrawerScreen} />
-      <AppStack.Screen
-        name={'SingleFoodItemScreen'}
-        component={SingleFoodItemScreen}
-      />
+      <AppStack.Screen name={'SingleFoodItemScreen'} component={SingleFoodItemScreen} />
       <AppStack.Screen name={'SearchScreen'} component={Search} />
       <AppStack.Screen name={'CartScreen'} component={CartScreen} />
       <AppStack.Screen name={'CategoryScreen'} component={CategoryScreen} />

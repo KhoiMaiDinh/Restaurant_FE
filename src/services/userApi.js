@@ -23,6 +23,11 @@ const userApi = {
     const url = '/auth/refresh';
     return axiosClient.post(url, refreshToken);
   },
+
+  reservate(payload) {
+    const url = '/reservation/';
+    return axiosClient.post(url, payload);
+  },
 };
 
 export default userApi;

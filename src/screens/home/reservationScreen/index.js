@@ -25,6 +25,7 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
+import { useRef } from 'react';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -38,10 +39,6 @@ const reservationSchema = yup.object({
 });
 
 const ReservationScreen = props => {
-  const navigation = props;
-  const [checkValidNumber, setCheckValidNumber] = useState(false);
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [openTime, setOpenTime] = useState(false);
@@ -50,6 +47,7 @@ const ReservationScreen = props => {
   const [color, setColor] = useState();
   const [message, setMessage] = useState('');
   const {user} = store.getState().user;
+  const bs = useRef(null);
 
   const {
     control,
@@ -99,24 +97,23 @@ const ReservationScreen = props => {
       // Thông báo thành công
       setColor(CUSTOM_COLOR.Primary);
       setMessage('Đặt bàn thành công');
-      this.bs.current.snapTo(0);
+      bs?.current?.snapTo(0);
     } catch (error) {
       //Thông báo thất bại
       setColor(CUSTOM_COLOR.Red); 
       setMessage('Đặt bàn thất bại');
-      this.bs.current.snapTo(0);
+      bs?.current?.snapTo(0);
       console.log(error);
     }
   };
-  render = () => (
-  <View style={[stylePanel.panel, { backgroundColor: color}]}>
-      <View style={{alignItems: 'center'}}>
-        <Text style={stylePanel.panelTitle}>{message}</Text>
+  const render = () => (
+    <View style={[stylePanel.panel, { backgroundColor: color}]}>
+        <View style={{alignItems: 'center'}}>
+          <Text style={stylePanel.panelTitle}>{message}</Text>
+        </View>
       </View>
-    </View>
   );
-  bs = React.createRef();
-  fall = new Animated.Value(1);
+  const fall = new Animated.Value(1);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,15 +122,15 @@ const ReservationScreen = props => {
         resizeMode={'cover'}
         style={styles.backGround}>
       <BottomSheet
-        ref={this.bs}
+        ref={bs}
         snapPoints={[100, 0]}
-        renderContent={this.render}
+        renderContent={render}
         initialSnap={1}
-        callbackNode={this.fall}
+        callbackNode={fall}
         enabledGestureInteraction={true}
       />
       <Animated.View style={{margin: 20,
-        opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+        opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
     }}>
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>UIT group 3</Text>

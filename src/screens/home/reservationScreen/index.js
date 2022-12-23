@@ -23,6 +23,8 @@ import userApi from '../../../services/userApi';
 import {Controller, useForm} from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -45,6 +47,8 @@ const ReservationScreen = props => {
   const [openTime, setOpenTime] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState();
+  const [message, setMessage] = useState('');
   const {user} = store.getState().user;
 
   const {
@@ -93,11 +97,26 @@ const ReservationScreen = props => {
       };
       await userApi.reservate(reservationData);
       // Thông báo thành công
+      setColor(CUSTOM_COLOR.Primary);
+      setMessage('Đặt bàn thành công');
+      this.bs.current.snapTo(0);
     } catch (error) {
       //Thông báo thất bại
+      setColor(CUSTOM_COLOR.Red); 
+      setMessage('Đặt bàn thất bại');
+      this.bs.current.snapTo(0);
       console.log(error);
     }
   };
+  render = () => (
+  <View style={[stylePanel.panel, { backgroundColor: color}]}>
+      <View style={{alignItems: 'center'}}>
+        <Text style={stylePanel.panelTitle}>{message}</Text>
+      </View>
+    </View>
+  );
+  bs = React.createRef();
+  fall = new Animated.Value(1);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -105,6 +124,17 @@ const ReservationScreen = props => {
         source={IMG_ReservationBackground}
         resizeMode={'cover'}
         style={styles.backGround}>
+      <BottomSheet
+        ref={this.bs}
+        snapPoints={[100, 0]}
+        renderContent={this.render}
+        initialSnap={1}
+        callbackNode={this.fall}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View style={{margin: 20,
+        opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+    }}>
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>UIT group 3</Text>
           <Text style={styles.restaurantAdd}>
@@ -247,6 +277,7 @@ const ReservationScreen = props => {
             <Text style={styles.buttonText}>Đặt chỗ</Text>
           </View>
         </TouchableOpacity>
+        </Animated.View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -396,3 +427,22 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Red,
   },
 });
+const stylePanel = StyleSheet.create({
+  panel: {
+    padding: scale(20),
+    paddingTop: scale(20),
+  },
+  panelTitle: {
+    fontSize: 27,
+    color: CUSTOM_COLOR.White,
+    height: scale(35),
+  },
+  panelSubtitle: {
+    fontSize: scale(14),
+    color: CUSTOM_COLOR.White,
+    height: scale(30),
+    marginBottom: scale(10),
+  },
+  
+  
+  });

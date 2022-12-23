@@ -6,18 +6,27 @@ import {
   Title,
   Caption,
   Text,
-  TouchableRipple,
 } from 'react-native-paper';
-import { IMG_BestDeals1, IMG_LisaAvatar } from '../../../../assets/images';
+import { IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
-import { Icon } from 'react-native-vector-icons/MaterialCommunityIcons';
-import { IC_Binoculars, IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
+import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
-import HeaderBar from '../../../../components/headerBar';
 import FONT_FAMILY from '../../../../constants/fonts';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ProfileScreen = props => {
+  const [user, setUser] = useState([]);
+  const getUserInfo = async () => {
+    const userInfo = await AsyncStorage.getItem('@user');
+    const userInfoJS = JSON.parse(userInfo);
+    setUser(userInfoJS);
+  }
+
+  useEffect(() => {
+    getUserInfo();
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.headerBar} />
@@ -29,9 +38,9 @@ const ProfileScreen = props => {
                 />
                 <View style={{marginLeft: scale(20)}}>
                     <Title style={[styles.title,styles.text]}>
-                        Thu Hien
+                        {user.name}
                     </Title>
-                    <Caption style={[styles.caption,styles.text]}>@thuhien_07</Caption>
+                    <Caption style={[styles.caption,styles.text]}>{user.email}</Caption>
                 </View>
             </View>
         </View>
@@ -43,12 +52,12 @@ const ProfileScreen = props => {
 
             <View style={styles.row}>
             <View style={styles.icon}><IC_Phone /></View>
-                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>+84 *****6905</Text>
+                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>{user.phoneNumber}</Text>
             </View>
 
             <View style={styles.row}>
             <View style={styles.icon}><IC_Mail /></View>
-                <Text style={{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20, fontFamily: FONT_FAMILY.NexaRegular}}>thuhien@gmail.com</Text>
+                <Text style={{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20, fontFamily: FONT_FAMILY.NexaRegular}}>{user.email}</Text>
             </View>
 
         </View>

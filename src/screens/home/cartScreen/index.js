@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TouchableOpacity, Button, Dimensions } from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { CUSTOM_COLOR } from '../../../constants/color'
@@ -7,7 +7,7 @@ import scale from '../../../utils/responsive'
 import FONT_FAMILY from '../../../constants/fonts'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeFromCart, adjustQTY } from '../../../redux/actions/cartActions'
+import { removeFromCart, adjustQTY, resetCartWhenOrder } from '../../../redux/actions/cartActions'
 import Item from './components/iteam'
 
 
@@ -42,6 +42,10 @@ const CartScreen = (props) => {
     
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
+    }
+
+    const resetCartHandler = () => {
+        dispatch(resetCartWhenOrder())
     }
   return (
     <SafeAreaView style={styles.container }>
@@ -92,7 +96,7 @@ const CartScreen = (props) => {
         </>
         <>
         <View style={styles.buttonPlace}>
-            <TouchableOpacity > 
+            <TouchableOpacity onPress={resetCartHandler}> 
                 <Text style={styles.textPlace}>ĐẶT MÓN</Text>
             </TouchableOpacity>
         </View>

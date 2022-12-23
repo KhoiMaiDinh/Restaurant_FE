@@ -130,7 +130,7 @@ const EditProfileScreen = props => {
     }}>
             {/* Avatar */}
             <>
-                <TouchableOpacity style={styles.avatarTouch} >
+                <TouchableOpacity style={styles.avatarTouch} onPress={() => this.bs.current.snapTo(0)}>
                     <Image  source={{
                     uri: image,
                     }}
@@ -276,12 +276,12 @@ commandButton: {
   panelTitle: {
     fontSize: 27,
     color: CUSTOM_COLOR.Primary,
-    height: scale(35),
+    paddingVertical: scale(5),
   },
   panelSubtitle: {
     fontSize: scale(14),
     color: CUSTOM_COLOR.Primary,
-    height: scale(30),
+    //height: scale(30),
     marginBottom: scale(10),
   },
   panelButton: {

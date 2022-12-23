@@ -20,6 +20,11 @@ const userApi = {
     const url = '/auth/refresh';
     return axiosClient.post(url, refreshToken);
   },
+
+  editUser(id, payload) {
+    const url = `/auth/user/${id}`;
+    return axiousClient.post(url, payload);
+  },
 };
 
 export default userApi;

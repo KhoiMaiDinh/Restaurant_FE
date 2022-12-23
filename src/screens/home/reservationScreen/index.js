@@ -35,6 +35,7 @@ const reservationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+    .max(11, "Số điện thoại không hợp lệ")
     .required('Số điện thoại không được để trống'),
 });
 

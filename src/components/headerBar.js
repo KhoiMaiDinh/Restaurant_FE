@@ -6,6 +6,7 @@ import {CUSTOM_COLOR} from '../constants/color';
 import FONT_FAMILY from '../constants/fonts';
 import SearchBar from '../screens/home/searchScreen/components/searchBar';
 import { useSelector } from 'react-redux';
+import SearchButton from '../screens/home/searchScreen/components/searchButton';
 
 const HeaderBar = ({pageName, style, navigation, setSearch}) => {
   const openMenu = () => {
@@ -24,8 +25,8 @@ const HeaderBar = ({pageName, style, navigation, setSearch}) => {
       <TouchableOpacity style={styles.drawerButton} onPress={() => openMenu()}>
         <IC_Drawer />
       </TouchableOpacity>
-      {pageName === 'Tìm kiếm' ? (
-        <SearchBar setSearch={setSearch} />
+      {pageName === 'Trang chủ' ? (
+        <SearchButton />
       ) : (
         <Text style={styles.homeName}>{pageName}</Text>
       )}

@@ -97,12 +97,12 @@ const CustomScrollDrawer = props => {
           component="Menu"
           navigation={props.navigation}
         />
-        <ButtonDrawer
+        {/* <ButtonDrawer
           label="Tìm kiếm"
           icon={<IC_Search fill={CUSTOM_COLOR.Primary} />}
           component="Search"
           navigation={props.navigation}
-        />
+        /> */}
         <ButtonDrawer
           label="Đặt chỗ"
           icon={<IC_Reservation />}
@@ -131,20 +131,20 @@ const CustomScrollDrawer = props => {
 };
 
 const DrawerScreen = () => {
-  const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState([]);
+  // const [search, setSearch] = useState('');
+  // const [searchData, setSearchData] = useState([]);
 
-  const getSearchData = useCallback(async () => {
-    const {foods} = await foodApi.getAll('', '', search);
-    return setSearchData(foods);
-  }, [search]);
+  // const getSearchData = useCallback(async () => {
+  //   const {foods} = await foodApi.getAll('', '', search);
+  //   return setSearchData(foods);
+  // }, [search]);
 
-  useEffect(() => {
-    getSearchData();
-  }, [getSearchData, search]);
-  //console.log(searchData);
+  // useEffect(() => {
+  //   getSearchData();
+  // }, [getSearchData, search]);
+  // //console.log(searchData);
 
-  const Search = () => <SearchScreen searchData={searchData} />;
+  // const Search = () => <SearchScreen searchData={searchData} />;
 
   return (
     <Drawer.Navigator
@@ -192,7 +192,7 @@ const DrawerScreen = () => {
           ),
         })}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Search"
         component={Search}
         options={({navigation}) => ({
@@ -204,7 +204,7 @@ const DrawerScreen = () => {
             />
           ),
         })}
-      />
+      /> */}
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}

@@ -66,5 +66,6 @@ const styles = StyleSheet.create({
     marginTop: scale(15),
     //borderBottomWidth: 1,
     justifyContent: 'space-between',
+    paddingHorizontal: 10,
   }
 });

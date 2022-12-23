@@ -43,7 +43,7 @@ axiosClient.interceptors.response.use(
         try {
           const accessToken = await refreshToken();
           await AsyncStorage.setItem('@access-token', accessToken);
-          axiosClient.defaults.headers = {
+          axios.defaults.headers.common = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
           };

@@ -43,10 +43,10 @@ axiosClient.interceptors.response.use(
         try {
           const accessToken = await refreshToken();
           await AsyncStorage.setItem('@access-token', accessToken);
-          axiosClient.defaults.headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-          };
+          // axiosClient.defaults.headers = {
+          //   'Content-Type': 'application/json',
+          //   'Authorization': `Bearer ${accessToken}`,
+          // };
 
           return axiosClient(originalConfig);
         } catch (error) {

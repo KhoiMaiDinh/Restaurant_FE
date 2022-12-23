@@ -1,5 +1,4 @@
 {
-    "cSpell.words": [
-        "Nexa"
-    ]
+  "cSpell.words": ["Nexa"],
+  "java.compile.nullAnalysis.mode": "automatic"
 }

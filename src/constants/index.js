@@ -1,14 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
 
-const index = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  )
-}
+import { SIZES, FONTS } from "./theme";
+import GOOGLE_API_KEY from "./maps"
 
-export default index
-
-const styles = StyleSheet.create({})
+export {  SIZES, FONTS, GOOGLE_API_KEY };

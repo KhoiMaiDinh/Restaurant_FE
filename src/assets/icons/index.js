@@ -28,3 +28,4 @@ export {default as IC_Heart} from './ic_heart';
 export {default as IC_Star} from './ic_star';
 export {default as IC_Edit} from './ic_edit';
 export {default as IC_HeartNone} from './ic_heartNone';
+export {default as IC_Support} from './ic_support';

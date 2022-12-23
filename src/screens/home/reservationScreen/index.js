@@ -201,12 +201,16 @@ const ReservationScreen = props => {
                 />
               </View>
               <View style={styles.datePickerButton}>
-                <Button title="Chọn ngày" onPress={() => setOpenDate(true)} />
+                <Button title="Chọn ngày" onPress={() => setOpenDate(true)} color={CUSTOM_COLOR.Primary}/>
                 <DatePicker
                   modal
                   mode={'date'}
+                  title='Chọn ngày'
+                  textColor={CUSTOM_COLOR.Primary}
                   open={openDate}
                   date={date}
+                  confirmText='OK'
+                  cancelText='Thoát'
                   onConfirm={date => {
                     setOpenDate(false);
                     setDate(date);
@@ -233,12 +237,16 @@ const ReservationScreen = props => {
                 />
               </View>
               <View style={styles.datePickerButton}>
-                <Button title="Chọn giờ" onPress={() => setOpenTime(true)} />
+                <Button title="Chọn giờ" onPress={() => setOpenTime(true)}  color={CUSTOM_COLOR.Primary}/>
                 <DatePicker
                   modal
                   mode={'time'}
                   open={openTime}
+                  textColor={CUSTOM_COLOR.Primary}
                   date={time}
+                  title='Chọn giờ'
+                  confirmText='OK'
+                  cancelText='Thoát'
                   onConfirm={date => {
                     setOpenTime(false);
                     setTime(date);
@@ -343,6 +351,7 @@ const styles = StyleSheet.create({
   datePickerButton: {
     flex: 1,
     height: scale(43),
+    justifyContent: 'center'
   },
   inputDatePickerBox: {
     flexDirection: 'row',

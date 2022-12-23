@@ -7,6 +7,7 @@ import { IC_GoBack } from '../../../assets/icons';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import foodApi from '../../../services/foodApi';
+import scale from '../../../utils/responsive';
 
 const SearchScreen = ({ props }) => {
   const navigation = useNavigation();
@@ -62,9 +63,8 @@ const styles = StyleSheet.create({
   },
   viewGoBackText: {
     flexDirection: 'row',
-    borderWidth: 1,
+    marginTop: scale(15),
+    //borderBottomWidth: 1,
     justifyContent: 'space-between',
-    //alignItems: 'center',
-    //paddingHorizontal: 10,  
   }
 });

@@ -17,7 +17,7 @@ axiosClient.interceptors.request.use(
     if (token) {
       config.headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       };
     }
     return config;
@@ -54,7 +54,7 @@ axiosClient.interceptors.response.use(
             return Promise.reject(error.response.data);
           }
 
-          return Promise.reject(error);
+          return Promise.reject(error.response.data);
         }
       }
     }

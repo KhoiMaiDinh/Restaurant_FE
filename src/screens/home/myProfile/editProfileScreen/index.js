@@ -164,6 +164,7 @@ const EditProfileScreen = props => {
                                 placeholder="Họ và Tên"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
+                                value={email}
                             />
                         </View>
                     </>

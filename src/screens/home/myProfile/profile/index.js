@@ -13,7 +13,6 @@ import scale from '../../../../utils/responsive';
 import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
-import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -49,7 +48,7 @@ const ProfileScreen = props => {
         <View style={styles.userInfoSection}>
             <View style={styles.row}>
             <View style={styles.icon}><IC_Map /></View>
-                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>TP HCM</Text>
+                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>{user.address?user.address:"Vui lòng cập nhật thông tin địa chỉ của bạn!"}</Text>
             </View>
 
             <View style={styles.row}>
@@ -76,7 +75,9 @@ const ProfileScreen = props => {
         </View>
 
         <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={() => props.navigation.navigate("EditProfileScreen")}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("EditProfileScreen", {
+          user: user,
+        })}>
                 <View style={styles.menuItem}>
                     <View style={styles.icon}><IC_Edit/></View>
                     <Text style={[styles.menuItemText,styles.text]}>Chỉnh sửa thông tin</Text>

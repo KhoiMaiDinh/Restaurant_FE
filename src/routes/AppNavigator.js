@@ -7,6 +7,7 @@ import ReviewScreen from '../screens/home/reviewScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import EditProfileScreen from '../screens/home/myProfile/editProfileScreen';
 import ProfileScreen from '../screens/home/myProfile/profile';
+import PaymentScreen from '../screens/home/paymentScreen';
 import SearchScreen from '../screens/home/searchScreen';
 import foodApi from '../services/foodApi';
 
@@ -21,7 +22,11 @@ const AppStackScreen = props => {
       screenOptions={{headerShown: false}}
       initialRouteName={DrawerScreen}>
       <AppStack.Screen name={'DrawerScreen'} component={DrawerScreen} />
-      <AppStack.Screen name={'SingleFoodItemScreen'} component={SingleFoodItemScreen} />
+      <AppStack.Screen
+        name={'SingleFoodItemScreen'}
+        component={SingleFoodItemScreen}
+      />
+      <AppStack.Screen name={'PaymentScreen'} component={PaymentScreen} />
       <AppStack.Screen name={'SearchScreen'} component={Search} />
       <AppStack.Screen name={'CartScreen'} component={CartScreen} />
       <AppStack.Screen name={'CategoryScreen'} component={CategoryScreen} />

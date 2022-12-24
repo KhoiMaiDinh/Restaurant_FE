@@ -21,3 +21,4 @@ export {default as IMG_LisaAvatar} from './img_LisaAvatar.jpg';
 export {default as IMG_RestaurantAppWhite} from './img_RestaurantApp.jpg';
 export {default as IMG_ReservationBackground} from './reservationBackground.jpg';
 export {default as IMG_Warning} from './img_Warning.png';
+export {default as IMG_PaymentBackGround} from './payment.jpg'

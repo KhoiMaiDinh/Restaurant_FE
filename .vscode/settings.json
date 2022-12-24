@@ -1,6 +1,4 @@
 {
-    "cSpell.words": [
-        "Nexa",
-        "Swipeable"
-    ]
+  "cSpell.words": ["Nexa"],
+  "java.compile.nullAnalysis.mode": "automatic"
 }

@@ -21,7 +21,6 @@ import axios from 'axios';
 import {BASE_URL} from '../../../utils/api';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import { IMG_Warning } from '../../../assets/images';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -166,12 +165,6 @@ const LoginScreen = props => {
             </View>
           </TouchableOpacity>
         )}
-        <Text style={styles.orText}>OR</Text>
-        <TouchableOpacity style={styles.FBLoginButtonBoxPosition}>
-          <View style={styles.FBLoginButtonBox}>
-            <Text style={styles.buttonText}>Đăng nhập bằng Facebook</Text>
-          </View>
-        </TouchableOpacity>
         </Animated.View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -207,7 +200,7 @@ const styles = StyleSheet.create({
     height: scale(53),
     width: scale(323),
     borderWidth: 1,
-    borderColor: CUSTOM_COLOR.Navy,
+    borderColor: CUSTOM_COLOR.Primary,
     borderRadius: 26.5,
   },
   inputText: {
@@ -223,7 +216,7 @@ const styles = StyleSheet.create({
     height: scale(53),
     width: scale(323),
     borderWidth: 1,
-    borderColor: CUSTOM_COLOR.Navy,
+    borderColor: CUSTOM_COLOR.Primary,
     borderRadius: 26.5,
   },
   loginButtonBoxPosition: {
@@ -233,26 +226,6 @@ const styles = StyleSheet.create({
   },
   loginButtonBox: {
     backgroundColor: CUSTOM_COLOR.Primary,
-    height: scale(53),
-    width: scale(278),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 26.5,
-  },
-  orText: {
-    color: CUSTOM_COLOR.Black,
-    fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: scale(17),
-    marginTop: scale(465),
-    alignSelf: 'center',
-  },
-  FBLoginButtonBoxPosition: {
-    position: 'absolute',
-    marginTop: scale(536),
-    alignSelf: 'center',
-  },
-  FBLoginButtonBox: {
-    backgroundColor: CUSTOM_COLOR.Navy,
     height: scale(53),
     width: scale(278),
     justifyContent: 'center',

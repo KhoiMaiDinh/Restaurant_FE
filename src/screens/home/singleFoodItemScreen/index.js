@@ -10,10 +10,11 @@ import {
 import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {CUSTOM_COLOR} from '../../../constants/color';
-import {IC_GoBack, IC_Minus, IC_Plus} from '../../../assets/icons';
+import {IC_GoBack, IC_Minus, IC_Plus, IC_Cart} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import Gallery from './Gallery';
+import { useSelector } from 'react-redux';
 import categoryApi from '../../../services/categoryApi';
 import { addToCart } from '../../../redux/actions/cartActions';
 
@@ -53,8 +54,15 @@ const SingleFoodItemScreen = props => {
   const dispatch = useDispatch();
   const addToCartHandler = () => {
     dispatch(addToCart(data._id, count1));
+    props.navigation.navigate('CartScreen');
     console.log(data._id, count1);
   };
+  const openCart = () => {
+    navigation.navigate('CartScreen');
+  };
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+  const numberOfProduct = cartItems.length;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -68,6 +76,9 @@ const SingleFoodItemScreen = props => {
           <View>
             <Text style={styles.screenTittle2}>{category.name}</Text>
           </View>
+          <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
+            <IC_Cart nOP = {numberOfProduct}/>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -128,6 +139,9 @@ const styles = StyleSheet.create({
   goBackButton: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  cartButton: {
+    paddingLeft: scale(260),
   },
   tittleBox: {
     alignItems: 'center',

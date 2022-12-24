@@ -1,5 +1,6 @@
 import { ScaleFromCenterAndroid } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets';
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   Avatar,
@@ -17,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ProfileScreen = props => {
+  const [image, setImage] = useState();
   const [user, setUser] = useState([]);
   const getUserInfo = async () => {
     const userInfo = await AsyncStorage.getItem('@user');

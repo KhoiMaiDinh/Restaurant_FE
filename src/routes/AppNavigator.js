@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useCallback, useState, useEffect, useRef} from 'react';
 import DrawerScreen from './DrawerNavigator';
 import SingleFoodItemScreen from '../screens/home/singleFoodItemScreen/index';
 import CartScreen from '../screens/home/cartScreen';
@@ -8,10 +8,15 @@ import {createStackNavigator} from '@react-navigation/stack';
 import EditProfileScreen from '../screens/home/myProfile/editProfileScreen';
 import ProfileScreen from '../screens/home/myProfile/profile';
 import PaymentScreen from '../screens/home/paymentScreen';
+import SearchScreen from '../screens/home/searchScreen';
+import foodApi from '../services/foodApi';
 
 const AppStack = createStackNavigator();
 
 const AppStackScreen = props => {
+
+
+  const Search = () => <SearchScreen/>;
   return (
     <AppStack.Navigator
       screenOptions={{headerShown: false}}
@@ -22,6 +27,7 @@ const AppStackScreen = props => {
         component={SingleFoodItemScreen}
       />
       <AppStack.Screen name={'PaymentScreen'} component={PaymentScreen} />
+      <AppStack.Screen name={'SearchScreen'} component={Search} />
       <AppStack.Screen name={'CartScreen'} component={CartScreen} />
       <AppStack.Screen name={'CategoryScreen'} component={CategoryScreen} />
       <AppStack.Screen name={'ReviewScreen'} component={ReviewScreen}/>

@@ -51,7 +51,7 @@ const CartScreen = (props) => {
                 <TouchableOpacity
                     style={styles.goBackButton}
                     onPress={() => {
-                    props.navigation.goBack();
+                        props.navigation.navigate("DrawerScreen");
                     }}>
                     <IC_GoBack style={styles.goBack} />
                     <Text style={styles.screenTittle2}>Quay lại</Text>

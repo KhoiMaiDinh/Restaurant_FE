@@ -1,7 +1,7 @@
 import { ScaleFromCenterAndroid } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {View, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, SafeAreaView, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {
   Avatar,
   Title,
@@ -11,16 +11,17 @@ import {
 } from 'react-native-paper';
 import { IMG_BestDeals1, IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
-import {  IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
+import {  IC_Edit,  IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
-import HeaderBar from '../../../../components/headerBar';
 import FONT_FAMILY from '../../../../constants/fonts';
 import userApi from '../../../../services/userApi';
+
 
 
 const ProfileScreen = props => {
   const [image, setImage] = useState();
   const [user, setUser] = useState([]);
+  const [visible, setVisible] = useState(false);
   const getUserData = async () => {
     try {
       const {userData} = await userApi.get();
@@ -35,6 +36,7 @@ const ProfileScreen = props => {
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.headerBar} />
@@ -88,20 +90,19 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Chỉnh sửa thông tin</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <View style={styles.menuItem}>
-                    <View style={styles.icon}><IC_Heart /></View>
-                    <Text style={[styles.menuItemText,styles.text]}>Yêu thích</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate("ReviewScreen")}>
-                <View style={styles.menuItem}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("ReviewScreen")} >
+                <View style={styles.menuItem}  >
                     <View style={styles.icon}><IC_Star /></View>
                     <Text style={[styles.menuItemText,styles.text]}>Đánh Giá</Text>
                 </View>
             </TouchableOpacity>
-            
-             
+            <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/>
+            <TouchableOpacity onPress={() => (setVisible(true))}>
+                <View style={styles.menuItem}>
+                    <View style={styles.icon}><IC_Support/></View>
+                    <Text style={[styles.menuItemText,styles.text]}>Hỗ trợ</Text>
+                </View>
+            </TouchableOpacity>
         </View>
     </SafeAreaView>
   )
@@ -173,5 +174,9 @@ const styles = StyleSheet.create({
     },
     text:{
       fontFamily: FONT_FAMILY.NexaRegular,
+    },
+    Infor:{
+      marginTop: scale(30),
+      borderWidth: 1,
     }
   });

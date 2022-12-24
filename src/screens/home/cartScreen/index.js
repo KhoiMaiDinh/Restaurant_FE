@@ -9,7 +9,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromCart, adjustQTY } from '../../../redux/actions/cartActions'
 import Item from './components/iteam'
-
+import PaymentScreen from '../paymentScreen'
 
 
 const CartScreen = (props) => {
@@ -92,8 +92,9 @@ const CartScreen = (props) => {
         </>
         <>
         <View style={styles.buttonPlace}>
-            <TouchableOpacity > 
+            <TouchableOpacity onPress={() => props.navigation.navigate("PaymentScreen")}> 
                 <Text style={styles.textPlace}>ĐẶT MÓN</Text>
+                
             </TouchableOpacity>
         </View>
         </>

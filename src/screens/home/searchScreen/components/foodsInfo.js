@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     marginBottom: scale(24),
+    backgroundColor: CUSTOM_COLOR.Black,
   },
   foodInfo: {
     width: scale(280),

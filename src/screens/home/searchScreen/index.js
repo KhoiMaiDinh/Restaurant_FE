@@ -15,7 +15,7 @@ const SearchScreen = ({ props }) => {
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
-  const [notFound, setNotFound] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,6 +28,10 @@ const SearchScreen = ({ props }) => {
           const {foods} = await foodApi.getAll('', '', search);
           setSearchData(foods);
           setLoading(false);
+          if(!searchData)
+          {
+            setNotFound(true);
+          }
         }
         
       } catch (error) {

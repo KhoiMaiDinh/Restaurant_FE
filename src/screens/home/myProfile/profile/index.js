@@ -7,13 +7,16 @@ import {
   Title,
   Caption,
   Text,
+  TouchableRipple,
 } from 'react-native-paper';
 import { IMG_BestDeals1, IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
-import {  IC_Edit,  IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../../../../assets/icons';
+import {  IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
+import HeaderBar from '../../../../components/headerBar';
 import FONT_FAMILY from '../../../../constants/fonts';
 import userApi from '../../../../services/userApi';
+import MsgBox from '../../../../components/messageBox';
 import ContactInfor from './component/contactInfor';
 
 
@@ -95,7 +98,7 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Đánh Giá</Text>
                 </View>
             </TouchableOpacity>
-              <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/>
+            <ContactInfor visible={visible} clickCancel={() => setVisible(false)} title={"LIÊN HỆ"} message={"Hotline: 0336706905\n\nEmail: phuoctri@gmail.com\n\nChi nhánh: KTX KHU B - TPHCM"}/>
             <TouchableOpacity onPress={() => (setVisible(true))}>
                 <View style={styles.menuItem}>
                     <View style={styles.icon}><IC_Support/></View>

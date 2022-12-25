@@ -3,7 +3,7 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import { StyleSheet } from 'react-native';
 import scale from '../../../../utils/responsive';
 import { CUSTOM_COLOR } from '../../../../constants/color';
-const PaymentChossing = () => {
+const PaymentChoosing = () => {
   const [value, setValue] = useState([
     {
       id: '1',
@@ -22,7 +22,7 @@ const PaymentChossing = () => {
   );
 };
 
-export default PaymentChossing;
+export default PaymentChoosing;
 
 // const styles = StyleSheet.create({
 

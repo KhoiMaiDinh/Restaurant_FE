@@ -19,7 +19,7 @@ import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import { IC_GoBack } from '../../../assets/icons';
 import { useSelector } from 'react-redux';
-import PaymentChoosing from './component/PaymentChoosing';
+import PaymentChoosing from './component/paymentChoosing';
 
 const PaymentScreen = (props) => {
   const navigation = props;

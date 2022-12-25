@@ -17,7 +17,7 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 //import { IMG_2 } from '../../../assets/images';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import PaymentChoosing from './component/paymentChoosing';
+import PaymentChoosing from '../paymentScreen/component/paymentChoosing';
 import { IC_GoBack } from '../../../assets/icons';
 import { useSelector } from 'react-redux';
 import { IMG_PaymentBackGround } from '../../../assets/images';

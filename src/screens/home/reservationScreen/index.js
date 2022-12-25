@@ -23,6 +23,9 @@ import userApi from '../../../services/userApi';
 import {Controller, useForm} from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
+import { useRef } from 'react';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -32,20 +35,20 @@ const reservationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+    .max(11, "Số điện thoại không hợp lệ")
     .required('Số điện thoại không được để trống'),
 });
 
 const ReservationScreen = props => {
-  const navigation = props;
-  const [checkValidNumber, setCheckValidNumber] = useState(false);
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [openTime, setOpenTime] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState();
+  const [message, setMessage] = useState('');
   const {user} = store.getState().user;
+  const bs = useRef(null);
 
   const {
     control,
@@ -93,11 +96,25 @@ const ReservationScreen = props => {
       };
       await userApi.reservate(reservationData);
       // Thông báo thành công
+      setColor(CUSTOM_COLOR.Primary);
+      setMessage('Đặt bàn thành công');
+      bs?.current?.snapTo(0);
     } catch (error) {
       //Thông báo thất bại
+      setColor(CUSTOM_COLOR.Red); 
+      setMessage('Đặt bàn thất bại');
+      bs?.current?.snapTo(0);
       console.log(error);
     }
   };
+  const render = () => (
+    <View style={[stylePanel.panel, { backgroundColor: color}]}>
+        <View style={{alignItems: 'center'}}>
+          <Text style={stylePanel.panelTitle}>{message}</Text>
+        </View>
+      </View>
+  );
+  const fall = new Animated.Value(1);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -105,6 +122,17 @@ const ReservationScreen = props => {
         source={IMG_ReservationBackground}
         resizeMode={'cover'}
         style={styles.backGround}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[100, 0]}
+        renderContent={render}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View style={{margin: 20,
+        opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+    }}>
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>UIT group 3</Text>
           <Text style={styles.restaurantAdd}>
@@ -173,12 +201,16 @@ const ReservationScreen = props => {
                 />
               </View>
               <View style={styles.datePickerButton}>
-                <Button title="Chọn ngày" onPress={() => setOpenDate(true)} />
+                <Button title="Chọn ngày" onPress={() => setOpenDate(true)} color={CUSTOM_COLOR.Primary}/>
                 <DatePicker
                   modal
                   mode={'date'}
+                  title='Chọn ngày'
+                  textColor={CUSTOM_COLOR.Primary}
                   open={openDate}
                   date={date}
+                  confirmText='OK'
+                  cancelText='Thoát'
                   onConfirm={date => {
                     setOpenDate(false);
                     setDate(date);
@@ -205,12 +237,16 @@ const ReservationScreen = props => {
                 />
               </View>
               <View style={styles.datePickerButton}>
-                <Button title="Chọn giờ" onPress={() => setOpenTime(true)} />
+                <Button title="Chọn giờ" onPress={() => setOpenTime(true)}  color={CUSTOM_COLOR.Primary}/>
                 <DatePicker
                   modal
                   mode={'time'}
                   open={openTime}
+                  textColor={CUSTOM_COLOR.Primary}
                   date={time}
+                  title='Chọn giờ'
+                  confirmText='OK'
+                  cancelText='Thoát'
                   onConfirm={date => {
                     setOpenTime(false);
                     setTime(date);
@@ -247,6 +283,7 @@ const ReservationScreen = props => {
             <Text style={styles.buttonText}>Đặt chỗ</Text>
           </View>
         </TouchableOpacity>
+        </Animated.View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -314,6 +351,7 @@ const styles = StyleSheet.create({
   datePickerButton: {
     flex: 1,
     height: scale(43),
+    justifyContent: 'center'
   },
   inputDatePickerBox: {
     flexDirection: 'row',
@@ -396,3 +434,22 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.Red,
   },
 });
+const stylePanel = StyleSheet.create({
+  panel: {
+    padding: scale(30),
+    paddingTop: scale(30),
+  },
+  panelTitle: {
+    fontSize: 27,
+    color: CUSTOM_COLOR.White,
+    height: scale(35),
+  },
+  panelSubtitle: {
+    fontSize: scale(14),
+    color: CUSTOM_COLOR.White,
+    height: scale(30),
+    marginBottom: scale(10),
+  },
+  
+  
+  });

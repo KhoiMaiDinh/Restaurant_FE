@@ -33,7 +33,6 @@ const Foods = ({searchData, props}) => {
 export default Foods;
 
 const OneFood = props => {
-  console.log(props.name);
   const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={() => navigation.navigate("SingleFoodItemScreen", {data: props.item})}>
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     marginBottom: scale(24),
+    backgroundColor: CUSTOM_COLOR.Black,
   },
   foodInfo: {
     width: scale(280),

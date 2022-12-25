@@ -15,7 +15,7 @@ import {  IC_Edit,  IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../..
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 import userApi from '../../../../services/userApi';
-
+// import ContactInfor from '../profile'
 
 
 const ProfileScreen = props => {

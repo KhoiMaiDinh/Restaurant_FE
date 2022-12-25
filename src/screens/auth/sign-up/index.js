@@ -28,10 +28,10 @@ const SignUpScreen = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [checkValidEmail, setCheckValidEmail] = useState(false);
-  const [checkValidPassword, setCheckValidPassword] = useState(false);
-  const [checkValidNumber, setCheckValidNumber] = useState(false);
+  // const [phoneNumber, setPhoneNumber] = useState('');
+  // const [checkValidEmail, setCheckValidEmail] = useState(false);
+  // const [checkValidPassword, setCheckValidPassword] = useState(false);
+  // const [checkValidNumber, setCheckValidNumber] = useState(false);
 
 
 const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
@@ -52,46 +52,7 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
   phoneNumber: yup
     .string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
 });
-  // const handleCheckEmail = text => {
-  //   let re = /\S+@\S+\.\S+/;
-  //   let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-
-  //   setEmail(text);
-  //   if (re.test(text) || regex.test(text)) {
-  //     setCheckValidEmail(false);
-  //   } else {
-  //     setCheckValidEmail(true);
-  //   }
-  // };
-  // const handleCheckNumber = text => {
-  //   let phoneNumber = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-
-  //   setPhoneNumber(text);
-  //   if (phoneNumber.test(text)) {
-  //     setCheckValidNumber(false);
-  //   } else {
-  //     setCheckValidNumber(true);
-  //   }
-  // };
-
-  // const handleCheckPassword = text =>{
-  //   let isNonWhiteSpace = /^\S*$/;
-  //   let isContainsUppercase = /^(?=.*[A-Z]).*$/;
-  //   let isContainsLowercase = /^(?=.*[a-z]).*$/;
-  //   let isContainsNumber = /^(?=.*[0-9]).*$/;
-  //   let isValidLength = /^.{8,16}$/;
-
-  //   setPassword(text);
-  //   if(isNonWhiteSpace.test(text)
-  //   &&isContainsNumber.test(text)
-  //   &&isValidLength.test(text)){
-  //     setCheckValidPassword(false);
-  //   }
-  //   else {
-  //     setCheckValidPassword(true);
-  //   }
-  // };
-
+ 
   const {
     control,
     handleSubmit,

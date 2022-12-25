@@ -7,7 +7,6 @@ import {
   Title,
   Caption,
   Text,
-  TouchableRipple,
 } from 'react-native-paper';
 import { IMG_BestDeals1, IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
@@ -15,7 +14,7 @@ import {  IC_Edit,  IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../..
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 import userApi from '../../../../services/userApi';
-// import ContactInfor from '../profile'
+import ContactInfor from './component/contactInfor';
 
 
 const ProfileScreen = props => {
@@ -96,7 +95,7 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Đánh Giá</Text>
                 </View>
             </TouchableOpacity>
-            <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/>
+              <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/>
             <TouchableOpacity onPress={() => (setVisible(true))}>
                 <View style={styles.menuItem}>
                     <View style={styles.icon}><IC_Support/></View>
@@ -121,14 +120,12 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 24,
-      fontWeight: 'bold',
       marginTop: scale(15),
-      fontFamily: FONT_FAMILY.NexaRegular,
+      fontFamily: FONT_FAMILY.NexaBold,
     },
     caption: {
       fontSize: 14,
       lineHeight: 14,
-      fontWeight: '500',
       FONT_FAMILY: FONT_FAMILY.NexaRegular,
     },
     row: {
@@ -167,7 +164,6 @@ const styles = StyleSheet.create({
     menuItemText: {
       color: CUSTOM_COLOR.Sonic_Silver,
       marginLeft: scale(20),
-      fontWeight: '600',
       fontSize: 16,
       lineHeight: 26,
       FONT_FAMILY: FONT_FAMILY.NexaRegular,

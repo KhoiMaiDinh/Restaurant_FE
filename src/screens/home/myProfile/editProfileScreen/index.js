@@ -9,32 +9,66 @@ import ImagePicker from 'react-native-image-crop-picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import userApi from '../../../../services/userApi';
+import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { set } from 'lodash';
 
 
 const EditProfileScreen = props => {
     const {user} = props.route.params;
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([
+      {label:'Quận 1', value:'Quận 1'},
+      {label:'Quận 2', value:'Quận 2'},
+      {label:'Quận 3', value:'Quận 3'},
+      {label:'Quận 4', value:'Quận 4'},
+      {label:'Quận 5', value:'Quận 5'},
+      {label:'Quận 6', value:'Quận 6'},
+      {label:'Quận 7', value:'Quận 7'},
+      {label:'Quận 8', value:'Quận 8'},
+      {label:'Quận 9', value:'Quận 9'},
+      {label:'Quận 10', value:'Quận 10'},
+      {label:'Quận 11', value:'Quận 11'},
+      {label:'Quận 12', value:'Quận 12'},
+      {label:'Thành phố Thủ Đức', value:'Thành phố Thủ Đức'},
+      {label:'Quận Bình Tân', value:'Quận Bình Tân'},
+      {label:'Quận Bình Thạnh', value:'Quận Bình Thạnh'},
+      {label:'Quận Gò Vấp', value:'Quận Gò Vấp'},
+      {label:'Quận Phú Nhuận', value:'Quận Phú Nhuận'},
+      {label:'Quận Tân Bình', value:'Quận Tân Bình'},
+      {label:'Quận Tân Phú', value:'Quận Tân Phú'},
+      {label:'Huyện Bình Chánh', value:'Huyện Bình Chánh'},
+      {label:'Huyện Cần Giờ', value:'Huyện Cần Giờ'},
+      {label:'Huyện Củ Chi', value:'Huyện Củ Chi'},
+      {label:'Huyện Hóc Môn', value:'Huyện Hóc Môn'},
+      {label:'Huyện Nhà Bè', value:'Huyện Nhà Bè'},
+    ]);
 
+    const fullAddress = user.address.split(", ");
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
-    const [address, setAddress] = useState(user.address);
+    const [address, setAddress] = useState(fullAddress[0]);
+    const [district, setDistrict] = useState(fullAddress[1]);
     const [checkValidEmail, setCheckValidEmail] = useState(false);
     const [checkValidNumber, setCheckValidNumber] = useState(false);
-
+    
     const handleEditUser = async () => {
       try {
+        const longAddress = address.concat(", ", district, ", TP HCM" )
         const payload = {
           avatar: {
-            url: "",
-            ref: "",
+            ref: ' ',
+            url: ' ',
           },
           name: name,
           email: email,
           phoneNumber: phoneNumber,
-          address: address
+          address: longAddress
         };
         const id = user._id;
-        console.log(user);
+        console.log(payload); 
+        console.log(user)
         await userApi.editUser(id, payload)
       } catch (error) {
         console.log(error)
@@ -172,9 +206,8 @@ const EditProfileScreen = props => {
                     <Text style={styles.editProfilePictureText}>Thay đổi ảnh đại diện</Text>
                 </TouchableOpacity>
             </>
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <KeyboardAvoidingView>
-                    
                     {/* Name View */}
                     <View style={styles.nameView}>
 
@@ -186,6 +219,7 @@ const EditProfileScreen = props => {
                                 Họ và Tên
                             </Text>
                             <TextInput 
+                                onChangeText={text => setName(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Họ và Tên"
                                 style={styles.input}
@@ -203,7 +237,10 @@ const EditProfileScreen = props => {
                                 Email
                             </Text>
                             <TextInput 
-                                onChangeText={text => handleCheckEmail(text)}
+                                onChangeText={text => {
+                                  handleCheckEmail(text);
+                                  setEmail(text);
+                                }}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Email"
                                 style={styles.input}
@@ -251,10 +288,42 @@ const EditProfileScreen = props => {
                                 Địa chỉ
                             </Text>
                             <TextInput 
+                                onChangeText={text => {
+                                  setAddress(text)}}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Địa chỉ"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
+                                value={address}
+                            />
+                        </View>
+                        <View style={styles.locationInputState}>
+                            <Text style={styles.inputText}>
+                                Quận/Huyện
+                            </Text>
+                            <DropDownPicker
+                              open={open}
+                              value={district}
+                              items={items}
+                              setOpen={setOpen}
+                              setValue={setDistrict}
+                              setItems={setItems}
+                              style={{
+                                borderColor: CUSTOM_COLOR.Primary,
+                                marginTop: scale(10),
+                              }}
+                              textStyle={{
+                                fontFamily: FONT_FAMILY.NexaRegular,
+                                fontSize: scale(16),
+                                color: CUSTOM_COLOR.Black,
+                              }}
+                              placeholderStyle={{
+                                fontFamily: FONT_FAMILY.NexaRegular,
+                                fontSize: scale(16),
+                                textAlign: 'left',
+                                alignContent: 'flex-start',
+                                color: CUSTOM_COLOR.Grey,
+                              }}
                             />
                         </View>
                     </>
@@ -416,7 +485,14 @@ const styles = StyleSheet.create({
         height: scale(50),
         paddingTop: scale(0),
         paddingLeft: scale(35),
+        marginBottom: scale(40),
     },
+    locationInputState: {
+      width: scale(345),
+      height: scale(50),
+      paddingTop: scale(0),
+      paddingLeft: scale(35),
+  },
     inputText: {
         fontFamily: FONT_FAMILY.NexaRegular,
         fontSize: scale(16),

@@ -10,16 +10,21 @@ import React, {useState} from 'react';
 import scale from '../../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import {IC_Delete, IC_Search} from '../../../../assets/icons';
+import { useEffect } from 'react';
+import { useRef } from 'react';
 
 const SearchBar = ({search, setSearch}) => {
-  
+  const textInputRef = useRef();
+
   return (
     <View style={styles.container}>
       <IC_Search marginLeft={scale(10)} fill={CUSTOM_COLOR.Black}/>
       <TextInput
+        ref={textInputRef}
+        onLayout={()=> textInputRef.current.focus()}
         onChangeText={text => setSearch(text)}
         selectionColor={CUSTOM_COLOR.Grey}
-        placeholder="Search"
+        placeholder="Tìm kiếm"
         placeholderTextColor={CUSTOM_COLOR.Grey}
         style={{
           height: 42,

@@ -27,7 +27,7 @@ const userApi = {
 
   editUser(id, payload) {
     const url = `/auth/user/${id}`;
-    return axiosClient.post(url, payload);
+    return axiosClient.put(url, payload);
   },
 };
 

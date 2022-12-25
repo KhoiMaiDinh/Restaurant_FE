@@ -8,13 +8,39 @@ import { IMG_LisaAvatar } from '../../../../assets/images';
 import ImagePicker from 'react-native-image-crop-picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
+import userApi from '../../../../services/userApi';
 
 
 const EditProfileScreen = props => {
-    const [email, setEmail] = useState('');
+    const {user} = props.route.params;
+
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [address, setAddress] = useState(user.address);
     const [checkValidEmail, setCheckValidEmail] = useState(false);
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [checkValidNumber, setCheckValidNumber] = useState(false);
+
+    const handleEditUser = async () => {
+      try {
+        const payload = {
+          avatar: {
+            url: "",
+            ref: "",
+          },
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+          address: address
+        };
+        const id = user._id;
+        console.log(user);
+        await userApi.editUser(id, payload)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+  
 
     const handleCheckEmail = text => {
         let re = /\S+@\S+\.\S+/;
@@ -164,7 +190,7 @@ const EditProfileScreen = props => {
                                 placeholder="Họ và Tên"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
-                                value={email}
+                                value={name}
                             />
                         </View>
                     </>
@@ -182,6 +208,7 @@ const EditProfileScreen = props => {
                                 placeholder="Email"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
+                                value={email}
                             />
                         </View>
                             <View style={{marginTop: scale(30)}}>
@@ -199,11 +226,14 @@ const EditProfileScreen = props => {
                                 Số điện thoại
                             </Text>
                             <TextInput 
-                                onChangeText={text => handleCheckNumber(text)}
+                                onChangeText={text => {
+                                  handleCheckNumber(text);
+                                  setPhoneNumber(text);}}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Số điện thoại"
                                 style={styles.input}
                                 keyboardType="numeric"
+                                value={`${phoneNumber}`}
                             />
                         </View>
                         <View style={{marginTop: scale(40)}}>
@@ -232,7 +262,7 @@ const EditProfileScreen = props => {
             </TouchableWithoutFeedback>
             {/* Save Profile */}
             <>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => {handleEditUser()}}>
                     <Text style={styles.buttonText}>Lưu</Text>
                 </TouchableOpacity>
             </>

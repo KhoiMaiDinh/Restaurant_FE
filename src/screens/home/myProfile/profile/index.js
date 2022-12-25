@@ -48,7 +48,9 @@ const ProfileScreen = props => {
         <View style={styles.userInfoSection}>
             <View style={styles.row}>
             <View style={styles.icon}><IC_Map /></View>
-                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>{user.address?user.address:"Vui lòng cập nhật thông tin địa chỉ của bạn!"}</Text>
+                <Text style={[styles.text,{color:( user.address ? CUSTOM_COLOR.Sonic_Silver:CUSTOM_COLOR.Red), marginLeft: 20}]}>
+                  {user.address?user.address:"Vui lòng cập nhật thông tin địa chỉ của bạn!"}
+                </Text>
             </View>
 
             <View style={styles.row}>

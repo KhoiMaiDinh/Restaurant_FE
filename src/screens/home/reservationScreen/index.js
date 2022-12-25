@@ -436,8 +436,8 @@ const styles = StyleSheet.create({
 });
 const stylePanel = StyleSheet.create({
   panel: {
-    padding: scale(20),
-    paddingTop: scale(20),
+    padding: scale(30),
+    paddingTop: scale(30),
   },
   panelTitle: {
     fontSize: 27,

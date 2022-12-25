@@ -22,12 +22,14 @@ const HomeScreen = props => {
   const [categoryData, setCategoryData] = useState([]);
   const [bestFoodData, setBestFoodData] = useState([]);
   const [foodData, setFoodData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getCategory = async () => {
     try {
+      setLoading(true);
       const {categories} = await categoryApi.getPopular();
       setCategoryData(categories);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -35,6 +37,7 @@ const HomeScreen = props => {
 
   const getBestFood = async () => {
     try {
+      setLoading(true);
       const {foods} = await foodApi.getBestDeals();
       setBestFoodData(foods);
     } catch (error) {
@@ -44,6 +47,7 @@ const HomeScreen = props => {
 
   const getPopularFood = async () => {
     try {
+      setLoading(true);
       const {foods} = await foodApi.getPopular();
       setFoodData(foods);
     } catch (error) {
@@ -55,9 +59,9 @@ const HomeScreen = props => {
     getCategory();
     getBestFood();
     getPopularFood();
-    if (categoryData && bestFoodData && foodData) {
-      setLoading(false);
-    }
+    // if (categoryData && bestFoodData && foodData) {
+    //   setLoading(false);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

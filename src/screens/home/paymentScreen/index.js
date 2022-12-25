@@ -17,7 +17,7 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 //import { IMG_2 } from '../../../assets/images';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import PaymentChossing from './component/paymentChoosing';
+import PaymentChoosing from './component/paymentChoosing';
 import { IC_GoBack } from '../../../assets/icons';
 import { useSelector } from 'react-redux';
 import { IMG_PaymentBackGround } from '../../../assets/images';
@@ -134,7 +134,7 @@ useEffect(() => {
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
         <View style={styles.radioButton}>
-          <PaymentChossing style={styles.choice}/>
+          <PaymentChoosing style={styles.choice}/>
         </View>
         <View style={styles.totalBox}>
                 <Text style={styles.total}>Tổng tiền thanh toán</Text>
@@ -305,7 +305,7 @@ methods: {
   },
   radioButton:
   {
-    top: scale(50),
+    marginTop: scale(50),
     marginLeft: scale(-80),
   },
   totalBox: {

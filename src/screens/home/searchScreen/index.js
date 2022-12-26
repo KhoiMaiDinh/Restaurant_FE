@@ -15,7 +15,7 @@ const SearchScreen = ({ props }) => {
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
-  const [notFound, setNotFound] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,6 +28,10 @@ const SearchScreen = ({ props }) => {
           const {foods} = await foodApi.getAll('', '', search);
           setSearchData(foods);
           setLoading(false);
+          if(!searchData)
+          {
+            setNotFound(true);
+          }
         }
         
       } catch (error) {
@@ -54,8 +58,8 @@ const SearchScreen = ({ props }) => {
         <View style={{width: 1, height: 1}}/>
       </View>
       {notFound ? (<Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
-        textAlign:'center', marginTop: scale(250),color: CUSTOM_COLOR.Black,}}>
-        {'Không tìm thấy \nmón ăn'}</Text>
+        textAlign:'center', marginTop: scale(260),color: CUSTOM_COLOR.Black,}}>
+        {'Hãy tìm kiếm món ăn \nmà bạn yêu thích!'}</Text>
       ):(
         loading ? (
         <SkeletonSearch />

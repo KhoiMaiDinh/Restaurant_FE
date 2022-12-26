@@ -9,7 +9,6 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromCart, adjustQTY, resetCartWhenOrder } from '../../../redux/actions/cartActions'
 import Item from './components/iteam'
-import PaymentScreen from '../paymentScreen'
 
 
 const CartScreen = (props) => {

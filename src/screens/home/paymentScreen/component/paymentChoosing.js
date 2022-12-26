@@ -15,7 +15,7 @@ const PaymentChoosing = () => {
     setValue(radioArray);
   }
   return (
-    <RadioGroup 
+    <RadioGroup
       radioButtons={value} 
       onPress={onPressRadioButton} 
     />

@@ -9,7 +9,6 @@ import EditProfileScreen from '../screens/home/myProfile/editProfileScreen';
 import ProfileScreen from '../screens/home/myProfile/profile';
 import PaymentScreen from '../screens/home/paymentScreen';
 import SearchScreen from '../screens/home/searchScreen';
-import foodApi from '../services/foodApi';
 
 const AppStack = createStackNavigator();
 

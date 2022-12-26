@@ -10,16 +10,19 @@ import {
 } from 'react-native-paper';
 import { IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
-import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
+import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import ContactInfor from './component/contactInfor';
+
 
 
 const ProfileScreen = props => {
   const [image, setImage] = useState();
   const [user, setUser] = useState([]);
+  const [visible, setVisible] = useState(false);
   const getUserInfo = async () => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
@@ -91,10 +94,10 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Chỉnh sửa thông tin</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setVisible(true)}>
                 <View style={styles.menuItem}>
-                    <View style={styles.icon}><IC_Heart /></View>
-                    <Text style={[styles.menuItemText,styles.text]}>Yêu thích</Text>
+                    <View style={styles.icon}><IC_Support/></View>
+                    <Text style={[styles.menuItemText,styles.text]}>Hỗ trợ</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => props.navigation.navigate("ReviewScreen")}>
@@ -103,6 +106,7 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Đánh Giá</Text>
                 </View>
             </TouchableOpacity>
+            <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/>
             
              
         </View>
@@ -123,18 +127,15 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 24,
-      fontWeight: 'bold',
       marginTop: scale(15),
-      fontFamily: FONT_FAMILY.NexaRegular,
+      fontFamily: FONT_FAMILY.NexaBold,
     },
     caption: {
       fontSize: 14,
       lineHeight: 14,
-      fontWeight: '500',
       FONT_FAMILY: FONT_FAMILY.NexaRegular,
     },
     row: {
-    //  borderWidth: 1,
       flexDirection: 'row',
       marginBottom: scale(10),
       alignItems: 'center',
@@ -169,7 +170,6 @@ const styles = StyleSheet.create({
     menuItemText: {
       color: CUSTOM_COLOR.Sonic_Silver,
       marginLeft: scale(20),
-      fontWeight: '600',
       fontSize: 16,
       lineHeight: 26,
       FONT_FAMILY: FONT_FAMILY.NexaRegular,

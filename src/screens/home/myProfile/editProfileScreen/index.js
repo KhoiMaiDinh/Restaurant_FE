@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, ScrollView, KeyboardAvoidingView, ImageBackground } from 'react-native'
+import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
 import React, {useState} from 'react'
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import {IC_GoBack} from '../../../../assets/icons/index';
@@ -17,6 +17,8 @@ import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { edit } from '../../../../features/auth/userSlice';
+import MsgBox from '../../../../components/messageBox';
+
 
 
 
@@ -70,13 +72,19 @@ const EditProfileScreen = props => {
     const fullAddress = user.address.split(", ");
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
+    const [loading, setLoading] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
     const [district, setDistrict] = useState(fullAddress[1]?fullAddress[1]:"Quận 1");
+    const [visible, setVisible] = useState(false);
+    const [tittle, setTitle] = useState("");
+    const [message, setMessage] = useState("");
+    const [fail, setFail] = useState(false);
     
     const dispatch = useDispatch();
 
     const handleEditUser = async(data) => {
       try {
+        setLoading(true);
         const longAddress = data.address.concat(", ", district, ", TP HCM" )
         const payload = {
           avatar: {
@@ -93,8 +101,17 @@ const EditProfileScreen = props => {
         console.log(user)
         await userApi.editUser(id, payload)
         await dispatch(edit(payload));
+        setLoading(false);
+        setTitle("CẬP NHẬT THÀNH CÔNG");
+        setMessage("Thông tin của bạn đã được cập nhật thành công");
+        setFail(false);
+        setVisible(true);
       } catch (error) {
         console.log(error)
+        setTitle("CẬP NHẬT THẤT BẠI");
+        setMessage("Thông tin của bạn đã được cập nhật thất bại, vui lòng thử lại sau");
+        setFail(true);
+        setLoading(true);
       }
     };
   
@@ -171,6 +188,7 @@ const EditProfileScreen = props => {
 
   return (
         <SafeAreaView style={styles.container}>
+          <MsgBox visible={visible} clickCancel={() => setVisible(false)} title={tittle} message={message}  fail={fail}/> 
         <>
         <View style={styles.view}>
             <View >
@@ -178,7 +196,8 @@ const EditProfileScreen = props => {
                     style={styles.goBackButton}
                     onPress={() => {
                       props.navigation.goBack();
-                    }}>
+                    }}
+                    disabled={loading?true:false}>
                     <IC_GoBack />
                     <Text style={styles.screenTittle}>Quay lại</Text>
                 </TouchableOpacity>
@@ -367,8 +386,9 @@ const EditProfileScreen = props => {
             </TouchableWithoutFeedback>
             {/* Save Profile */}
             <>
-                <TouchableOpacity style={styles.button} onPress={handleSubmit(handleEditUser)}>
-                    <Text style={styles.buttonText}>Lưu</Text>
+                <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleSubmit(handleEditUser)}>
+                    <Text style={styles.buttonText}>{loading?'Đang cập nhật...':'Lưu'}</Text>
+                    {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
                 </TouchableOpacity>
             </>
             </Animated.View>
@@ -552,14 +572,15 @@ const styles = StyleSheet.create({
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,
         borderRadius: scale(20),
-        
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     buttonText: {
         fontFamily: FONT_FAMILY.NexaBold,
         fontSize: scale(17),
         alignSelf: 'center',
         justifyContent: 'center',
-        marginTop: scale(7),
         color: CUSTOM_COLOR.White,
     },
     textFailed: {

@@ -64,7 +64,15 @@ const CustomScrollDrawer = props => {
       console.log(error);
     }
   };
-
+  const [user, setUser] = useState([]);
+  const getUserInfo = async () => {
+    const userInfo = await AsyncStorage.getItem('@user');
+    const userInfoJS = JSON.parse(userInfo);
+    setUser(userInfoJS);
+  }
+  useEffect(() => {
+    getUserInfo();
+  }, [])
   return (
     <DrawerContentScrollView
       contentContainerStyle={styles.container}
@@ -78,7 +86,7 @@ const CustomScrollDrawer = props => {
             style={styles.userAvatar}
           />
         </View>
-        <Text style={styles.userName}>Lisa</Text>
+        <Text style={styles.userName}>{user.name}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <ButtonDrawer

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image
+  ActivityIndicator
 } from 'react-native';
 import React, {useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
@@ -21,150 +21,152 @@ import axios from 'axios';
 import {BASE_URL} from '../../../utils/api';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
+import {IMG_Warning} from '../../../assets/images';
+import * as yup from 'yup';
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {useRef} from 'react';
+
+// const passwordRegex =
+//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
+
+const loginPayloadSchema = yup.object({
+  email: yup
+    .string()
+    .email('Email không hợp lệ')
+    .max(30, 'Độ dài email phải nhỏ hơn 30 kí tự')
+    .required('Email không được để trống'),
+  password: yup
+    .string()
+    .min(8, 'Độ dài mật khẩu phải lớn hơn 8')
+    .max(16, 'Độ dài mật khẩu phải nhỏ hơn 16')
+    .required('Mật khẩu không được để trống'),
+});
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
   const {navigation} = props;
-  const [email, setMail] = useState('');
-  const [password, setPass] = useState('');
-  const [checkValidEmail, setCheckValidEmail] = useState(false);
-  const [checkValidPassword, setCheckValidPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const bs = useRef(null);
 
-  const handleCheckEmail = text => {
-    let re = /\S+@\S+\.\S+/;
-    let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(loginPayloadSchema),
+  });
 
-    setMail(text);
-    if (re.test(text) || regex.test(text)) {
-      setCheckValidEmail(false);
-    } else {
-      setCheckValidEmail(true);
-    }
-  };
-  const handleCheckPassword = text => {
-    let isNonWhiteSpace = /^\S*$/;
-    let isContainsNumber = /^(?=.*[0-9]).*$/;
-    let isValidLength = /^.{8,16}$/;
-
-    setPass(text);
-    if (
-      isNonWhiteSpace.test(text) &&
-      isContainsNumber.test(text) &&
-      isValidLength.test(text)
-    ) {
-      setCheckValidPassword(false);
-    } else {
-      setCheckValidPassword(true);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const data = {
-        email: email,
-        password: password,
-      };
-      await dispatch(login(data));
-      navigation.navigate('AppStackScreen');
-    } catch (error) {
-      this.bs.current.snapTo(0);
-      console.log(error);
-    }
-  };
-  renderInner = () => (
+  const renderInner = () => (
     <View style={stylePanel.panel}>
       <View style={{alignItems: 'center'}}>
         <Text style={stylePanel.panelTitle}>Thất bại</Text>
-        <Text style={stylePanel.panelSubtitle}>Mật khẩu không chính xác</Text>
+        <Text style={stylePanel.panelSubtitle}>{errorMessage}</Text>
       </View>
     </View>
   );
 
-  bs = React.createRef();
-  fall = new Animated.Value(1);
+  const fall = new Animated.Value(1);
+
+  const handleLogin = async data => {
+    try {
+      setLoading(true);
+      await dispatch(login(data));
+      setLoading(false);
+      navigation.navigate('AppStackScreen');
+    } catch (error) {
+      setErrorMessage(error.message);
+      console.log(error);
+      bs?.current?.snapTo(0);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
       <SafeAreaView style={styles.container}>
-      <BottomSheet
-        ref={this.bs}
-        snapPoints={[100, 0]}
-        renderContent={this.renderInner}
-        initialSnap={1}
-        callbackNode={this.fall}
-        enabledGestureInteraction={true}
-      />
-      <Animated.View style={{margin: 20,
-        opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
-    }}>
-        <TouchableOpacity
-          style={styles.goBackButton}
-          onPress={() => props.navigation.goBack()}>
-          <IC_GoBack />
-        </TouchableOpacity>
-        <View style={styles.tittleBox}>
-          <Text style={styles.screenTittle}>Đăng nhập</Text>
-        </View>
-        <View style={styles.inputMailBox}>
-          <TextInput
-            onChangeText={text => handleCheckEmail(text)}
-            placeholderTextColor={CUSTOM_COLOR.Grey}
-            placeholder="Địa chỉ email"
-            value={email}
-            style={styles.inputText}
-            keyboardType="email-address"
-          />
-          {checkValidEmail ? (
-          <Text style={styles.textFailed}>Sai định dạng email. VD:"user@gmail.com"</Text>
-        ) : (
-          <Text style={styles.textFailed}> </Text>
-        )}
-        </View>
+        <BottomSheet
+          ref={bs}
+          snapPoints={[100, 0]}
+          renderContent={renderInner}
+          initialSnap={1}
+          callbackNode={fall}
+          enabledGestureInteraction={true}
+        />
+        <Animated.View
+          style={{
+            margin: 20,
+            opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+          }}>
+          <TouchableOpacity
+            style={styles.goBackButton}
+            onPress={() => props.navigation.goBack()}>
+            <IC_GoBack />
+          </TouchableOpacity>
+          <View style={styles.tittleBox}>
+            <Text style={styles.screenTittle}>Đăng nhập</Text>
+          </View>
 
-        <View style={styles.inputPasswordBox}>
-          <TextInput
-            secureTextEntry={true}
-            onChangeText={text => handleCheckPassword(text)}
-            placeholderTextColor={CUSTOM_COLOR.Grey}
-            value={password}
-            placeholder="Mật khẩu"
-            style={styles.inputText}
+          {/* Email input */}
+          <Controller
+            name="email"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.inputMailBox}>
+                <TextInput
+                  onChangeText={text => onChange(text)}
+                  placeholderTextColor={CUSTOM_COLOR.Grey}
+                  placeholder="Địa chỉ email"
+                  value={value}
+                  style={styles.inputText}
+                  keyboardType="email-address"
+                />
+                {errors?.email && (
+                  <Text style={styles.textFailed}>{errors.email.message}</Text>
+                )}
+              </View>
+            )}
           />
 
-          {checkValidPassword ? (
-            <Text style={styles.textFailed}>
-              {
-                'Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng'
-              }
-            </Text>
-          ) : (
-            <Text style={styles.textFailed}> </Text>
-          )}
-        </View>
+          {/* Password input */}
+          <Controller
+            name="password"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.inputPasswordBox}>
+                <TextInput
+                  secureTextEntry={true}
+                  onChangeText={text => onChange(text)}
+                  placeholderTextColor={CUSTOM_COLOR.Grey}
+                  value={value}
+                  placeholder="Mật khẩu"
+                  style={styles.inputText}
+                />
 
-        {email == '' ||
-        password == '' ||
-        checkValidEmail == true ||
-        checkValidPassword == true ? (
-          <TouchableOpacity
-            disabled
-            style={styles.loginButtonBoxPosition}
-            onPress={() => {
-              handleLogin();
-            }}>
-            <View style={styles.loginButtonBox}>
-              <Text style={styles.buttonText}>Đăng nhập</Text>
-            </View>
-          </TouchableOpacity>
-        ) : (
+                {errors?.password && (
+                  <Text style={styles.textFailed}>
+                    {errors.password.message}
+                  </Text>
+                )}
+              </View>
+            )}
+          />
+
           <TouchableOpacity
             style={styles.loginButtonBoxPosition}
-            onPress={() => handleLogin() }>
+            activeOpacity={0.8}
+            onPress={handleSubmit(handleLogin)}>
             <View style={styles.loginButtonBox}>
-              <Text style={styles.buttonText}>Đăng nhập</Text>
+              <Text style={styles.buttonText}>{loading?'Đang đăng nhập...':'Đăng nhập'}</Text>
+              {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
             </View>
           </TouchableOpacity>
-        )}
         </Animated.View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
   },
   inputPasswordBox: {
     position: 'absolute',
-    marginTop: scale(267),
+    marginTop: scale(275),
     alignSelf: 'center',
     height: scale(53),
     width: scale(323),
@@ -230,6 +232,7 @@ const styles = StyleSheet.create({
     width: scale(278),
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 26.5,
   },
   buttonText: {
@@ -238,6 +241,7 @@ const styles = StyleSheet.create({
   },
   textFailed: {
     marginLeft: scale(25),
+    marginTop: scale(5),
     alignSelf: 'flex-start',
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
@@ -245,22 +249,20 @@ const styles = StyleSheet.create({
   },
 });
 const stylePanel = StyleSheet.create({
-panel: {
-  padding: scale(20),
-  backgroundColor: CUSTOM_COLOR.Red,
-  paddingTop: scale(20),
-},
-panelTitle: {
-  fontSize: 27,
-  color: CUSTOM_COLOR.White,
-  height: scale(35),
-},
-panelSubtitle: {
-  fontSize: scale(14),
-  color: CUSTOM_COLOR.White,
-  height: scale(30),
-  marginBottom: scale(10),
-},
-
-
+  panel: {
+    padding: scale(20),
+    backgroundColor: CUSTOM_COLOR.Red,
+    paddingTop: scale(20),
+  },
+  panelTitle: {
+    fontSize: 27,
+    color: CUSTOM_COLOR.White,
+    height: scale(35),
+  },
+  panelSubtitle: {
+    fontSize: scale(14),
+    color: CUSTOM_COLOR.White,
+    height: scale(30),
+    marginBottom: scale(10),
+  },
 });

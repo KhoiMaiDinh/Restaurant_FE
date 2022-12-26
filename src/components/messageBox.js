@@ -9,17 +9,17 @@ const MsgBox = (props) => {
     <Modal transparent visible={props.visible}>
         <View style={styles.background}>
             <View style={styles.noticeBox}>
-                <View style={styles.noticeTitle}>
+                <View style={[styles.noticeTitle, props.fail?{backgroundColor: CUSTOM_COLOR.Red}: null]}>
                     <Text style={styles.titleText} numberOfLines={1}>{props.title}</Text>
                 </View>
                 <View style={styles.noticeMessage}>
-                    <View style={{width: '100%', height: '65%'}}>
-                        <Text style={styles.messageText} numberOfLines={5}>{props.message}</Text>
+                    <View style={{width: '100%', height: '65%', justifyContent: 'center',}}>
+                        <Text style={[styles.messageText,props.fail?{color: CUSTOM_COLOR.Red}: null]} numberOfLines={5}>{props.message}</Text>
                     </View>
                     <TouchableOpacity
                         style={styles.buttonPosition}
                         onPress={props.clickCancel}>
-                        <View style={styles.buttonBox}>
+                        <View style={[styles.buttonBox, props.fail?{backgroundColor: CUSTOM_COLOR.Red}: null]}>
                             <Text style={styles.buttonText}>{props.buttonText?props.buttonText:"OK"}</Text>
                         </View>
                     </TouchableOpacity>
@@ -56,16 +56,18 @@ const styles = StyleSheet.create({
         color: CUSTOM_COLOR.White,
         marginTop: scale(17),
         fontFamily: FONT_FAMILY.NexaBold,
-        fontSize: scale(20),
+        fontSize: scale(18),
+        alignSelf: 'center',    
     },
     noticeMessage: {
         flex: 1,
         padding: scale(20),
     },
     messageText: {
-        color: CUSTOM_COLOR.Black,
+        color: CUSTOM_COLOR.Primary,
         fontFamily: FONT_FAMILY.NexaRegular,
-        fontSize: scale(18),
+        fontSize: scale(20),
+        textAlign: 'center',
     },
     buttonPosition: {
         

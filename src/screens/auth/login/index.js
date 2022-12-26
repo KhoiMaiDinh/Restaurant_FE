@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image,
+  ActivityIndicator
 } from 'react-native';
 import React, {useState} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
@@ -47,6 +47,7 @@ const LoginScreen = props => {
   const dispatch = useDispatch();
   const {navigation} = props;
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const bs = useRef(null);
 
   const {
@@ -75,7 +76,9 @@ const LoginScreen = props => {
 
   const handleLogin = async data => {
     try {
+      setLoading(true);
       await dispatch(login(data));
+      setLoading(false);
       navigation.navigate('AppStackScreen');
     } catch (error) {
       setErrorMessage(error.message);
@@ -157,9 +160,11 @@ const LoginScreen = props => {
 
           <TouchableOpacity
             style={styles.loginButtonBoxPosition}
+            activeOpacity={0.8}
             onPress={handleSubmit(handleLogin)}>
             <View style={styles.loginButtonBox}>
-              <Text style={styles.buttonText}>Đăng nhập</Text>
+              <Text style={styles.buttonText}>{loading?'Đang đăng nhập...':'Đăng nhập'}</Text>
+              {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
             </View>
           </TouchableOpacity>
         </Animated.View>
@@ -227,6 +232,7 @@ const styles = StyleSheet.create({
     width: scale(278),
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 26.5,
   },
   buttonText: {

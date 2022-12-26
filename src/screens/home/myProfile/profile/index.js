@@ -94,7 +94,7 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Chỉnh sửa thông tin</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => (setVisible(true))}>
+            <TouchableOpacity onPress={() => setVisible(true)}>
                 <View style={styles.menuItem}>
                     <View style={styles.icon}><IC_Support/></View>
                     <Text style={[styles.menuItemText,styles.text]}>Hỗ trợ</Text>
@@ -106,7 +106,7 @@ const ProfileScreen = props => {
                     <Text style={[styles.menuItemText,styles.text]}>Đánh Giá</Text>
                 </View>
             </TouchableOpacity>
-            {/* <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/> */}
+            <ContactInfor visible={visible} clickCancel={() => setVisible(false)}/>
             
              
         </View>

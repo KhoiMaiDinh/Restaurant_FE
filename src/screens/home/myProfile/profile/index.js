@@ -23,6 +23,7 @@ const ProfileScreen = props => {
   const getUserInfo = async () => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
+    userInfoJS.phoneNumber = '' + userInfoJS.phoneNumber;
     setUser(userInfoJS);
   }
 

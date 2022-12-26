@@ -7,34 +7,32 @@ import {
   Title,
   Caption,
   Text,
-  TouchableRipple,
 } from 'react-native-paper';
-import { IMG_BestDeals1, IMG_LisaAvatar } from '../../../../assets/images';
+import { IMG_LisaAvatar } from '../../../../assets/images';
 import scale from '../../../../utils/responsive';
-import {  IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
+import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
 import { CUSTOM_COLOR } from '../../../../constants/color';
-import HeaderBar from '../../../../components/headerBar';
 import FONT_FAMILY from '../../../../constants/fonts';
-import userApi from '../../../../services/userApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 
 const ProfileScreen = props => {
   const [image, setImage] = useState();
   const [user, setUser] = useState([]);
-  const getUserData = async () => {
-    try {
-      const {userData} = await userApi.get();
-      setUser(userData);
-      console.log(user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getUserInfo = async () => {
+    const userInfo = await AsyncStorage.getItem('@user');
+    const userInfoJS = JSON.parse(userInfo);
+    setUser(userInfoJS);
+  }
+
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getUserData();
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    isFocused && getUserInfo(); 
+  },[isFocused]);
+  useEffect(() => {
+    getUserInfo();
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.headerBar} />
@@ -46,26 +44,28 @@ const ProfileScreen = props => {
                 />
                 <View style={{marginLeft: scale(20)}}>
                     <Title style={[styles.title,styles.text]}>
-                        Thu Hiền
+                        {user.name}
                     </Title>
-                    <Caption style={[styles.caption,styles.text]}>@thuhien_07</Caption>
+                    <Caption style={[styles.caption,styles.text]}>{user.email}</Caption>
                 </View>
             </View>
         </View>
         <View style={styles.userInfoSection}>
             <View style={styles.row}>
             <View style={styles.icon}><IC_Map /></View>
-                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>TP HCM</Text>
+                <Text style={[styles.text,{color:( user.address ? CUSTOM_COLOR.Sonic_Silver:CUSTOM_COLOR.Red), marginLeft: 20}]}>
+                  {user.address?user.address:"Vui lòng cập nhật thông tin địa chỉ của bạn!"}
+                </Text>
             </View>
 
             <View style={styles.row}>
             <View style={styles.icon}><IC_Phone /></View>
-                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>+84 *****6905</Text>
+                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>{user.phoneNumber}</Text>
             </View>
 
             <View style={styles.row}>
             <View style={styles.icon}><IC_Mail /></View>
-                <Text style={{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20, fontFamily: FONT_FAMILY.NexaRegular}}>thuhien@gmail.com</Text>
+                <Text style={{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20, fontFamily: FONT_FAMILY.NexaRegular}}>{user.email}</Text>
             </View>
 
         </View>
@@ -82,7 +82,9 @@ const ProfileScreen = props => {
         </View>
 
         <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={() => props.navigation.navigate("EditProfileScreen")}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("EditProfileScreen", {
+          user: user,
+        })}>
                 <View style={styles.menuItem}>
                     <View style={styles.icon}><IC_Edit/></View>
                     <Text style={[styles.menuItemText,styles.text]}>Chỉnh sửa thông tin</Text>

@@ -37,6 +37,11 @@ export const cartReducer = (state = CART_INITIAL_STATE, action) => {
           x.id === action.payload.id ? {...x, qty: action.payload.qty} : x
         ),  
       };
+    case actionTypes.CART_RESET:
+      return {
+        ...state,
+        cartItems: [] 
+      };
     default:
       return state;
   }

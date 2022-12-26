@@ -8,35 +8,112 @@ import { IMG_LisaAvatar } from '../../../../assets/images';
 import ImagePicker from 'react-native-image-crop-picker';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
+import userApi from '../../../../services/userApi';
+import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { set } from 'lodash';
+import * as yup from 'yup'
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import { useDispatch } from 'react-redux';
+import { edit } from '../../../../features/auth/userSlice';
+
+
+
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const editProfileValidate = yup.object({
+  email: yup
+    .string()
+    .email('Email không hợp lệ')
+    .max(30, 'Độ dài email phải nhỏ hơn 30 kí tự')
+    .required('Email không được để trống'),
+  
+  phoneNumber: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+  name: yup.string().required('Họ tên không được để trống'),
+  address: yup.string().required('Địa chỉ không được để trống'),
+});
+
+
 
 
 const EditProfileScreen = props => {
-    const [email, setEmail] = useState('');
-    const [checkValidEmail, setCheckValidEmail] = useState(false);
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [checkValidNumber, setCheckValidNumber] = useState(false);
+    const {user} = props.route.params;
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([
+      {label:'Quận 1', value:'Quận 1'},
+      {label:'Quận 2', value:'Quận 2'},
+      {label:'Quận 3', value:'Quận 3'},
+      {label:'Quận 4', value:'Quận 4'},
+      {label:'Quận 5', value:'Quận 5'},
+      {label:'Quận 6', value:'Quận 6'},
+      {label:'Quận 7', value:'Quận 7'},
+      {label:'Quận 8', value:'Quận 8'},
+      {label:'Quận 9', value:'Quận 9'},
+      {label:'Quận 10', value:'Quận 10'},
+      {label:'Quận 11', value:'Quận 11'},
+      {label:'Quận 12', value:'Quận 12'},
+      {label:'Thành phố Thủ Đức', value:'Thành phố Thủ Đức'},
+      {label:'Quận Bình Tân', value:'Quận Bình Tân'},
+      {label:'Quận Bình Thạnh', value:'Quận Bình Thạnh'},
+      {label:'Quận Gò Vấp', value:'Quận Gò Vấp'},
+      {label:'Quận Phú Nhuận', value:'Quận Phú Nhuận'},
+      {label:'Quận Tân Bình', value:'Quận Tân Bình'},
+      {label:'Quận Tân Phú', value:'Quận Tân Phú'},
+      {label:'Huyện Bình Chánh', value:'Huyện Bình Chánh'},
+      {label:'Huyện Cần Giờ', value:'Huyện Cần Giờ'},
+      {label:'Huyện Củ Chi', value:'Huyện Củ Chi'},
+      {label:'Huyện Hóc Môn', value:'Huyện Hóc Môn'},
+      {label:'Huyện Nhà Bè', value:'Huyện Nhà Bè'},
+    ]);
 
-    const handleCheckEmail = text => {
-        let re = /\S+@\S+\.\S+/;
-        let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    const fullAddress = user.address.split(", ");
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [district, setDistrict] = useState(fullAddress[1]?fullAddress[1]:"Quận 1");
     
-        setEmail(text);
-        if (re.test(text) || regex.test(text)) {
-          setCheckValidEmail(false);
-        } else {
-          setCheckValidEmail(true);
-        }
-      };
-    const handleCheckNumber = text => {
-        let phoneNumber = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    const dispatch = useDispatch();
+
+    const handleEditUser = async(data) => {
+      try {
+        const longAddress = data.address.concat(", ", district, ", TP HCM" )
+        const payload = {
+          avatar: {
+            ref: ' ',
+            url: ' ',
+          },
+          name: data.name,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          address: longAddress
+        };
+        const id = user._id;
+        console.log(payload); 
+        console.log(user)
+        await userApi.editUser(id, payload)
+        await dispatch(edit(payload));
+      } catch (error) {
+        console.log(error)
+      }
+    };
+  
+
+    const {
+      control,
+      handleSubmit,
+      formState: {errors},
+    } = useForm({
+      mode: 'onChange',
+      defaultValues: {
+        email: email,
+        name: name,
+        phoneNumber:`${phoneNumber}`,
+        address: fullAddress[0],
+      },
+      resolver: yupResolver(editProfileValidate),
+    });
     
-        setPhoneNumber(text);
-        if (phoneNumber.test(text)) {
-          setCheckValidNumber(false);
-        } else {
-          setCheckValidNumber(true);
-        }
-      };
       const [image, setImage] = useState();
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
@@ -103,17 +180,11 @@ const EditProfileScreen = props => {
                       props.navigation.goBack();
                     }}>
                     <IC_GoBack />
-                    <Text style={styles.screenTittle2}>Quay lại</Text>
+                    <Text style={styles.screenTittle}>Quay lại</Text>
                 </TouchableOpacity>
             </View>
         </View>
     </>
-     {/* Private Profile */}
-     <>
-                        <Text style={styles.privateProfileText} >
-                        Thông tin Cá nhân
-                        </Text>
-                    </>
 
         <BottomSheet
         ref={this.bs}
@@ -146,92 +217,157 @@ const EditProfileScreen = props => {
                     <Text style={styles.editProfilePictureText}>Thay đổi ảnh đại diện</Text>
                 </TouchableOpacity>
             </>
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <KeyboardAvoidingView>
-                    
-                    {/* Name View */}
-                    <View style={styles.nameView}>
+                   
 
                    
                     {/* Name */}
                     <>
-                        <View style={styles.NameInput}>
+                    <Controller
+                    name="name"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.NameInput}>
                             <Text style={styles.inputText}>
                                 Họ và Tên
                             </Text>
                             <TextInput 
+                                onChangeText={text => onChange(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Họ và Tên"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
+                                value={value}
                             />
+                            {errors?.name&&(
+                              <Text style={styles.textFailed}>{errors.name.message}</Text>
+                            )}
                         </View>
-                    </>
-                     </View>
+                    )}
+                    />
+                     
+        </>
+                        
+                 
                    
                     {/* Email */}
                     <>
-                        <View style={styles.emailInput}>
+                    <Controller
+                    name="email"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.emailInput}>
                             <Text style={styles.inputText}>
                                 Email
                             </Text>
                             <TextInput 
-                                onChangeText={text => handleCheckEmail(text)}
+                                onChangeText={text => onChange(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Email"
                                 style={styles.input}
                                 keyboardType="ascii-capable"
+                                value={value}
                             />
-                        </View>
-                            <View style={{marginTop: scale(30)}}>
-                                {checkValidEmail ? (
-                                    <Text style={styles.textFailed}>Sai định dạng email. VD:"user@gmail.com"</Text>
-                                ) : (
-                                    <Text style={styles.textFailed}> </Text>
+                        
+                                {errors?.email && (
+                                    <Text style={styles.textFailed}>{errors.email.message}</Text>
                                 )}
-                            </View>
+                        </View>
+                    )}
+                    />
                     </>
+
+                    
                     {/* Number */}
                     <>
-                        <View style={styles.numberInput}>
+                    <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.numberInput}>
                             <Text style={styles.inputText}>
                                 Số điện thoại
                             </Text>
                             <TextInput 
-                                onChangeText={text => handleCheckNumber(text)}
+                                onChangeText={text => onChange(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Số điện thoại"
                                 style={styles.input}
                                 keyboardType="numeric"
+                                value={value}
                             />
+                                {errors?.phoneNumber && (
+                                    <Text style={styles.textFailed}>{errors.phoneNumber.message}</Text>
+                               )}
                         </View>
-                        <View style={{marginTop: scale(40)}}>
-                                {checkValidNumber ? (
-                                    <Text style={styles.textFailed}>Sai định dạng số điện thoại VD: 033 388 3127</Text>
-                                ) : (
-                                    <Text style={styles.textFailed}> </Text>
-                                )}
-                        </View>
+                    )}
+                    />
+        
+        
+                        
                     </>
                     {/* Location */}
                     <>
-                        <View style={styles.locationInput}>
-                            <Text style={styles.inputText}>
-                                Địa chỉ
-                            </Text>
-                            <TextInput 
-                                placeholderTextColor={CUSTOM_COLOR.Grey}
-                                placeholder="Địa chỉ"
-                                style={styles.input}
-                                keyboardType="ascii-capable"
-                            />
-                        </View>
-                    </>
+                    <Controller 
+                    name="address"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                  <View style={styles.locationInput}>
+                      <Text style={styles.inputText}>
+                          Địa chỉ
+                      </Text>
+                      <TextInput 
+                          onChangeText={text => onChange(text)}
+                          placeholderTextColor={CUSTOM_COLOR.Grey}
+                          placeholder="Địa chỉ"
+                          style={styles.input}
+                          keyboardType="ascii-capable"
+                          value={value}
+                      />
+                      {errors?.address && (
+                        <Text style={styles.textFailed}>{errors.address.message}</Text>
+                      )}
+                  </View>
+                 
+                    )}
+                    />  
+              </>
+                <View style={styles.locationInputState}>
+                      <Text style={styles.inputText}>
+                          Quận/Huyện
+                      </Text>
+                      <DropDownPicker
+                        open={open}
+                        value={district}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setDistrict}
+                        setItems={setItems}
+                        style={{
+                          borderColor: CUSTOM_COLOR.Primary,
+                          marginTop: scale(10),
+                        }}
+                        textStyle={{
+                          fontFamily: FONT_FAMILY.NexaRegular,
+                          fontSize: scale(16),
+                          color: CUSTOM_COLOR.Black,
+                        }}
+                        placeholderStyle={{
+                          fontFamily: FONT_FAMILY.NexaRegular,
+                          fontSize: scale(16),
+                          textAlign: 'left',
+                          alignContent: 'flex-start',
+                          color: CUSTOM_COLOR.Grey,
+                        }}
+                      />
+                  </View>
+               
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
             {/* Save Profile */}
             <>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit(handleEditUser)}>
                     <Text style={styles.buttonText}>Lưu</Text>
                 </TouchableOpacity>
             </>
@@ -277,12 +413,12 @@ commandButton: {
   panelTitle: {
     fontSize: 27,
     color: CUSTOM_COLOR.Primary,
-    height: scale(35),
+    paddingVertical: scale(5),
   },
   panelSubtitle: {
     fontSize: scale(14),
     color: CUSTOM_COLOR.Primary,
-    height: scale(30),
+    //height: scale(30),
     marginBottom: scale(10),
   },
   panelButton: {
@@ -323,7 +459,6 @@ const styles = StyleSheet.create({
         width:scale(110),
         height:scale(110),
         borderRadius: 360,
-        marginTop: scale(5),
         alignSelf: 'center',
     },
     editProfilePictureTouch: {
@@ -365,27 +500,34 @@ const styles = StyleSheet.create({
     },
     NameInput: {
         width: scale(345),
-        height: scale(50),
-        paddingLeft: scale(35),   
+        height: 'auto',
+        paddingLeft: scale(35),
+        marginBottom: scale(13),
     },
     emailInput: {
         width: scale(345),
-        height: scale(50),
-        paddingTop: scale(13),
+        height: 'auto',
         paddingLeft: scale(35),
+        marginBottom: scale(13),
     },
     numberInput: {
         width: scale(345),
-        height: scale(50),
-        paddingTop: scale(12),
+        height: 'auto',
         paddingLeft: scale(35),
+        marginBottom: scale(13),
     },
     locationInput: {
         width: scale(345),
-        height: scale(50),
-        paddingTop: scale(0),
+        height: 'auto',
         paddingLeft: scale(35),
+        marginBottom: scale(15),
     },
+    locationInputState: {
+      width: scale(345),
+      height: 'auto',
+      paddingLeft: scale(35),
+      marginBottom: scale(20),
+  },
     inputText: {
         fontFamily: FONT_FAMILY.NexaRegular,
         fontSize: scale(16),
@@ -405,7 +547,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        marginTop: scale(50),
+        marginBottom: scale(5),
         width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,
@@ -441,7 +583,7 @@ const styles = StyleSheet.create({
         height: scale(32),
         justifyContent: 'center',
     },
-    screenTittle2: {
+    screenTittle: {
       color: CUSTOM_COLOR.Black,
       fontSize: scale(15),
       fontFamily: FONT_FAMILY.NexaRegular,

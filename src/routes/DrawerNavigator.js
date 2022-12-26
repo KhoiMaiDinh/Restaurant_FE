@@ -33,6 +33,7 @@ import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
 import foodApi from '../services/foodApi';
 import ProfileScreen from '../screens/home/myProfile/profile';
+import { resetCartWhenLogOut } from '../redux/actions/cartActions';
 
 const Drawer = createDrawerNavigator();
 
@@ -57,6 +58,7 @@ const CustomScrollDrawer = props => {
   const handleLogout = async () => {
     try {
       await dispatch(logout());
+      await dispatch(resetCartWhenLogOut());
       props.navigation.replace('AuthStackScreen');
     } catch (error) {
       console.log(error);

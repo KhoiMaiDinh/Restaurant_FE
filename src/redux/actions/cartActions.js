@@ -41,3 +41,21 @@ export const adjustQTY = (id, qty) => (dispatch, getState) => {
 
     AsyncStorage.setItem("@cart", JSON.stringify(getState().cart.cartItems));
 }
+
+export const resetCartWhenOrder = () => (dispatch, getState) => {
+    dispatch({
+        type: actionTypes.CART_RESET,
+        payload: {}
+    })
+
+    AsyncStorage.setItem("@cart", JSON.stringify(getState().cart.cartItems));
+}
+
+export const resetCartWhenLogOut = () => (dispatch, getState) => {
+    dispatch({
+        type: actionTypes.CART_RESET,
+        payload: {}
+    })
+
+    AsyncStorage.setItem("@cart", JSON.stringify(getState().cart.cartItems));
+}

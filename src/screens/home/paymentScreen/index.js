@@ -7,46 +7,45 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image,
-  KeyboardAvoidingView, 
-  ScrollView, 
-  Dimensions
+  KeyboardAvoidingView,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
-//import { IMG_2 } from '../../../assets/images';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import { IC_GoBack } from '../../../assets/icons';
-import { useSelector } from 'react-redux';
-import PaymentChoosing from './component/paymentChoosing';
-import { IMG_PaymentBackGround } from '../../../assets/images';
+import {IC_GoBack} from '../../../assets/icons';
+import {useDispatch, useSelector} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {store} from './../../../redux/store';
+import userApi from '../../../services/userApi';
+import {RadioButton} from 'react-native-paper';
+import {useRef} from 'react';
+import {resetCartWhenOrder} from '../../../redux/actions/cartActions';
 
-const PaymentScreen = (props) => {
-  const navigation = props;
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [checkValidNumber, setCheckValidNumber] = useState(false);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const {user} = store.getState().user;
-
-  const phoneRegExp =
+const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-  const reservationSchema = yup.object({
-    name: yup.string().required('Tên khách hàng không được để trống'),
-    phoneNumber: yup
-      .string()
-      .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
-      .max(11, "Số điện thoại không hợp lệ")
-      .min(10, "Số điện thoại không hợp lệ")
-      .required('Số điện thoại không được để trống'),
-    address: yup.string().required("Địa chỉ không được để trống"),
+const paymentSchema = yup.object({
+  name: yup.string().required('Tên khách hàng không được để trống'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+    .max(11, 'Số điện thoại không hợp lệ')
+    .min(10, 'Số điện thoại không hợp lệ')
+    .required('Số điện thoại không được để trống'),
+  address: yup.string().required('Địa chỉ không được để trống'),
+  method: yup.string().required('Vui lòng chọn phương thức thanh toán'),
+});
 
-  });
+const PaymentScreen = props => {
+  const navigation = props;
+  const [totalAmount, setTotalAmount] = useState(0);
+  const {user} = store.getState().user;
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -58,167 +57,201 @@ const PaymentScreen = (props) => {
       userId: user._id,
       name: '',
       phoneNumber: '',
+      address: '',
+      desc: '',
+      method: '',
     },
-    resolver: yupResolver(reservationSchema),
+    resolver: yupResolver(paymentSchema),
   });
 
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart; 
+  const cart = useSelector(state => state.cart);
+  const {cartItems} = cart;
 
-  const handleCheckNumber = text => {
-    let phoneNumber = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  useEffect(() => {
+    let total = 0;
+    if (Array.isArray(cartItems)) {
+      cartItems.forEach(food => {
+        total += food.price * food.qty;
+      });
+    }
+    setTotalAmount(total);
+  }, [cartItems]);
 
-    setPhoneNumber(text);
-    if (phoneNumber.test(text)) {
-      setCheckValidNumber(false);
-    } else {
-      setCheckValidNumber(true);
+  const handleSubmitPayment = async data => {
+    try {
+      const orderData = await userApi.paying(user._id, {
+        ...data,
+        items: cartItems || [],
+      });
+      await dispatch(resetCartWhenOrder());
+      console.log(
+        '🚀 ~ file: index.js:84 ~ handleSubmitPayment ~ order',
+        orderData,
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const onCalculateAmount = () => {
-    let total = 0
-    if(Array.isArray(cartItems)){
-        cartItems.map(food => {
-            total += food.price * food.qty
-        })
-    }
-     setTotalAmount(total);
-}
-
-useEffect(() => {
-  onCalculateAmount()
-},[cartItems])
-
-  
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View style={styles.view}>
-            <View style={styles.viewGoBackText}>
-                <TouchableOpacity
-                    style={styles.goBackButton}
-                    onPress={() => {
-                    props.navigation.goBack();
-                    }}>
-                    <IC_GoBack style={styles.goBack} />
-                    <Text style={styles.screenTittle2}>Quay lại</Text>
-                </TouchableOpacity>
-            </View>
+          <View style={styles.viewGoBackText}>
+            <TouchableOpacity
+              style={styles.goBackButton}
+              onPress={() => {
+                props.navigation.goBack();
+              }}>
+              <IC_GoBack style={styles.goBack} />
+              <Text style={styles.screenTittle2}>Quay lại</Text>
+            </TouchableOpacity>
+          </View>
 
-            <View style={styles.viewTitle}>
-                <Text style={styles.textTitle}>Thanh toán</Text>
-            </View>
+          <View style={styles.viewTitle}>
+            <Text style={styles.textTitle}>Thanh toán</Text>
+          </View>
         </View>
-        
+
         <View style={styles.tittleBox}>
-            <Text style={styles.screenTittle}>Xác nhận đơn hàng</Text>
+          <Text style={styles.screenTittle}>Xác nhận đơn hàng</Text>
         </View>
         <View style={styles.bg}>
-        <TouchableWithoutFeedback
-          onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
+          <TouchableWithoutFeedback
+            onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
             <KeyboardAvoidingView>
-              
-            <Controller
-              name="name"
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <View style = {styles.inputFullNameBox}>
-                  <TextInput
-                    placeholderTextColor={CUSTOM_COLOR.Grey}
-                    placeholder="Tên người nhận"
-                    style={styles.inputText}
-                    keyboardType="ascii-capable"
-                    onChangeText={text => onChange(text)}
-                    value={value}
+              <Controller
+                name="name"
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <View style={styles.inputFullNameBox}>
+                    <TextInput
+                      placeholderTextColor={CUSTOM_COLOR.Grey}
+                      placeholder="Tên người nhận"
+                      style={styles.inputText}
+                      keyboardType="ascii-capable"
+                      onChangeText={text => onChange(text)}
+                      value={value}
                     />
-                     <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
-                    {errors?.name && (
-                      <Text style={styles.textFailed}>
-                        {errors.name.message}
-                      </Text>
-                    )}
+                    <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
+                      {errors?.name && (
+                        <Text style={styles.textFailed}>
+                          {errors.name.message}
+                        </Text>
+                      )}
+                    </View>
                   </View>
-                </View>
                 )}
-                />
-                
+              />
 
-                <Controller
-              name="address"
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <View style = {styles.inputFullNameBox}>
-                  <TextInput
-                    placeholderTextColor={CUSTOM_COLOR.Grey}
-                    placeholder="Địa chỉ"
-                    style={styles.inputText}
-                    keyboardType="ascii-capable"
-                    onChangeText={text => onChange(text)}
-                    value={value}
+              <Controller
+                name="address"
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <View style={styles.inputFullNameBox}>
+                    <TextInput
+                      placeholderTextColor={CUSTOM_COLOR.Grey}
+                      placeholder="Địa chỉ"
+                      style={styles.inputText}
+                      keyboardType="ascii-capable"
+                      onChangeText={text => onChange(text)}
+                      value={value}
                     />
-                     <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
-                    {errors?.address && (
-                      <Text style={styles.textFailed}>
-                        {errors.address.message}
-                      </Text>
-                    )}
+                    <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
+                      {errors?.address && (
+                        <Text style={styles.textFailed}>
+                          {errors.address.message}
+                        </Text>
+                      )}
+                    </View>
                   </View>
-                </View>
                 )}
-                />
+              />
 
-                <Controller
-              name="phoneNumber"
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <View style={styles.inputPhoneNumberBox}>
-                  <TextInput
-                    onChangeText={number => onChange(number)}
-                    placeholderTextColor={CUSTOM_COLOR.Grey}
-                    placeholder="Số điện thoại"
-                    style={styles.inputText}
-                    keyboardType="numeric"
-                    value={value}
-                  />
-                  <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
-                    {errors?.phoneNumber && (
-                      <Text style={styles.textFailed}>
-                        {errors.phoneNumber.message}
-                      </Text>
-                    )}
+              <Controller
+                name="phoneNumber"
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <View style={styles.inputPhoneNumberBox}>
+                    <TextInput
+                      onChangeText={number => onChange(number)}
+                      placeholderTextColor={CUSTOM_COLOR.Grey}
+                      placeholder="Số điện thoại"
+                      style={styles.inputText}
+                      keyboardType="numeric"
+                      value={value}
+                    />
+                    <View style={{marginTop: scale(5), marginLeft: scale(-35)}}>
+                      {errors?.phoneNumber && (
+                        <Text style={styles.textFailed}>
+                          {errors.phoneNumber.message}
+                        </Text>
+                      )}
+                    </View>
                   </View>
-                </View>
-              )}
-            />
+                )}
+              />
 
-              
-                
-                <View style={styles.inputOrderDetailsBox}>
-                  <TextInput
-                  placeholderTextColor={CUSTOM_COLOR.Grey}
-                  placeholder="Ghi chú"
-                  style={styles.inputText}
-                  keyboardType="ascii-capable"
-                  />
-                </View>
-                <View style={styles.inputMethodBox}>
-                  <Text style={styles.methods}>Vui lòng chọn hình thức thanh toán</Text>
-                </View>
+              <Controller
+                name="desc"
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <View style={styles.inputOrderDetailsBox}>
+                    <TextInput
+                      onChangeText={text => onChange(text)}
+                      placeholderTextColor={CUSTOM_COLOR.Grey}
+                      placeholder="Ghi chú"
+                      style={styles.inputText}
+                      keyboardType="ascii-capable"
+                      value={value}
+                    />
+                  </View>
+                )}
+              />
+              <View style={styles.inputMethodBox}>
+                <Text style={styles.methods}>
+                  Vui lòng chọn hình thức thanh toán
+                </Text>
+              </View>
             </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
-        <View style={styles.radioButton}>
-          <PaymentChoosing/>
-        </View>
-        <View style={styles.totalBox}>
-                <Text style={styles.total}>Tổng tiền thanh toán</Text>
-                <Text style={styles.money}>{Intl.NumberFormat('vn-VN').format(totalAmount)} ₫</Text>
-        </View>
-        <TouchableOpacity style={styles.PlaceOrderButtonBoxPosition} onPress={handleSubmit(reservationSchema)}>
+          </TouchableWithoutFeedback>
+          <Controller
+            name="method"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.radioButton}>
+                <RadioButton.Group
+                  onValueChange={newValue => onChange(newValue)}
+                  value={value}>
+                  <View style={styles.radioGroup}>
+                    <RadioButton value="direct" />
+                    <Text>Thanh toán trực tiếp khi nhận hàng</Text>
+                  </View>
+                </RadioButton.Group>
+                <View
+                  style={{marginTop: scale(5), paddingHorizontal: scale(20)}}>
+                  {errors?.method && (
+                    <Text style={styles.textFailed}>
+                      {errors.method.message}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            )}
+          />
+          <View style={styles.totalBox}>
+            <Text style={styles.total}>Tổng tiền thanh toán</Text>
+            <Text style={styles.money}>
+              {Intl.NumberFormat('vn-VN').format(totalAmount)} ₫
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.PlaceOrderButtonBoxPosition}
+            onPress={handleSubmit(handleSubmitPayment)}>
             <View style={styles.PlaceOrderButtonBox}>
               <Text style={styles.buttonText}>Đặt hàng</Text>
             </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -233,10 +266,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     backgroundColor: CUSTOM_COLOR.White,
   },
-  bg:{
+  bg: {
     marginTop: scale(60),
-  }, 
-  view:{
+  },
+  view: {
     marginTop: scale(10),
     flex: 0.08,
     justifyContent: 'space-between',
@@ -245,7 +278,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  viewTitle:{
+  viewTitle: {
     justifyContent: 'center',
     width: scale(150),
     height: scale(32),
@@ -262,8 +295,8 @@ const styles = StyleSheet.create({
     fontSize: scale(15),
     fontFamily: FONT_FAMILY.NexaRegular,
     alignSelf: 'center',
-},
-  textTitle:{
+  },
+  textTitle: {
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaBold,
     fontSize: scale(18),
@@ -289,11 +322,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   image: {
-      width: '100%',
-      height: scale(162),
-      justifyContent: 'center',
-      alignSelf: 'center',
-    },
+    width: '100%',
+    height: scale(162),
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
   inputFullNameBox: {
     marginTop: scale(30),
     alignSelf: 'center',
@@ -342,27 +375,26 @@ const styles = StyleSheet.create({
     borderColor: CUSTOM_COLOR.San_Juan,
     borderRadius: 4,
   },
-methods: {
-  marginLeft: scale(15),
-  color: CUSTOM_COLOR.Black,
-  width: scale(299),
-  fontFamily: FONT_FAMILY.NexaRegular,
-  lineHeight: scale(20.6),
-  fontSize: scale(15),
-},
+  methods: {
+    marginLeft: scale(15),
+    color: CUSTOM_COLOR.Black,
+    width: scale(299),
+    fontFamily: FONT_FAMILY.NexaRegular,
+    lineHeight: scale(20.6),
+    fontSize: scale(15),
+  },
   inputText: {
     left: scale(15),
     color: CUSTOM_COLOR.Black,
     width: scale(299),
     fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(20,67),
+    lineHeight: scale(20, 67),
     fontSize: scale(15),
   },
   PlaceOrderButtonBoxPosition: {
     alignSelf: 'center',
   },
-  radioButton:
-  {
+  radioButton: {
     marginRight: scale(80),
   },
   totalBox: {
@@ -370,16 +402,14 @@ methods: {
     height: scale(43),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    
-},
-  total: {   
+  },
+  total: {
     marginLeft: scale(15),
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(15),
   },
-  money:
-  {
+  money: {
     color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(15),
@@ -397,9 +427,14 @@ methods: {
     fontFamily: FONT_FAMILY.NexaRegular,
   },
   textFailed: {
-    marginLeft: scale(50), 
+    marginLeft: scale(50),
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
     color: CUSTOM_COLOR.Red,
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: scale(50),
   },
 });

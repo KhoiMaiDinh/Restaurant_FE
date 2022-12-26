@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import React, { useState } from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import Foods from './components/foodsInfo';
@@ -8,24 +8,38 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import foodApi from '../../../services/foodApi';
 import scale from '../../../utils/responsive';
+import FONT_FAMILY from '../../../constants/fonts';
+import SkeletonSearch from './components/skeletonSearch';
 
 const SearchScreen = ({ props }) => {
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
+  const [notFound, setNotFound] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getSearchData = async () => {
       try {
+        setNotFound(true);
         if (search) {
+          setNotFound(false);
+          setLoading(true);
           const {foods} = await foodApi.getAll('', '', search);
           setSearchData(foods);
+          setLoading(false);
+          if(!searchData)
+          {
+            setNotFound(true);
+          }
         }
+        
       } catch (error) {
         console.log(error)
       }
     };
     getSearchData();
+    
   }, [search]);
 
 
@@ -43,7 +57,15 @@ const SearchScreen = ({ props }) => {
         <SearchBar setSearch={setSearch} search={search}/>
         <View style={{width: 1, height: 1}}/>
       </View>
-      <Foods searchData={searchData} {...props} />
+      {notFound ? (<Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
+        textAlign:'center', marginTop: scale(260),color: CUSTOM_COLOR.Black,}}>
+        {'Hãy tìm kiếm món ăn \nmà bạn yêu thích!'}</Text>
+      ):(
+        loading ? (
+        <SkeletonSearch />
+      ) : (
+      <Foods searchData={searchData} {...props} />)
+      )}
     </SafeAreaView>
   );
 };

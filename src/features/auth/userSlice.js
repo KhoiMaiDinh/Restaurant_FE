@@ -16,6 +16,23 @@ export const login = createAsyncThunk('user/login', async payload => {
   };
 });
 
+export const edit = createAsyncThunk('user/edit', async (payload, {getState}) => {
+  const {user} = getState().user;
+  //await AsyncStorage.setItem('@access-token', user.accessToken);
+  //await AsyncStorage.setItem('@refresh-token', user.refreshToken);
+  //const {user} = await userApi.get(data.userId);
+  user.name = payload.name;
+  user.email= payload.email;
+  user.phoneNumber= payload.phoneNumber,
+  user.address= payload.address
+  await AsyncStorage.setItem('@user', JSON.stringify(user));
+  return {
+    user: user,
+    accessToken: user.accessToken,
+    refreshToken: user.refreshToken,
+  };
+});
+
 export const signup = createAsyncThunk('user/signup', async payload => {
   await AsyncStorage.setItem('@token', payload.token);
   await AsyncStorage.setItem('@user', JSON.stringify(payload.user));
@@ -42,30 +59,32 @@ const userSlice = createSlice({
     user: {},
   },
   reducers: {},
-  extraReducers: {
-    [login.fulfilled]: (state, action) => {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
-      state.user = action.payload.user;
-    },
-    [login.rejected]: (state, action) => {
-      throw action.error;
-    },
-    [signup.fulfilled]: (state, action) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
-    },
-    [signup.rejected]: (state, action) => {
-      throw action.error;
-    },
-    [logout.fulfilled]: (state, action) => {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
-      state.user = action.payload.user;
-    },
-    [logout.rejected]: (state, action) => {
-      throw action.error;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.user = action.payload.user; 
+      })
+      .addCase(login.rejected, (state, action) => {
+        throw action.error;
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.token = action.payload.token;
+        state.user = action.payload.user;
+      })
+      .addCase(signup.rejected, (state, action) => {
+        throw action.error;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.user = action.payload.user;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        throw action.error;
+      })
+      .addDefaultCase((state, action) => {})
   },
 });
 

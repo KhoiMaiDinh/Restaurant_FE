@@ -36,6 +36,7 @@ const reservationSchema = yup.object({
     .string()
     .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
     .max(11, "Số điện thoại không hợp lệ")
+    .min(10, "Số điện thoại không hợp lệ")
     .required('Số điện thoại không được để trống'),
 });
 
@@ -436,8 +437,8 @@ const styles = StyleSheet.create({
 });
 const stylePanel = StyleSheet.create({
   panel: {
-    padding: scale(20),
-    paddingTop: scale(20),
+    padding: scale(30),
+    paddingTop: scale(30),
   },
   panelTitle: {
     fontSize: 27,

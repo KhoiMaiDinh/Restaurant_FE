@@ -14,6 +14,7 @@ import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../
 import { CUSTOM_COLOR } from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 
 const ProfileScreen = props => {
@@ -25,6 +26,10 @@ const ProfileScreen = props => {
     setUser(userInfoJS);
   }
 
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    isFocused && getUserInfo(); 
+  },[isFocused]);
   useEffect(() => {
     getUserInfo();
   }, [])

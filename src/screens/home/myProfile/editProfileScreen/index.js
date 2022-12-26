@@ -71,10 +71,7 @@ const EditProfileScreen = props => {
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
-    const [address, setAddress] = useState(fullAddress[0]);
-    const [district, setDistrict] = useState(fullAddress[1]);
-    const [checkValidEmail, setCheckValidEmail] = useState(false);
-    const [checkValidNumber, setCheckValidNumber] = useState(false);
+    const [district, setDistrict] = useState(fullAddress[1]?fullAddress[1]:"Quận 1");
     
     const dispatch = useDispatch();
 
@@ -271,9 +268,7 @@ const EditProfileScreen = props => {
                                 Email
                             </Text>
                             <TextInput 
-                                                                onChangeText={text => onChange(text)}
-
-
+                                onChangeText={text => onChange(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Email"
                                 style={styles.input}
@@ -301,9 +296,7 @@ const EditProfileScreen = props => {
                                 Số điện thoại
                             </Text>
                             <TextInput 
-                                onChange={text => {
-                                  handleCheckNumber(text);
-                                  setPhoneNumber(text);}}
+                                onChangeText={text => onChange(text)}
                                 placeholderTextColor={CUSTOM_COLOR.Grey}
                                 placeholder="Số điện thoại"
                                 style={styles.input}
@@ -331,8 +324,7 @@ const EditProfileScreen = props => {
                           Địa chỉ
                       </Text>
                       <TextInput 
-                          onChange={text => {
-                            setAddress(text)}}
+                          onChangeText={text => onChange(text)}
                           placeholderTextColor={CUSTOM_COLOR.Grey}
                           placeholder="Địa chỉ"
                           style={styles.input}
@@ -353,7 +345,7 @@ const EditProfileScreen = props => {
                       </Text>
                       <DropDownPicker
                         open={open}
-                        value={district?district:"Quận 1"}
+                        value={district}
                         items={items}
                         setOpen={setOpen}
                         setValue={setDistrict}

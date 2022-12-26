@@ -7,45 +7,45 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image,
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
-//import { IMG_2 } from '../../../assets/images';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
-import PaymentChoosing from '../paymentScreen/component/paymentChoosing';
 import {IC_GoBack} from '../../../assets/icons';
-import {useSelector} from 'react-redux';
-import {IMG_PaymentBackGround} from '../../../assets/images';
+import {useDispatch, useSelector} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {store} from './../../../redux/store';
+import userApi from '../../../services/userApi';
+import {RadioButton} from 'react-native-paper';
+import {useRef} from 'react';
+import {resetCartWhenOrder} from '../../../redux/actions/cartActions';
+
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const paymentSchema = yup.object({
+  name: yup.string().required('Tên khách hàng không được để trống'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+    .max(11, 'Số điện thoại không hợp lệ')
+    .min(10, 'Số điện thoại không hợp lệ')
+    .required('Số điện thoại không được để trống'),
+  address: yup.string().required('Địa chỉ không được để trống'),
+  method: yup.string().required('Vui lòng chọn phương thức thanh toán'),
+});
 
 const PaymentScreen = props => {
   const navigation = props;
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [checkValidNumber, setCheckValidNumber] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const {user} = store.getState().user;
-
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-  const reservationSchema = yup.object({
-    name: yup.string().required('Tên khách hàng không được để trống'),
-    phoneNumber: yup
-      .string()
-      .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
-      .max(11, 'Số điện thoại không hợp lệ')
-      .min(10, 'Số điện thoại không hợp lệ')
-      .required('Số điện thoại không được để trống'),
-    address: yup.string().required('Địa chỉ không được để trống'),
-  });
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -59,8 +59,9 @@ const PaymentScreen = props => {
       phoneNumber: '',
       address: '',
       desc: '',
+      method: '',
     },
-    resolver: yupResolver(reservationSchema),
+    resolver: yupResolver(paymentSchema),
   });
 
   const cart = useSelector(state => state.cart);
@@ -78,10 +79,14 @@ const PaymentScreen = props => {
 
   const handleSubmitPayment = async data => {
     try {
-      console.log('🚀 ~ file: index.js:80 ~ handleSubmitPayment ~ data', data);
+      const orderData = await userApi.paying(user._id, {
+        ...data,
+        items: cartItems || [],
+      });
+      await dispatch(resetCartWhenOrder());
       console.log(
-        '🚀 ~ file: index.js:67 ~ PaymentScreen ~ cartItems',
-        cartItems,
+        '🚀 ~ file: index.js:84 ~ handleSubmitPayment ~ order',
+        orderData,
       );
     } catch (error) {
       console.log(error);
@@ -210,9 +215,30 @@ const PaymentScreen = props => {
               </View>
             </KeyboardAvoidingView>
           </TouchableWithoutFeedback>
-          <View style={styles.radioButton}>
-            <PaymentChoosing style={styles.choice} />
-          </View>
+          <Controller
+            name="method"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.radioButton}>
+                <RadioButton.Group
+                  onValueChange={newValue => onChange(newValue)}
+                  value={value}>
+                  <View style={styles.radioGroup}>
+                    <RadioButton value="direct" />
+                    <Text>Thanh toán trực tiếp khi nhận hàng</Text>
+                  </View>
+                </RadioButton.Group>
+                <View
+                  style={{marginTop: scale(5), paddingHorizontal: scale(20)}}>
+                  {errors?.method && (
+                    <Text style={styles.textFailed}>
+                      {errors.method.message}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            )}
+          />
           <View style={styles.totalBox}>
             <Text style={styles.total}>Tổng tiền thanh toán</Text>
             <Text style={styles.money}>
@@ -405,5 +431,10 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
     color: CUSTOM_COLOR.Red,
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: scale(50),
   },
 });

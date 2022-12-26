@@ -24,9 +24,7 @@ const CartScreen = props => {
   const dispatch = useDispatch();
 
   const cart = useSelector(state => state.cart);
-  console.log('🚀 ~ file: index.js:27 ~ CartScreen ~ cart', cart);
   const {cartItems} = cart;
-  //console.log(cartItems);
 
   const [totalAmount, setTotalAmount] = useState(0);
   useEffect(() => {

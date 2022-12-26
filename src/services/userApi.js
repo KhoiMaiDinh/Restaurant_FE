@@ -29,6 +29,11 @@ const userApi = {
     const url = `/user/${id}`;
     return axiosClient.put(url, payload);
   },
+
+  paying(id, payload) {
+    const url = `/user/${id}/pay`;
+    return axiosClient.post(url, payload);
+  },
 };
 
 export default userApi;

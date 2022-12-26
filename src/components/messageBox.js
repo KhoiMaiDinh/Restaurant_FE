@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     messageText: {
         color: CUSTOM_COLOR.Primary,
-        fontFamily: FONT_FAMILY.NexaLight,
+        fontFamily: FONT_FAMILY.NexaRegular,
         fontSize: scale(20),
         textAlign: 'center',
     },

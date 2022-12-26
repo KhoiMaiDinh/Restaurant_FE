@@ -18,6 +18,9 @@ import {useDispatch} from 'react-redux';
 import {signup} from '../../../features/auth/userSlice';
 import {BASE_URL} from '../../../utils/api';
 import axios from 'axios';
+import * as yup from 'yup';
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 
 const SignUpScreen = props => {
   const {navigation} = props;
@@ -25,50 +28,44 @@ const SignUpScreen = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [checkValidEmail, setCheckValidEmail] = useState(false);
-  const [checkValidPassword, setCheckValidPassword] = useState(false);
-  const [checkValidNumber, setCheckValidNumber] = useState(false);
+  // const [phoneNumber, setPhoneNumber] = useState('');
+  // const [checkValidEmail, setCheckValidEmail] = useState(false);
+  // const [checkValidPassword, setCheckValidPassword] = useState(false);
+  // const [checkValidNumber, setCheckValidNumber] = useState(false);
 
-  const handleCheckEmail = text => {
-    let re = /\S+@\S+\.\S+/;
-    let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 
-    setEmail(text);
-    if (re.test(text) || regex.test(text)) {
-      setCheckValidEmail(false);
-    } else {
-      setCheckValidEmail(true);
-    }
-  };
-  const handleCheckNumber = text => {
-    let phoneNumber = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
 
-    setPhoneNumber(text);
-    if (phoneNumber.test(text)) {
-      setCheckValidNumber(false);
-    } else {
-      setCheckValidNumber(true);
-    }
-  };
-
-  const handleCheckPassword = text =>{
-    let isNonWhiteSpace = /^\S*$/;
-    let isContainsUppercase = /^(?=.*[A-Z]).*$/;
-    let isContainsLowercase = /^(?=.*[a-z]).*$/;
-    let isContainsNumber = /^(?=.*[0-9]).*$/;
-    let isValidLength = /^.{8,16}$/;
-
-    setPassword(text);
-    if(isNonWhiteSpace.test(text)
-    &&isContainsNumber.test(text)
-    &&isValidLength.test(text)){
-      setCheckValidPassword(false);
-    }
-    else {
-      setCheckValidPassword(true);
-    }
-  };
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+  const loginPayloadSchema = yup.object({
+  email: yup
+    .string()
+    .email('Email không hợp lệ')
+    .max(30, 'Độ dài email phải nhỏ hơn 30 kí tự')
+    .required('Email không được để trống'),
+  password: yup
+    .string()
+    .matches(passwordRegex,'Mật khẩu không được chứa khoảng trắng và phải chứa ít nhất một chữ hoa, một chữ thường')
+    .min(8, 'Độ dài mật khẩu phải lớn hơn 8')
+    .max(16, 'Độ dài mật khẩu phải nhỏ hơn 16')
+    .required('Mật khẩu không được để trống'),
+  phoneNumber: yup
+    .string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+});
+ 
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+      phoneNumber: '',
+    },
+    resolver: yupResolver(loginPayloadSchema),
+  });
 
   const handleSignup = async () => {
     try {
@@ -108,76 +105,83 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
+
+        {/*sdt*/}
+        <Controller
+        name="phoneNumber"
+        control={control}
+        render ={({field: {onChange, value}})=>(
         <View style={{height: scale(70)}}>
           <View style={styles.inputTextContainer}>
             <TextInput
-              onChangeText={text => handleCheckNumber(text)}
+              onChangeText={text => onChange(text)}
               placeholderTextColor={CUSTOM_COLOR.Grey}
-              value={phoneNumber}
+              value={value}
               placeholder="Số điện thoại"
               style={styles.inputText}
               keyboardType="numeric"
             />
           </View>
-          {checkValidNumber ? (
-            <Text style={styles.textFailed}>Sai định dạng số điện thoại VD: 033 388 3127</Text>
-          ) : (
-            <Text style={styles.textFailed}> </Text>
+          {errors?.phoneNumber && (
+            <Text style={styles.textFailed}>{errors.phoneNumber.message}</Text>
           )}
         </View>
-        <View style={{height: scale(70)}}>
+        )}
+      />
+        
+        <Controller
+        name="email"
+        control={control}
+        render ={({field: {onChange,value}})=>(
+          <View style={{height: scale(70)}}>
           <View style={styles.inputTextContainer}>
             <TextInput
-              onChangeText={text => handleCheckEmail(text)}
+              onChangeText={text => onChange(text)}
               placeholderTextColor={CUSTOM_COLOR.Grey}
-              value={email}
+              value={value}
               placeholder="Địa chỉ email"
               style={styles.inputText}
               keyboardType="email-address"
             />
           </View>
-            {checkValidEmail ? (
-            <Text style={styles.textFailed}>Sai định dạng email. VD:"user@gmail.com"</Text>
-          ) : (
-            <Text style={styles.textFailed}> </Text>
-          )}
+            {errors?.email && (
+            <Text style={styles.textFailed}>{errors.email.message}</Text>
+          ) }
         </View>
-        <View style={{height: scale(70)}}>
+        )}
+        />
+        
+        <Controller
+        name="password"
+        control={control}
+        render={({field: {onChange,value}})=>(
+           <View style={{height: scale(70)}}>
           <View style={styles.inputTextContainer}>
             <TextInput
-              onChangeText={text => handleCheckPassword(text)}
+              onChangeText={text => onChange(text)}
               secureTextEntry={true}
-              value={password}
+              value={value}
               placeholderTextColor={CUSTOM_COLOR.Grey}
               placeholder="Mật khẩu"
               style={styles.inputText}
             />
           </View>
-            {checkValidPassword ? (
-            <Text style={styles.textFailed}>{"Mật khẩu cần có tổi thiểu 8 kí tự, ít nhất \nmột chữ số và không chứa khoảng trắng"}</Text>
-          ) : (
-            <Text style={styles.textFailed}> </Text>
-          )}
+            {errors?.password && (
+            <Text style={styles.textFailed}>{errors.password.message}</Text>
+          ) }
         </View>
-        {email == '' || password == '' || phoneNumber == '' || checkValidEmail == true || checkValidPassword == true || checkValidNumber == true ? (
-          <TouchableOpacity
-          disabled
-          style={styles.SignUpButtonBoxPosition}
-          onPress={() =>
-            {handleSignup()}}>
-          <View style={styles.SignUpButtonBox}>
-            <Text style={styles.buttonText}>Đăng ký</Text>
-          </View>
-        </TouchableOpacity>
-        ) : (
+        )}
+        />
+       
+       
         <TouchableOpacity
           style={styles.SignUpButtonBoxPosition}
-          onPress={() => handleSignup()}>
+          onPress={handleSubmit(handleSignup)}>
           <View style={styles.SignUpButtonBox}>
             <Text style={styles.buttonText}>Đăng ký</Text>
           </View>
         </TouchableOpacity>
-        )} 
+        
         </SafeAreaView>
       </TouchableWithoutFeedback>
     );

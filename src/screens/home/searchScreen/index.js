@@ -58,8 +58,8 @@ const SearchScreen = ({ props }) => {
         <View style={{width: 1, height: 1}}/>
       </View>
       {notFound ? (<Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
-        textAlign:'center', marginTop: scale(250),color: CUSTOM_COLOR.Black,}}>
-        {'Không tìm thấy \nmón ăn'}</Text>
+        textAlign:'center', marginTop: scale(260),color: CUSTOM_COLOR.Black,}}>
+        {'Hãy tìm kiếm món ăn \nmà bạn yêu thích!'}</Text>
       ):(
         loading ? (
         <SkeletonSearch />

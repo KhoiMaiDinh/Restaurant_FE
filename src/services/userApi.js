@@ -11,7 +11,7 @@ const userApi = {
   },
 
   get(id) {
-    const url = `/auth/user/${id}`;
+    const url = `/user/${id}`;
     return axiosClient.get(url);
   },
 
@@ -26,7 +26,7 @@ const userApi = {
   },
 
   editUser(id, payload) {
-    const url = `/auth/user/${id}`;
+    const url = `/user/${id}`;
     return axiosClient.put(url, payload);
   },
 };

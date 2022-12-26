@@ -16,33 +16,40 @@ export const login = createAsyncThunk('user/login', async payload => {
   };
 });
 
-export const edit = createAsyncThunk('user/edit', async (payload, {getState}) => {
-  const {user} = getState().user;
-  //await AsyncStorage.setItem('@access-token', user.accessToken);
-  //await AsyncStorage.setItem('@refresh-token', user.refreshToken);
-  //const {user} = await userApi.get(data.userId);
-  user.name = payload.name;
-  user.email= payload.email;
-  user.phoneNumber= payload.phoneNumber,
-  user.address= payload.address
+export const edit = createAsyncThunk(
+  'user/edit',
+  async (payload, {getState}) => {
+    const {user} = getState().user;
+    user.name = payload.name;
+    user.email = payload.email;
+    user.phoneNumber = payload.phoneNumber;
+    user.address = payload.address;
+    await AsyncStorage.setItem('@user', JSON.stringify(user));
+    return {user: user};
+  },
+);
+
+export const signup = createAsyncThunk('user/signup', async payload => {
+  const data = await userApi.signup(payload);
+  await AsyncStorage.setItem('@access-token', data.accessToken);
+  await AsyncStorage.setItem('@refresh-token', data.refreshToken);
+  const {user} = await userApi.get(data.userId);
   await AsyncStorage.setItem('@user', JSON.stringify(user));
   return {
     user: user,
-    accessToken: user.accessToken,
-    refreshToken: user.refreshToken,
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
   };
-});
-
-export const signup = createAsyncThunk('user/signup', async payload => {
-  await AsyncStorage.setItem('@token', payload.token);
-  await AsyncStorage.setItem('@user', JSON.stringify(payload.user));
-  return {user: payload.user, token: payload.token};
 });
 
 export const logout = createAsyncThunk(
   'user/logout',
   async (payload, {getState}) => {
     const {user} = getState().user;
+    const cartData = getState().cart;
+    const cart = cartData.cartItems;
+    const data = await userApi.editUser(user._id, {...user, cart});
+    console.log('🚀 ~ file: userSlice.js:52 ~ data', data);
     await userApi.logout(user._id);
     await AsyncStorage.removeItem('@access-token');
     await AsyncStorage.removeItem('@refresh-token');
@@ -59,18 +66,19 @@ const userSlice = createSlice({
     user: {},
   },
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.user = action.payload.user; 
+        state.user = action.payload.user;
       })
       .addCase(login.rejected, (state, action) => {
         throw action.error;
       })
       .addCase(signup.fulfilled, (state, action) => {
-        state.token = action.payload.token;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
         state.user = action.payload.user;
       })
       .addCase(signup.rejected, (state, action) => {
@@ -84,10 +92,15 @@ const userSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         throw action.error;
       })
-      .addDefaultCase((state, action) => {})
+      .addCase(edit.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+      })
+      .addCase(edit.rejected, (state, action) => {
+        throw action.error;
+      })
+      .addDefaultCase((state, action) => {});
   },
 });
 
 const {actions, reducer} = userSlice;
 export default reducer;
-

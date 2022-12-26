@@ -1,212 +1,592 @@
-import { ScaleFromCenterAndroid } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets';
-import React from 'react';
-import { useState, useEffect } from 'react';
-import {View, SafeAreaView, StyleSheet, TouchableOpacity, Alert} from 'react-native';
-import {
-  Avatar,
-  Title,
-  Caption,
-  Text,
-} from 'react-native-paper';
-import { IMG_LisaAvatar } from '../../../../assets/images';
+import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, ScrollView, KeyboardAvoidingView, ImageBackground } from 'react-native'
+import React, {useState} from 'react'
+import {CUSTOM_COLOR} from '../../../../constants/color';
+import {IC_GoBack} from '../../../../assets/icons/index';
 import scale from '../../../../utils/responsive';
-<<<<<<< HEAD
-import {  IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star, IC_Support } from '../../../../assets/icons';
-=======
-import { IC_Edit, IC_Heart, IC_Mail, IC_Map, IC_Phone, IC_Star } from '../../../../assets/icons';
->>>>>>> b9e7cc318c87cf3dbad2bb02f7aaaed0a47c1b06
-import { CUSTOM_COLOR } from '../../../../constants/color';
 import FONT_FAMILY from '../../../../constants/fonts';
-<<<<<<< HEAD
+import { IMG_LisaAvatar } from '../../../../assets/images';
+import ImagePicker from 'react-native-image-crop-picker';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
 import userApi from '../../../../services/userApi';
-import MsgBox from '../../../../components/messageBox';
-import ContactInfor from './component/contactInfor';
-=======
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
->>>>>>> b9e7cc318c87cf3dbad2bb02f7aaaed0a47c1b06
+import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { set } from 'lodash';
+import * as yup from 'yup'
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import { useDispatch } from 'react-redux';
+import { edit } from '../../../../features/auth/userSlice';
 
 
-const ProfileScreen = props => {
-  const [image, setImage] = useState();
-  const [user, setUser] = useState([]);
-<<<<<<< HEAD
-  const [visible, setVisible] = useState(false);
-  const getUserData = async () => {
-    try {
-      const {userData} = await userApi.get();
-      setUser(userData);
-      console.log(user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getUserData();
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const editProfileValidate = yup.object({
+  email: yup
+    .string()
+    .email('Email không hợp lệ')
+    .max(30, 'Độ dài email phải nhỏ hơn 30 kí tự')
+    .required('Email không được để trống'),
   
-=======
-  const getUserInfo = async () => {
-    const userInfo = await AsyncStorage.getItem('@user');
-    const userInfoJS = JSON.parse(userInfo);
-    userInfoJS.phoneNumber = '' + userInfoJS.phoneNumber;
-    setUser(userInfoJS);
-  }
+  phoneNumber: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+  name: yup.string().required('Họ tên không được để trống'),
+  address: yup.string().required('Địa chỉ không được để trống'),
+});
 
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    isFocused && getUserInfo(); 
-  },[isFocused]);
-  useEffect(() => {
-    getUserInfo();
-  }, [])
->>>>>>> b9e7cc318c87cf3dbad2bb02f7aaaed0a47c1b06
+
+
+
+const EditProfileScreen = props => {
+    const {user} = props.route.params;
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([
+      {label:'Quận 1', value:'Quận 1'},
+      {label:'Quận 2', value:'Quận 2'},
+      {label:'Quận 3', value:'Quận 3'},
+      {label:'Quận 4', value:'Quận 4'},
+      {label:'Quận 5', value:'Quận 5'},
+      {label:'Quận 6', value:'Quận 6'},
+      {label:'Quận 7', value:'Quận 7'},
+      {label:'Quận 8', value:'Quận 8'},
+      {label:'Quận 9', value:'Quận 9'},
+      {label:'Quận 10', value:'Quận 10'},
+      {label:'Quận 11', value:'Quận 11'},
+      {label:'Quận 12', value:'Quận 12'},
+      {label:'Thành phố Thủ Đức', value:'Thành phố Thủ Đức'},
+      {label:'Quận Bình Tân', value:'Quận Bình Tân'},
+      {label:'Quận Bình Thạnh', value:'Quận Bình Thạnh'},
+      {label:'Quận Gò Vấp', value:'Quận Gò Vấp'},
+      {label:'Quận Phú Nhuận', value:'Quận Phú Nhuận'},
+      {label:'Quận Tân Bình', value:'Quận Tân Bình'},
+      {label:'Quận Tân Phú', value:'Quận Tân Phú'},
+      {label:'Huyện Bình Chánh', value:'Huyện Bình Chánh'},
+      {label:'Huyện Cần Giờ', value:'Huyện Cần Giờ'},
+      {label:'Huyện Củ Chi', value:'Huyện Củ Chi'},
+      {label:'Huyện Hóc Môn', value:'Huyện Hóc Môn'},
+      {label:'Huyện Nhà Bè', value:'Huyện Nhà Bè'},
+    ]);
+
+    const fullAddress = user.address.split(", ");
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [district, setDistrict] = useState(fullAddress[1]?fullAddress[1]:"Quận 1");
+    
+    const dispatch = useDispatch();
+
+    const handleEditUser = async(data) => {
+      try {
+        const longAddress = data.address.concat(", ", district, ", TP HCM" )
+        const payload = {
+          avatar: {
+            ref: ' ',
+            url: ' ',
+          },
+          name: data.name,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          address: longAddress
+        };
+        const id = user._id;
+        console.log(payload); 
+        console.log(user)
+        await userApi.editUser(id, payload)
+        await dispatch(edit(payload));
+      } catch (error) {
+        console.log(error)
+      }
+    };
+  
+
+    const {
+      control,
+      handleSubmit,
+      formState: {errors},
+    } = useForm({
+      mode: 'onChange',
+      defaultValues: {
+        email: email,
+        name: name,
+        phoneNumber:`${phoneNumber}`,
+        address: fullAddress[0],
+      },
+      resolver: yupResolver(editProfileValidate),
+    });
+    
+      const [image, setImage] = useState();
+      const takePhotoFromCamera = () => {
+        ImagePicker.openCamera({
+          compressImageMaxWidth: scale(300),
+          compressImageMaxHeight: scale(300),
+          cropping: true,
+          compressImageQuality: 0.7
+        }).then(image => {
+          console.log(image);
+          setImage(image.path);
+          this.bs.current.snapTo(1);
+        });
+      }
+      const choosePhotoFromLibrary = () => {
+        ImagePicker.openPicker({
+          width: scale(300),
+          height: scale(300),
+          cropping: true,
+          compressImageQuality: 0.7
+        }).then(image => {
+          console.log(image);
+          setImage(image.path);
+          this.bs.current.snapTo(1);
+        });
+      }
+      renderInner = () => (
+        <View style={stylePanel.panel}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={stylePanel.panelTitle}>Tải ảnh</Text>
+            <Text style={stylePanel.panelSubtitle}>Chọn ảnh đại diện của bạn</Text>
+          </View>
+          <TouchableOpacity style={stylePanel.panelButton} onPress={takePhotoFromCamera}>
+            <Text style={stylePanel.panelButtonTitle}>Chụp ảnh</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={stylePanel.panelButton} onPress={choosePhotoFromLibrary}>
+            <Text style={stylePanel.panelButtonTitle}>Chọn từ thư viện</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={stylePanel.panelButton}
+            onPress={() => this.bs.current.snapTo(1)}>
+            <Text style={stylePanel.panelButtonTitle}>Thoát</Text>
+          </TouchableOpacity>
+        </View>
+      );
+      renderHeader = () => (
+        <View style={stylePanel.header}>
+          <View style={stylePanel.panelHeader}>
+            <View style={stylePanel.panelHandle} />
+          </View>
+        </View>
+      );
+    
+      bs = React.createRef();
+      fall = new Animated.Value(1);
+
   return (
-    <SafeAreaView style={styles.container}>
-        <View style={styles.headerBar} />
-        <View style={styles.userInfoSection}>
-            <View style={{flexDirection: 'row', marginTop: scale(15)}}>
-                <Avatar.Image
-                    source={IMG_LisaAvatar}
-                    size={80}
-                />
-                <View style={{marginLeft: scale(20)}}>
-                    <Title style={[styles.title,styles.text]}>
-                        {user.name}
-                    </Title>
-                    <Caption style={[styles.caption,styles.text]}>{user.email}</Caption>
-                </View>
+        <SafeAreaView style={styles.container}>
+        <>
+        <View style={styles.view}>
+            <View >
+                <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={() => {
+                      props.navigation.goBack();
+                    }}>
+                    <IC_GoBack />
+                    <Text style={styles.screenTittle}>Quay lại</Text>
+                </TouchableOpacity>
             </View>
         </View>
-        <View style={styles.userInfoSection}>
-            <View style={styles.row}>
-            <View style={styles.icon}><IC_Map /></View>
-                <Text style={[styles.text,{color:( user.address ? CUSTOM_COLOR.Sonic_Silver:CUSTOM_COLOR.Red), marginLeft: 20}]}>
-                  {user.address?user.address:"Vui lòng cập nhật thông tin địa chỉ của bạn!"}
-                </Text>
-            </View>
+    </>
 
-            <View style={styles.row}>
-            <View style={styles.icon}><IC_Phone /></View>
-                <Text style={[styles.text,{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20}]}>{user.phoneNumber}</Text>
-            </View>
+        <BottomSheet
+        ref={this.bs}
+        snapPoints={[330, 0]}
+        renderContent={this.renderInner}
+        renderHeader={this.renderHeader}
+        initialSnap={1}
+        callbackNode={this.fall}
+        enabledGestureInteraction={true}
+      />
+      <Animated.View style={{margin: 20,
+        opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+    }}>
+            {/* Avatar */}
+            <>
+                <TouchableOpacity style={styles.avatarTouch} >
+                    {image ? <Image  source={{
+                    uri: image,
+                    }}
+                    style={{height: '100%', width: '100%', borderRadius: scale(360)}}
+                    /> : <Image  source={IMG_LisaAvatar}
+                      style={{height: '100%', width: '100%', borderRadius: scale(360)}}
+                      />}
+                    
+                </TouchableOpacity>
+            </>
+            {/* Edit Profile Picture */}
+            <>
+                <TouchableOpacity style={styles.editProfilePictureTouch} onPress={() => this.bs.current.snapTo(0)} >
+                    <Text style={styles.editProfilePictureText}>Thay đổi ảnh đại diện</Text>
+                </TouchableOpacity>
+            </>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <KeyboardAvoidingView>
+                   
 
-            <View style={styles.row}>
-            <View style={styles.icon}><IC_Mail /></View>
-                <Text style={{color:CUSTOM_COLOR.Sonic_Silver, marginLeft: 20, fontFamily: FONT_FAMILY.NexaRegular}}>{user.email}</Text>
-            </View>
+                   
+                    {/* Name */}
+                    <>
+                    <Controller
+                    name="name"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.NameInput}>
+                            <Text style={styles.inputText}>
+                                Họ và Tên
+                            </Text>
+                            <TextInput 
+                                onChangeText={text => onChange(text)}
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Họ và Tên"
+                                style={styles.input}
+                                keyboardType="ascii-capable"
+                                value={value}
+                            />
+                            {errors?.name&&(
+                              <Text style={styles.textFailed}>{errors.name.message}</Text>
+                            )}
+                        </View>
+                    )}
+                    />
+                     
+        </>
+                        
+                 
+                   
+                    {/* Email */}
+                    <>
+                    <Controller
+                    name="email"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.emailInput}>
+                            <Text style={styles.inputText}>
+                                Email
+                            </Text>
+                            <TextInput 
+                                onChangeText={text => onChange(text)}
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Email"
+                                style={styles.input}
+                                keyboardType="ascii-capable"
+                                value={value}
+                            />
+                        
+                                {errors?.email && (
+                                    <Text style={styles.textFailed}>{errors.email.message}</Text>
+                                )}
+                        </View>
+                    )}
+                    />
+                    </>
 
-        </View>
-
-        <View style={styles.infoBoxWrapper}>
-            <View style={[styles.infoBox, {borderRightColor: CUSTOM_COLOR.Gainsboro, borderRightWidth: 1}]}>
-                <Title style={styles.text}>14000000 VND</Title>
-                <Caption style={styles.text}>Tổng tiền</Caption>
-            </View> 
-            <View style={styles.infoBox}>
-                <Title style={styles.text}>12</Title>
-                <Caption style={styles.text}>Đã mua</Caption>
-            </View>
-        </View>
-
-        <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={() => props.navigation.navigate("EditProfileScreen", {
-          user: user,
-        })}>
-                <View style={styles.menuItem}>
-                    <View style={styles.icon}><IC_Edit/></View>
-                    <Text style={[styles.menuItemText,styles.text]}>Chỉnh sửa thông tin</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate("ReviewScreen")} >
-                <View style={styles.menuItem}  >
-                    <View style={styles.icon}><IC_Star /></View>
-                    <Text style={[styles.menuItemText,styles.text]}>Đánh Giá</Text>
-                </View>
-            </TouchableOpacity>
-            <ContactInfor visible={visible} clickCancel={() => setVisible(false)} title={"LIÊN HỆ"} message={"Hotline: 0336706905\n\nEmail: phuoctri@gmail.com\n\nChi nhánh: KTX KHU B - TPHCM"}/>
-            <TouchableOpacity onPress={() => (setVisible(true))}>
-                <View style={styles.menuItem}>
-                    <View style={styles.icon}><IC_Support/></View>
-                    <Text style={[styles.menuItemText,styles.text]}>Hỗ trợ</Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    </SafeAreaView>
+                    
+                    {/* Number */}
+                    <>
+                    <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.numberInput}>
+                            <Text style={styles.inputText}>
+                                Số điện thoại
+                            </Text>
+                            <TextInput 
+                                onChangeText={text => onChange(text)}
+                                placeholderTextColor={CUSTOM_COLOR.Grey}
+                                placeholder="Số điện thoại"
+                                style={styles.input}
+                                keyboardType="numeric"
+                                value={value}
+                            />
+                                {errors?.phoneNumber && (
+                                    <Text style={styles.textFailed}>{errors.phoneNumber.message}</Text>
+                               )}
+                        </View>
+                    )}
+                    />
+        
+        
+                        
+                    </>
+                    {/* Location */}
+                    <>
+                    <Controller 
+                    name="address"
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                  <View style={styles.locationInput}>
+                      <Text style={styles.inputText}>
+                          Địa chỉ
+                      </Text>
+                      <TextInput 
+                          onChangeText={text => onChange(text)}
+                          placeholderTextColor={CUSTOM_COLOR.Grey}
+                          placeholder="Địa chỉ"
+                          style={styles.input}
+                          keyboardType="ascii-capable"
+                          value={value}
+                      />
+                      {errors?.address && (
+                        <Text style={styles.textFailed}>{errors.address.message}</Text>
+                      )}
+                  </View>
+                 
+                    )}
+                    />  
+              </>
+                <View style={styles.locationInputState}>
+                      <Text style={styles.inputText}>
+                          Quận/Huyện
+                      </Text>
+                      <DropDownPicker
+                        open={open}
+                        value={district}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setDistrict}
+                        setItems={setItems}
+                        style={{
+                          borderColor: CUSTOM_COLOR.Primary,
+                          marginTop: scale(10),
+                        }}
+                        textStyle={{
+                          fontFamily: FONT_FAMILY.NexaRegular,
+                          fontSize: scale(16),
+                          color: CUSTOM_COLOR.Black,
+                        }}
+                        placeholderStyle={{
+                          fontFamily: FONT_FAMILY.NexaRegular,
+                          fontSize: scale(16),
+                          textAlign: 'left',
+                          alignContent: 'flex-start',
+                          color: CUSTOM_COLOR.Grey,
+                        }}
+                      />
+                  </View>
+               
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+            {/* Save Profile */}
+            <>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit(handleEditUser)}>
+                    <Text style={styles.buttonText}>Lưu</Text>
+                </TouchableOpacity>
+            </>
+            </Animated.View>
+        </SafeAreaView>
   )
 }
 
-export default ProfileScreen
-
+export default EditProfileScreen
+const stylePanel = StyleSheet.create({panel: {
+    padding: scale(20),
+    backgroundColor: CUSTOM_COLOR.White,
+    paddingTop: scale(20),
+    
+},
+commandButton: {
+    padding: scale(15),
+    borderRadius: scale(10),
+    backgroundColor: CUSTOM_COLOR.White,
+    alignItems: 'center',
+    marginTop: scale(10),
+  },
+  header: {
+    backgroundColor: CUSTOM_COLOR.Primary,
+    shadowColor: CUSTOM_COLOR.White,
+    shadowOffset: {width: -1, height: -3},
+    shadowRadius: scale(2),
+    shadowOpacity: 0.4,
+    paddingTop: scale(20),
+    borderTopLeftRadius: scale(20),
+    borderTopRightRadius: scale(20),
+  },
+  panelHeader: {
+    alignItems: 'center',
+  },
+  panelHandle: {
+    width: scale(40),
+    height: scale(8),
+    borderRadius: scale(4),
+    backgroundColor: CUSTOM_COLOR.White,
+    marginBottom: scale(10),
+  },
+  panelTitle: {
+    fontSize: 27,
+    color: CUSTOM_COLOR.Primary,
+    paddingVertical: scale(5),
+  },
+  panelSubtitle: {
+    fontSize: scale(14),
+    color: CUSTOM_COLOR.Primary,
+    //height: scale(30),
+    marginBottom: scale(10),
+  },
+  panelButton: {
+    padding: scale(13),
+    borderRadius: scale(10),
+    backgroundColor: CUSTOM_COLOR.Primary,
+    alignItems: 'center',
+    marginVertical: scale(7),
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    color: CUSTOM_COLOR.White,
+  },
+  action: {
+    flexDirection: 'row',
+    marginTop: scale(10),
+    marginBottom: scale(10),
+    borderBottomWidth: scale(1),
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: scale(5),
+  },
+  actionError: {
+    flexDirection: 'row',
+    marginTop: scale(10),
+    borderBottomWidth: 1,
+    borderBottomColor: '#FF0000',
+    paddingBottom: scale(5),
+  },
+});
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: CUSTOM_COLOR.White,
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width,
+        backgroundColor: CUSTOM_COLOR.White,
+        flex: 1,
     },
-    userInfoSection: {
-      paddingHorizontal: scale(30),
-      marginBottom: scale(25),
+    avatarTouch: {
+        width:scale(110),
+        height:scale(110),
+        borderRadius: 360,
+        alignSelf: 'center',
     },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginTop: scale(15),
-      fontFamily: FONT_FAMILY.NexaRegular,
+    editProfilePictureTouch: {
+        width:scale(150),
+        height:scale(30),
+        paddingTop: scale(2),
+        alignSelf: 'center',
     },
-    caption: {
-      fontSize: 14,
-      lineHeight: 14,
-      fontWeight: '500',
-      FONT_FAMILY: FONT_FAMILY.NexaRegular,
+    avatar: {
+        width:scale(102),
+        height:scale(100),
     },
-    row: {
-    //  borderWidth: 1,
-      flexDirection: 'row',
-      marginBottom: scale(10),
-      alignItems: 'center',
+    nameView: {
+        flexDirection: 'row',
+        marginTop: scale(20),
+        height: scale(80),
+        width: '100%',
+        justifyContent: 'space-between',
     },
-    icon:{
-        width: scale(25) , 
-        height: scale(25),
+    editProfilePictureText: {
+        fontFamily: FONT_FAMILY.NexaLight,
+        fontSize: scale(14),
+        textAlign: 'center',
+        color: CUSTOM_COLOR.Primary,
+        marginTop: scale(5),
+    },
+    publicProfileText: {
+        fontFamily: FONT_FAMILY.NexaBold,
+        fontSize: scale(25),
+        color: CUSTOM_COLOR.Primary,
+        textAlign: 'center',
+        marginTop: scale(15),
+    },
+    privateProfileText: {
+        fontFamily: FONT_FAMILY.NexaBold,
+        fontSize: scale(25),
+        color: CUSTOM_COLOR.Primary,
+        textAlign: 'center',
+    },
+    NameInput: {
+        width: scale(345),
+        height: 'auto',
+        paddingLeft: scale(35),
+        marginBottom: scale(13),
+    },
+    emailInput: {
+        width: scale(345),
+        height: 'auto',
+        paddingLeft: scale(35),
+        marginBottom: scale(13),
+    },
+    numberInput: {
+        width: scale(345),
+        height: 'auto',
+        paddingLeft: scale(35),
+        marginBottom: scale(13),
+    },
+    locationInput: {
+        width: scale(345),
+        height: 'auto',
+        paddingLeft: scale(35),
+        marginBottom: scale(15),
+    },
+    locationInputState: {
+      width: scale(345),
+      height: 'auto',
+      paddingLeft: scale(35),
+      marginBottom: scale(20),
+  },
+    inputText: {
+        fontFamily: FONT_FAMILY.NexaRegular,
+        fontSize: scale(16),
+        textAlign: 'left',
+        color: CUSTOM_COLOR.Primary,
+        alignContent: 'flex-start',
+    },
+    input: {
+        fontFamily: FONT_FAMILY.NexaRegular,
+        fontSize: scale(16),
+        textAlign: 'left',
+        alignContent: 'flex-start',
+        height: scale(50),
+        color: CUSTOM_COLOR.Black,
+        borderBottomWidth: 0.5,
+        borderColor: CUSTOM_COLOR.Primary,
+    },
+    button: {
+        alignSelf: 'center',
+        marginBottom: scale(5),
+        width: scale(200),
+        height: scale(40),
+        backgroundColor: CUSTOM_COLOR.Primary,
+        borderRadius: scale(20),
+        
+    },
+    buttonText: {
+        fontFamily: FONT_FAMILY.NexaBold,
+        fontSize: scale(17),
         alignSelf: 'center',
         justifyContent: 'center',
+        marginTop: scale(7),
+        color: CUSTOM_COLOR.White,
     },
-    infoBoxWrapper: {
-      borderBottomColor: CUSTOM_COLOR.Gainsboro,
-      borderBottomWidth: 1,
-      borderTopColor: CUSTOM_COLOR.Gainsboro,
-      borderTopWidth: 1,
-      flexDirection: 'row',
-      height: scale(100),
+    textFailed: {
+        marginLeft: scale(40), 
+        fontFamily: FONT_FAMILY.NexaRegular,
+        fontSize: scale(12),
+        color: CUSTOM_COLOR.Red,
+      },
+      view:{
+        marginTop: scale(15),
+        marginLeft: scale(10),
+        justifyContent: 'space-between',
+        width: '70%',
+        height: scale(32),
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    infoBox: {
-      width: '50%',
-      alignItems: 'center',
-      justifyContent: 'center',
+      goBackButton: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        height: scale(32),
+        justifyContent: 'center',
     },
-    menuWrapper: {
-      marginTop: scale(10),
-    },
-    menuItem: {
-      flexDirection: 'row',
-      paddingVertical: scale(15),
-      paddingHorizontal: scale(30),
-    },
-    menuItemText: {
-      color: CUSTOM_COLOR.Sonic_Silver,
-      marginLeft: scale(20),
-      fontWeight: '600',
-      fontSize: 16,
-      lineHeight: 26,
-      FONT_FAMILY: FONT_FAMILY.NexaRegular,
-    },
-    text:{
+    screenTittle: {
+      color: CUSTOM_COLOR.Black,
+      fontSize: scale(15),
       fontFamily: FONT_FAMILY.NexaRegular,
-    },
-    Infor:{
-      marginTop: scale(30),
-      borderWidth: 1,
-    }
-  });
+      alignSelf: 'center',
+  },
+})

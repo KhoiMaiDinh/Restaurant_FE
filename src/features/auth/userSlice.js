@@ -16,6 +16,23 @@ export const login = createAsyncThunk('user/login', async payload => {
   };
 });
 
+export const edit = createAsyncThunk('user/edit', async (payload, {getState}) => {
+  const {user} = getState().user;
+  //await AsyncStorage.setItem('@access-token', user.accessToken);
+  //await AsyncStorage.setItem('@refresh-token', user.refreshToken);
+  //const {user} = await userApi.get(data.userId);
+  user.name = payload.name;
+  user.email= payload.email;
+  user.phoneNumber= payload.phoneNumber,
+  user.address= payload.address
+  await AsyncStorage.setItem('@user', JSON.stringify(user));
+  return {
+    user: user,
+    accessToken: user.accessToken,
+    refreshToken: user.refreshToken,
+  };
+});
+
 export const signup = createAsyncThunk('user/signup', async payload => {
   await AsyncStorage.setItem('@token', payload.token);
   await AsyncStorage.setItem('@user', JSON.stringify(payload.user));

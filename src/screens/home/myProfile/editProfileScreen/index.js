@@ -180,17 +180,11 @@ const EditProfileScreen = props => {
                       props.navigation.goBack();
                     }}>
                     <IC_GoBack />
-                    <Text style={styles.screenTittle2}>Quay lại</Text>
+                    <Text style={styles.screenTittle}>Quay lại</Text>
                 </TouchableOpacity>
             </View>
         </View>
     </>
-     {/* Private Profile */}
-     <>
-                        <Text style={styles.privateProfileText} >
-                        Thông tin Cá nhân
-                        </Text>
-                    </>
 
         <BottomSheet
         ref={this.bs}
@@ -465,7 +459,6 @@ const styles = StyleSheet.create({
         width:scale(110),
         height:scale(110),
         borderRadius: 360,
-        marginTop: scale(5),
         alignSelf: 'center',
     },
     editProfilePictureTouch: {
@@ -527,12 +520,13 @@ const styles = StyleSheet.create({
         width: scale(345),
         height: 'auto',
         paddingLeft: scale(35),
-        marginBottom: scale(40),
+        marginBottom: scale(15),
     },
     locationInputState: {
       width: scale(345),
       height: 'auto',
       paddingLeft: scale(35),
+      marginBottom: scale(20),
   },
     inputText: {
         fontFamily: FONT_FAMILY.NexaRegular,
@@ -553,7 +547,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignSelf: 'center',
-        marginTop: scale(50),
+        marginBottom: scale(5),
         width: scale(200),
         height: scale(40),
         backgroundColor: CUSTOM_COLOR.Primary,
@@ -589,7 +583,7 @@ const styles = StyleSheet.create({
         height: scale(32),
         justifyContent: 'center',
     },
-    screenTittle2: {
+    screenTittle: {
       color: CUSTOM_COLOR.Black,
       fontSize: scale(15),
       fontFamily: FONT_FAMILY.NexaRegular,

@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
+  ActivityIndicator
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
@@ -42,8 +43,8 @@ const paymentSchema = yup.object({
 });
 
 const PaymentScreen = props => {
-  const navigation = props;
   const [totalAmount, setTotalAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const {user} = store.getState().user;
   const dispatch = useDispatch();
 
@@ -55,9 +56,9 @@ const PaymentScreen = props => {
     mode: 'onChange',
     defaultValues: {
       userId: user._id,
-      name: '',
-      phoneNumber: '',
-      address: '',
+      name: user.name,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
       desc: '',
       method: '',
     },
@@ -79,17 +80,17 @@ const PaymentScreen = props => {
 
   const handleSubmitPayment = async data => {
     try {
+      setLoading(true);
       const orderData = await userApi.paying(user._id, {
         ...data,
         items: cartItems || [],
       });
       await dispatch(resetCartWhenOrder());
-      console.log(
-        '🚀 ~ file: index.js:84 ~ handleSubmitPayment ~ order',
-        orderData,
-      );
+      setLoading(false);
+      props.navigation.navigate('DrawerScreen');
     } catch (error) {
       console.log(error);
+      setLoading(true);
     }
   };
 
@@ -249,7 +250,8 @@ const PaymentScreen = props => {
             style={styles.PlaceOrderButtonBoxPosition}
             onPress={handleSubmit(handleSubmitPayment)}>
             <View style={styles.PlaceOrderButtonBox}>
-              <Text style={styles.buttonText}>Đặt hàng</Text>
+              <Text style={styles.buttonText}>{loading?'Đang đặt hàng...':'Đặt hàng'}</Text>
+              {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
             </View>
           </TouchableOpacity>
         </View>
@@ -418,6 +420,7 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.Primary,
     height: scale(38),
     width: scale(278),
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
@@ -425,6 +428,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   textFailed: {
     marginLeft: scale(50),

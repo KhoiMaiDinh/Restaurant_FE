@@ -25,6 +25,7 @@ import {store} from './../../../redux/store';
 import userApi from '../../../services/userApi';
 import {RadioButton} from 'react-native-paper';
 import {resetCartWhenOrder} from '../../../redux/actions/cartActions';
+import MsgBox from '../../../components/messageBox';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -44,6 +45,10 @@ const paymentSchema = yup.object({
 const PaymentScreen = props => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [tittle, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [fail, setFail] = useState(false);
   const {user} = store.getState().user;
   const dispatch = useDispatch();
 
@@ -86,16 +91,23 @@ const PaymentScreen = props => {
       });
       await dispatch(resetCartWhenOrder());
       setLoading(false);
-      props.navigation.navigate('DrawerScreen');
+      setTitle("THANH TOÁN THÀNH CÔNG");
+      setMessage("Bạn đã thanh toán thành công!\nChúng tôi sẽ đến ngay ");
+      setFail(false);
+      setVisible(true);
     } catch (error) {
       console.log(error);
-      setLoading(true);
+      setTitle("THANH TOÁN THẤT BẠI");
+      setMessage("Quá trình thanh toán đã xảy ra lỗi!\nBạn vui lòng thử lại\nThứ lỗi cho chúng tôi:((");
+      setFail(true);
     }
   };
 
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
+      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.navigate('DrawerScreen')}}
+       title={tittle} message={message}  fail={fail}/> 
         <View style={styles.view}>
           <View style={styles.viewGoBackText}>
             <TouchableOpacity
@@ -250,7 +262,7 @@ const PaymentScreen = props => {
             style={styles.PlaceOrderButtonBoxPosition}
             onPress={handleSubmit(handleSubmitPayment)}>
             <View style={styles.PlaceOrderButtonBox}>
-              <Text style={styles.buttonText}>{loading?'Đang đặt hàng...':'Đặt hàng'}</Text>
+              <Text style={styles.buttonText}>{loading?'Đang thanh toán...':'Thanh toán'}</Text>
               {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
             </View>
           </TouchableOpacity>

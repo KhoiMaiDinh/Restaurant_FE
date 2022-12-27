@@ -76,10 +76,10 @@ const SingleFoodItemScreen = props => {
           <View>
             <Text style={styles.screenTittle2}>{category.name}</Text>
           </View>
+        </View>
           <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
             <IC_Cart nOP = {numberOfProduct}/>
           </TouchableOpacity>
-        </View>
       </View>
 
       <View style={styles.tittleBox}>
@@ -131,21 +131,23 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: 'white',
-    position: 'relative',
-    paddingVertical: 8,
-    marginBottom: 0,
+    backgroundColor: CUSTOM_COLOR.White,
+    //position: 'relative',
+    padding: 10,
+    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   goBackButton: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   cartButton: {
-    paddingLeft: scale(260),
   },
   tittleBox: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: scale(20),
   },
 
   titleText: {
@@ -225,5 +227,6 @@ const styles = StyleSheet.create({
     fontSize: scale(18),
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
+    paddingHorizontal: scale(20),
   },
 });

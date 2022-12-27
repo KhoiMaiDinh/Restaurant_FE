@@ -34,7 +34,7 @@ const SearchBar = ({search, setSearch}) => {
         }}
       />
       <TouchableOpacity
-        onPress={() => setSearch('')}>
+        onPress={() => {setSearch('') && textInputRef.current.clear()}}>
         <IC_Delete marginRight={scale(10)} />
       </TouchableOpacity>
     </View>

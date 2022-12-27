@@ -19,9 +19,12 @@ import {
   resetCartWhenOrder,
 } from '../../../redux/actions/cartActions';
 import Item from './components/iteam';
+import MsgBox from '../../../components/messageBox';
 
 const CartScreen = props => {
   const dispatch = useDispatch();
+  const [lock, setLock] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const cart = useSelector(state => state.cart);
   const {cartItems} = cart;
@@ -29,7 +32,18 @@ const CartScreen = props => {
   const [totalAmount, setTotalAmount] = useState(0);
   useEffect(() => {
     onCalculateAmount();
-  }, [cartItems]);
+    
+    if(totalAmount === 0)
+    {
+      setLock(true);
+      //setVisible(true);
+    }
+    else 
+    {
+      setLock(false);
+      setVisible(false);
+    }
+  }, [cartItems,totalAmount]);
 
   const onCalculateAmount = () => {
     let total = 0;
@@ -54,6 +68,8 @@ const CartScreen = props => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.navigate('DrawerScreen')}} 
+      title={"ĐẶT MÓN THẤT BẠI"} message={"Giỏ hàng của bạn hiện trống, bạn có muốn thêm món vào giỏ hàng?"}  fail={lock}/> 
       <>
         <View style={styles.view}>
           <View style={styles.viewGoBackText}>
@@ -103,7 +119,8 @@ const CartScreen = props => {
       <>
         <View style={styles.buttonPlace}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('PaymentScreen')}>
+            //disabled={lock?true:false}
+            onPress={() => {lock?setVisible(true):props.navigation.navigate('PaymentScreen')}}>
             <Text style={styles.textPlace}>ĐẶT MÓN</Text>
           </TouchableOpacity>
         </View>

@@ -24,7 +24,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {store} from './../../../redux/store';
 import userApi from '../../../services/userApi';
 import {RadioButton} from 'react-native-paper';
-import {useRef} from 'react';
 import {resetCartWhenOrder} from '../../../redux/actions/cartActions';
 
 const phoneRegExp =
@@ -112,6 +111,7 @@ const PaymentScreen = props => {
           <View style={styles.viewTitle}>
             <Text style={styles.textTitle}>Thanh toán</Text>
           </View>
+          <View style={{width: scale(110), height: 1}}/>
         </View>
 
         <View style={styles.tittleBox}>
@@ -225,8 +225,8 @@ const PaymentScreen = props => {
                   onValueChange={newValue => onChange(newValue)}
                   value={value}>
                   <View style={styles.radioGroup}>
-                    <RadioButton value="direct" />
-                    <Text>Thanh toán trực tiếp khi nhận hàng</Text>
+                    <RadioButton value="direct"/>
+                    <Text style={{color: CUSTOM_COLOR.Black, fontSize: scale(15), fontFamily: FONT_FAMILY.NexaRegular,}}>Thanh toán trực tiếp khi nhận hàng</Text>
                   </View>
                 </RadioButton.Group>
                 <View
@@ -269,16 +269,15 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
   },
   bg: {
-    marginTop: scale(60),
+    marginTop: scale(30),
   },
   view: {
-    marginTop: scale(10),
-    flex: 0.08,
-    justifyContent: 'space-between',
-    width: '70%',
-    height: scale(32),
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: scale(14),
+    backgroundColor: CUSTOM_COLOR.White,
+    elevation: 3,
+    justifyContent: 'space-between'
   },
   viewTitle: {
     justifyContent: 'center',
@@ -306,8 +305,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tittleBox: {
-    position: 'absolute',
-    marginTop: scale(60),
+    marginTop: scale(35),
     width: '100%',
   },
   screenTittle: {
@@ -336,7 +334,7 @@ const styles = StyleSheet.create({
     width: scale(323),
     borderWidth: 1,
     borderColor: CUSTOM_COLOR.San_Juan,
-    borderRadius: 4,
+    borderRadius: scale(10),
     backgroundColor: CUSTOM_COLOR.White,
   },
   inputAddressBox: {
@@ -346,7 +344,7 @@ const styles = StyleSheet.create({
     width: scale(323),
     borderWidth: 1,
     borderColor: CUSTOM_COLOR.San_Juan,
-    borderRadius: 4,
+    borderRadius: scale(10),
     backgroundColor: CUSTOM_COLOR.White,
   },
   inputPhoneNumberBox: {
@@ -356,7 +354,7 @@ const styles = StyleSheet.create({
     width: scale(323),
     borderWidth: 1,
     borderColor: CUSTOM_COLOR.San_Juan,
-    borderRadius: 4,
+    borderRadius: scale(10),
     backgroundColor: CUSTOM_COLOR.White,
   },
   inputOrderDetailsBox: {
@@ -366,32 +364,27 @@ const styles = StyleSheet.create({
     width: scale(323),
     borderWidth: 1,
     borderColor: CUSTOM_COLOR.San_Juan,
-    borderRadius: 4,
+    borderRadius: scale(10),
     backgroundColor: CUSTOM_COLOR.White,
   },
   inputMethodBox: {
     marginTop: scale(30),
     alignSelf: 'center',
     height: scale(43),
-    width: scale(323),
-    borderColor: CUSTOM_COLOR.San_Juan,
-    borderRadius: 4,
+    width: 'auto',
   },
   methods: {
-    marginLeft: scale(15),
     color: CUSTOM_COLOR.Black,
-    width: scale(299),
     fontFamily: FONT_FAMILY.NexaRegular,
     lineHeight: scale(20.6),
     fontSize: scale(15),
   },
   inputText: {
-    left: scale(15),
     color: CUSTOM_COLOR.Black,
-    width: scale(299),
     fontFamily: FONT_FAMILY.NexaRegular,
-    lineHeight: scale(20, 67),
+    lineHeight: scale(20,67),
     fontSize: scale(15),
+    padding: scale(10),
   },
   PlaceOrderButtonBoxPosition: {
     alignSelf: 'center',

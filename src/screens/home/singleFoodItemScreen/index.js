@@ -20,7 +20,6 @@ import { addToCart } from '../../../redux/actions/cartActions';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
-  //console.log(data);
   const [category, setCategory] = useState([]);
   const getCategory = async () => {
     try {
@@ -131,18 +130,20 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: CUSTOM_COLOR.White,
-    //position: 'relative',
-    padding: 10,
-    marginBottom: 20,
     flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: scale(14),
+    backgroundColor: CUSTOM_COLOR.White,
+    elevation: 3,
     justifyContent: 'space-between',
+    marginBottom: scale(30),
   },
   goBackButton: {
     alignItems: 'center',
     flexDirection: 'row',
   },
   cartButton: {
+    paddingRight: scale(14),
   },
   tittleBox: {
     alignItems: 'center',

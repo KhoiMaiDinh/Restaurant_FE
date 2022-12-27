@@ -73,18 +73,19 @@ const styles = StyleSheet.create({
   },
   paginationText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: scale(20),
   },
   view: {
-    width: scale(385),
+    width: '100%',
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     backgroundColor: CUSTOM_COLOR.White,
+    borderRadius: 10,
   },
   image: {
-    width: scale(385),
+    width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -140,5 +141,6 @@ const styles = StyleSheet.create({
   smallImage: {
     width: '100%',
     height: '100%',
+    borderRadius: 5,
   },
 });

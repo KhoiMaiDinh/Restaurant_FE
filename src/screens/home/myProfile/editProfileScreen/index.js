@@ -381,16 +381,16 @@ const EditProfileScreen = props => {
                         }}
                       />
                   </View>
-               
+                  {/* Save Profile */}
+                  <>
+                    <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleSubmit(handleEditUser)}>
+                        <Text style={styles.buttonText}>{loading?'Đang cập nhật...':'Lưu'}</Text>
+                        {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
+                    </TouchableOpacity>
+                  </>
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
-            {/* Save Profile */}
-            <>
-                <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleSubmit(handleEditUser)}>
-                    <Text style={styles.buttonText}>{loading?'Đang cập nhật...':'Lưu'}</Text>
-                    {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
-                </TouchableOpacity>
-            </>
+            
             </Animated.View>
         </SafeAreaView>
   )
@@ -412,10 +412,7 @@ commandButton: {
   },
   header: {
     backgroundColor: CUSTOM_COLOR.Primary,
-    shadowColor: CUSTOM_COLOR.White,
-    shadowOffset: {width: -1, height: -3},
-    shadowRadius: scale(2),
-    shadowOpacity: 0.4,
+    
     paddingTop: scale(20),
     borderTopLeftRadius: scale(20),
     borderTopRightRadius: scale(20),
@@ -438,7 +435,6 @@ commandButton: {
   panelSubtitle: {
     fontSize: scale(14),
     color: CUSTOM_COLOR.Primary,
-    //height: scale(30),
     marginBottom: scale(10),
   },
   panelButton: {
@@ -590,13 +586,12 @@ const styles = StyleSheet.create({
         color: CUSTOM_COLOR.Red,
       },
       view:{
-        marginTop: scale(15),
-        marginLeft: scale(10),
-        justifyContent: 'space-between',
-        width: '70%',
-        height: scale(32),
         flexDirection: 'row',
-        alignItems: 'center',
+      alignItems: 'center',
+      paddingVertical: scale(14),
+      backgroundColor: CUSTOM_COLOR.White,
+      elevation: 3,
+      justifyContent: 'space-between',
     },
       goBackButton: {
         alignSelf: 'center',

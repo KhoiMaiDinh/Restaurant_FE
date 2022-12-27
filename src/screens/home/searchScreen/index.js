@@ -34,10 +34,7 @@ const SearchScreen = ({ props }) => {
         console.log(error)
       }
     };
-    getSearchData();
-    console.log(search);
-    //console.log(searchData);
-    
+    getSearchData();    
   }, [search]);
 
 

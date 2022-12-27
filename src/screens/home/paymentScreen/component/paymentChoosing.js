@@ -9,6 +9,7 @@ const PaymentChoosing = () => {
       id: '1',
       label: 'Thanh toán khi nhận hàng',
       value: 'option 1',
+      color: CUSTOM_COLOR.Black,
     },
   ]);
   function onPressRadioButton(radioArray) {

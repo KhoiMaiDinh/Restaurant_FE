@@ -32,8 +32,8 @@ const OneFood = props => {
           />
         </View>
         <View style={styles.foodInfo}>
-          <Text style={styles.foodName}>{props.name}</Text>
-          <Text style={styles.foodPrice}>{Intl.NumberFormat('vn-VN').format(props.price)} ₫</Text>
+          <Text adjustsFontSizeToFit style={styles.foodName}>{props.name}</Text>
+          <Text adjustsFontSizeToFit style={styles.foodPrice}>{Intl.NumberFormat('vn-VN').format(props.price)} ₫</Text>
         </View>
       </View>
     </TouchableOpacity>

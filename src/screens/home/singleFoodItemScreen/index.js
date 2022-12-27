@@ -58,7 +58,7 @@ const SingleFoodItemScreen = props => {
     console.log(data._id, count1);
   };
   const openCart = () => {
-    navigation.navigate('CartScreen');
+    props.navigation.navigate('CartScreen');
   };
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;

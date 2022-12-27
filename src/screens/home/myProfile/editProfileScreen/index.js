@@ -18,6 +18,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { edit } from '../../../../features/auth/userSlice';
 import MsgBox from '../../../../components/messageBox';
+import { getStorage, getDownloadURL } from '@firebase/storage';
+
 
 
 
@@ -74,6 +76,10 @@ const EditProfileScreen = props => {
     const [email, setEmail] = useState(user.email);
     const [loading, setLoading] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [image, setImage] = useState(null);
+    // const [uploadingAvatar,setUploadingAvatar] = useState(false);
+     const [transferredAvatar,setTransferredAvatar] = useState(0);
+    // const [post, setPost] = useState(null);
     const [district, setDistrict] = useState(fullAddress[1]?fullAddress[1]:"Quận 1");
     const [visible, setVisible] = useState(false);
     const [tittle, setTitle] = useState("");
@@ -82,15 +88,47 @@ const EditProfileScreen = props => {
     
     const dispatch = useDispatch();
 
+    const postAvatar = async() => {
+      if( image == null ) {
+        return null;
+      }
+      const uploadUri = image;
+      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+      setTransferredAvatar(0);
+      const storageRef = getStorage().ref(`${filename}`);
+      const task = storageRef.putFile(uploadUri);
+      //setUploadingAvatar(true);
+      task.on('state_changed', (taskSnapshot) => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+  
+        setTransferred(
+          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+            100,
+        );
+      });
+
+      try{
+        await task;
+        const url = await storageRef.getDownloadURL();
+        //setUploadingAvatar(false);
+        setImage(null);
+        return url;
+      }
+      catch(error)
+      {
+        console.log(error);
+      }
+      setImage(null);
+    }
     const handleEditUser = async(data) => {
       try {
         setLoading(true);
         const longAddress = data.address.concat(", ", district, ", TP HCM" )
+        const avatarUrl = await postAvatar();
         const payload = {
-          avatar: {
-            ref: ' ',
-            url: ' ',
-          },
+          avatar: avatarUrl,
           name: data.name,
           email: data.email,
           phoneNumber: data.phoneNumber,
@@ -99,7 +137,7 @@ const EditProfileScreen = props => {
         const id = user._id;
         console.log(payload); 
         console.log(user)
-        await userApi.editUser(id, payload)
+        await userApi.editUser(id, payload);
         await dispatch(edit(payload));
         setLoading(false);
         setTitle("CẬP NHẬT THÀNH CÔNG");
@@ -130,7 +168,8 @@ const EditProfileScreen = props => {
       resolver: yupResolver(editProfileValidate),
     });
     
-      const [image, setImage] = useState();
+    
+
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: scale(300),
@@ -218,6 +257,10 @@ const EditProfileScreen = props => {
     }}>
             {/* Avatar */}
             <>
+            <Controller
+              name="avatar"
+              control={control}
+              render={({field: {onChange, value}}) => (
                 <TouchableOpacity style={styles.avatarTouch} >
                     {image ? <Image  source={{
                     uri: image,
@@ -228,6 +271,8 @@ const EditProfileScreen = props => {
                       />}
                     
                 </TouchableOpacity>
+              )}
+            />
             </>
             {/* Edit Profile Picture */}
             <>

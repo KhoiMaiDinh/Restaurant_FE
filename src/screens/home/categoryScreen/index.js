@@ -12,15 +12,18 @@ import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import {IC_GoBack} from '../../../assets/icons';
 import foodApi from '../../../services/foodApi';
+import SkeletonCategory from './components/skeletonCategoty';
 
 const CategoryScreen = props => {
   const category = props.route.params;
   const [foodData, setFoodData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getFoods = async () => {
     try {
       const {foods} = await foodApi.getAll('', category._id, '');
       setFoodData(foods);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -49,11 +52,17 @@ const CategoryScreen = props => {
         </View>
       </View>
       <View style={styles.food}>
-        <Foods
-          {...props}
-          foodData={foodData || []}
-          categoryName={category.name}
-        />
+        {
+          loading?(
+            <SkeletonCategory/>
+          ):(
+            <Foods
+              {...props}
+              foodData={foodData || []}
+              categoryName={category.name}
+            />
+          )
+        }
       </View>
     </SafeAreaView>
   );

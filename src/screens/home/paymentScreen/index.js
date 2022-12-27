@@ -262,7 +262,7 @@ const PaymentScreen = props => {
             style={styles.PlaceOrderButtonBoxPosition}
             onPress={handleSubmit(handleSubmitPayment)}>
             <View style={styles.PlaceOrderButtonBox}>
-              <Text style={styles.buttonText}>{loading?'Đang đặt hàng...':'Đặt hàng'}</Text>
+              <Text style={styles.buttonText}>{loading?'Đang thanh toán...':'Thanh toán'}</Text>
               {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
             </View>
           </TouchableOpacity>

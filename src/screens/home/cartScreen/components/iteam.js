@@ -58,7 +58,7 @@ const Item = props => {
           <View style={styles.viewDad}>
             <View style={styles.viewInfo}>
               <View style={styles.viewTextName}>
-                <Text style={styles.styleTextName} numberOfLines={1}>{props.textName}</Text>
+                <Text style={styles.styleTextName} numberOfLines={1} adjustsFontSizeToFit>{props.textName}</Text>
               </View>
               <View style={{marginTop: scale(10)}}></View>
 

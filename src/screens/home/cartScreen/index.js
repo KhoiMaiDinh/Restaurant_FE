@@ -86,6 +86,8 @@ const CartScreen = props => {
           <View style={styles.viewTitle}>
             <Text style={styles.textTitle}>Giỏ hàng</Text>
           </View>
+          
+          <View style={{width: scale(110), height: 1}}/>
         </View>
       </>
 
@@ -137,12 +139,12 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
   },
   view: {
-    flex: 0.08,
-    justifyContent: 'space-between',
-    width: '70%',
-    height: scale(32),
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: scale(14),
+    backgroundColor: CUSTOM_COLOR.White,
+    elevation: 3,
+    justifyContent: 'space-between'
   },
   textTitle: {
     color: CUSTOM_COLOR.Black,
@@ -164,21 +166,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonPlace: {
-    flex: 0.06,
     width: Dimensions.get('window').width,
-    height: scale(60),
-    // bottom: scale(46),
+    height: scale(50),
+    position: 'absolute',
+    top: Dimensions.get('window').height - scale(50),
     backgroundColor: CUSTOM_COLOR.Primary,
     justifyContent: 'center',
   },
   viewTotal: {
-    flex: 0.06,
     width: Dimensions.get('window').width,
     height: scale(45),
-    // bottom: scale(46),
+    bottom: scale(40),
     backgroundColor: CUSTOM_COLOR.White,
     justifyContent: 'space-between',
     flexDirection: 'row',
+    position: 'absolute',
   },
   textTotal: {
     color: CUSTOM_COLOR.Primary,

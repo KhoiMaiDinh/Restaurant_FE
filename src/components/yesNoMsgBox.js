@@ -24,14 +24,14 @@ const YesNoMsgBox = (props) => {
                             style={styles.buttonPosition}
                             onPress={() => closePopUp(true)}>
                             <View style={styles.buttonBox}>
-                                <Text style={styles.buttonText}>{props.buttonText?props.buttonText:"Yes"}</Text>
+                                <Text style={styles.buttonText}>{props.buttonText?props.buttonText:"Có"}</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.buttonPosition}
                             onPress={() => closePopUp(false)}>
                             <View style={styles.buttonBox}>
-                                <Text style={styles.buttonText}>{props.buttonText?props.buttonText:"No"}</Text>
+                                <Text style={styles.buttonText}>{props.buttonText?props.buttonText:"Không"}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

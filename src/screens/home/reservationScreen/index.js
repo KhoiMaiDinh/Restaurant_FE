@@ -264,13 +264,13 @@ const ReservationScreen = props => {
               <View style={styles.countBox}>
                 <TouchableOpacity onPress={decCount}>
                   <View style={styles.iconBox}>
-                    <Text style={styles.minus}>-</Text>
+                    <Text style={styles.minus} adjustsFontSizeToFit>-</Text>
                   </View>
                 </TouchableOpacity>
                 <Text style={styles.amount}>{quantity}</Text>
                 <TouchableOpacity onPress={inCount}>
                   <View style={styles.iconBox}>
-                    <Text>+</Text>
+                    <Text style={styles.plus} adjustsFontSizeToFit>+</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -294,14 +294,12 @@ export default ReservationScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // height: Dimensions.get('window').height,
-    // width: Dimensions.get('window').width,
     flex: 1,
     backgroundColor: CUSTOM_COLOR.White,
   },
   backGround: {
-    height: Dimensions.get('window').height * 0.9,
-    width: Dimensions.get('window').width,
+    height: '100%',
+    width: '100%',
     justifyContent: 'flex-start',
   },
   tittleBox: {
@@ -391,11 +389,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   minus: {
-    top: scale(-2),
-    fontSize: scale(30),
+    fontSize: scale(20),
+    color: CUSTOM_COLOR.Black,
   },
   plus: {
-    fontSize: scale(30),
+    fontSize: scale(20),
+    color: CUSTOM_COLOR.Black,
   },
   ClientAmount: {
     marginLeft: scale(15),
@@ -406,9 +405,8 @@ const styles = StyleSheet.create({
     fontSize: scale(15),
   },
   inputText: {
-    left: scale(15),
+    padding: scale(10),
     color: CUSTOM_COLOR.Black,
-    width: scale(299),
     fontFamily: FONT_FAMILY.NexaRegular,
     lineHeight: scale(20.6),
     fontSize: scale(15),

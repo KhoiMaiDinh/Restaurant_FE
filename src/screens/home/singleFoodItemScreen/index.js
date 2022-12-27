@@ -20,7 +20,6 @@ import { addToCart } from '../../../redux/actions/cartActions';
 
 const SingleFoodItemScreen = props => {
   const {data} = props.route.params;
-  //console.log(data);
   const [category, setCategory] = useState([]);
   const getCategory = async () => {
     try {
@@ -54,7 +53,6 @@ const SingleFoodItemScreen = props => {
   const dispatch = useDispatch();
   const addToCartHandler = () => {
     dispatch(addToCart(data._id, count1));
-    props.navigation.navigate('CartScreen');
     console.log(data._id, count1);
   };
   const openCart = () => {
@@ -76,10 +74,10 @@ const SingleFoodItemScreen = props => {
           <View>
             <Text style={styles.screenTittle2}>{category.name}</Text>
           </View>
+        </View>
           <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
             <IC_Cart nOP = {numberOfProduct}/>
           </TouchableOpacity>
-        </View>
       </View>
 
       <View style={styles.tittleBox}>
@@ -131,21 +129,25 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: 'white',
-    position: 'relative',
-    paddingVertical: 8,
-    marginBottom: 0,
-  },
-  goBackButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: scale(14),
+    backgroundColor: CUSTOM_COLOR.White,
+    elevation: 3,
+    justifyContent: 'space-between',
+    marginBottom: scale(30),
+  },
+  goBackButton: {
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   cartButton: {
-    paddingLeft: scale(260),
+    paddingRight: scale(14),
   },
   tittleBox: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: scale(20),
   },
 
   titleText: {
@@ -225,5 +227,6 @@ const styles = StyleSheet.create({
     fontSize: scale(18),
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
+    paddingHorizontal: scale(20),
   },
 });

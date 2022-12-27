@@ -50,7 +50,7 @@ const SearchScreen = ({ props }) => {
           {/* <Text style={styles.screenTittle2}>Quay lại</Text> */}
         </TouchableOpacity>
         <SearchBar setSearch={setSearch} search={search}/>
-        <View style={{width: 1, height: 1}}/>
+        <View style={{width: 24, height: 24}}/>
       </View>
       {notSearch ? (
         <Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
@@ -85,14 +85,15 @@ const styles = StyleSheet.create({
   goBack: {
     alignSelf: 'center',
     flexDirection: 'row',
-    //height: scale(32),
     justifyContent: 'center',
   },
   viewGoBackText: {
     flexDirection: 'row',
-    marginTop: scale(15),
-    //borderBottomWidth: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
+    paddingHorizontal: scale(10),
+    backgroundColor: CUSTOM_COLOR.White,
+    elevation: 3,
+    paddingVertical: scale(13),
+    
   }
 });

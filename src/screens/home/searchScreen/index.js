@@ -15,23 +15,19 @@ const SearchScreen = ({ props }) => {
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
-  const [notFound, setNotFound] = useState(false);
+  const [notSearch, setNotSearch] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getSearchData = async () => {
       try {
-        setNotFound(true);
+        setNotSearch(true);
         if (search) {
-          setNotFound(false);
+          setNotSearch(false);
           setLoading(true);
           const {foods} = await foodApi.getAll('', '', search);
-          setSearchData(foods);
           setLoading(false);
-          if(!searchData)
-          {
-            setNotFound(true);
-          }
+          setSearchData(foods); 
         }
         
       } catch (error) {
@@ -39,6 +35,8 @@ const SearchScreen = ({ props }) => {
       }
     };
     getSearchData();
+    console.log(search);
+    //console.log(searchData);
     
   }, [search]);
 
@@ -57,14 +55,24 @@ const SearchScreen = ({ props }) => {
         <SearchBar setSearch={setSearch} search={search}/>
         <View style={{width: 1, height: 1}}/>
       </View>
-      {notFound ? (<Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
-        textAlign:'center', marginTop: scale(260),color: CUSTOM_COLOR.Black,}}>
-        {'Hãy tìm kiếm món ăn \nmà bạn yêu thích!'}</Text>
+      {notSearch ? (
+        <Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
+          textAlign:'center', marginTop: scale(260),color: CUSTOM_COLOR.Black,}}>
+          {'Hãy tìm kiếm món ăn \nmà bạn yêu thích!'}
+        </Text>
       ):(
         loading ? (
-        <SkeletonSearch />
-      ) : (
-      <Foods searchData={searchData} {...props} />)
+          <SkeletonSearch />
+        ):(
+          searchData && searchData?.length > 0 ? (
+            <Foods searchData={searchData} {...props} />
+          ):(
+            <Text style={{fontFamily: FONT_FAMILY.NexaBold,fontSize: 32, 
+              textAlign:'center', marginTop: scale(260),color: CUSTOM_COLOR.Black,}}>
+              {'Không tìm thấy món ăn \nmà bạn tìm kiếm :(('}
+            </Text>
+          )
+        )
       )}
     </SafeAreaView>
   );

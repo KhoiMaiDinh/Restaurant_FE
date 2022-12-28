@@ -18,10 +18,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { edit } from '../../../../features/auth/userSlice';
 import MsgBox from '../../../../components/messageBox';
-import storage from '@react-native-firebase/storage'
-
-
-
+import storage from '@react-native-firebase/storage';
 
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -36,9 +33,6 @@ const editProfileValidate = yup.object({
   name: yup.string().required('Họ tên không được để trống'),
   address: yup.string().required('Địa chỉ không được để trống'),
 });
-
-
-
 
 const EditProfileScreen = props => {
     const {user} = props.route.params;
@@ -124,11 +118,11 @@ const EditProfileScreen = props => {
           }
           const {url, ref} = uploadData;
           const payload = {
-            avatar: { ref, url },
+            avatar: { ref, url }?{ ref, url}:{ref: ' ', url: ' '},
             name: data.name,
             email: data.email,
             phoneNumber: data.phoneNumber,
-            address: longAddress
+            address: longAddress?longAddress: " ",
           };
           const userData = await userApi.editUser(user._id, payload);
           console.log("🚀 ~ file: index.js:188 ~ .then ~ userData", userData)
@@ -154,6 +148,7 @@ const EditProfileScreen = props => {
     } = useForm({
       mode: 'onChange',
       defaultValues: {
+        //avatar: image,
         email: email,
         name: name,
         phoneNumber:`${phoneNumber}`,
@@ -162,7 +157,7 @@ const EditProfileScreen = props => {
       resolver: yupResolver(editProfileValidate),
     });
     
-      const [image, setImage] = useState();
+      const [image, setImage] = useState(user.avatar.url);
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: scale(300),

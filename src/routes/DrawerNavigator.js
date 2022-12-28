@@ -79,12 +79,17 @@ const CustomScrollDrawer = props => {
       {...props}>
       <View style={styles.userInfo}>
         <View style={styles.userAvatarBorder}>
-          <Image
-            resizeMethod="resize"
-            resizeMode="cover"
-            source={IMG_LisaAvatar}
-            style={styles.userAvatar}
-          />
+        {user.avatar?(<Image
+                    resizeMethod="resize"
+                    resizeMode="cover"
+                    source={{uri: `${user.avatar.url}`}}
+                    style={styles.userAvatar}
+                />):(<Image
+                  source={IMG_LisaAvatar}
+                  resizeMethod="resize"
+                  resizeMode="cover"
+                  style={styles.userAvatar}
+              />)}
         </View>
         <Text style={styles.userName}>{user.name}</Text>
       </View>

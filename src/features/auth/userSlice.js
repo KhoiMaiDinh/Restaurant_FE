@@ -20,6 +20,8 @@ export const edit = createAsyncThunk(
   'user/edit',
   async (payload, {getState}) => {
     const {user} = getState().user;
+    console.log(payload.avatar);
+    user.avatar = payload.avatar;
     user.name = payload.name;
     user.email = payload.email;
     user.phoneNumber = payload.phoneNumber;

@@ -28,6 +28,7 @@ const ProfileScreen = props => {
     const userInfoJS = JSON.parse(userInfo);
     userInfoJS.phoneNumber = '' + userInfoJS.phoneNumber;
     setUser(userInfoJS);
+    console.log(userInfoJS);
   }
 
   const isFocused = useIsFocused();
@@ -42,10 +43,13 @@ const ProfileScreen = props => {
         <View style={styles.headerBar} />
         <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop: scale(15)}}>
-                <Avatar.Image
-                    source={IMG_LisaAvatar}
+                {user.avatar?(<Avatar.Image
+                    source={{uri: `${user.avatar.url}`}}
                     size={80}
-                />
+                />):(<Avatar.Image
+                  source={IMG_LisaAvatar}
+                  size={80}
+              />)}
                 <View style={{marginLeft: scale(20)}}>
                     <Title style={[styles.title,styles.text]}>
                         {user.name}

@@ -7,6 +7,7 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {
@@ -26,16 +27,17 @@ import ButtonReOrder from './components/buttonReOrder';
 import FONT_FAMILY from '../../../constants/fonts';
 import SearchScreen from '../searchScreen';
 import HeaderBar from '../../../components/headerBar';
+import {IC_Cart} from '../../../assets/icons/index';
 
 const {width: screenWidth} = Dimensions.get('window');
 
 const orderName = [
-  {number: 1, img: IMG_BestDeals1, total: 0},
-  {number: 2, img: IMG_BestDeals2, total: 0},
-  {number: 3, img: IMG_BestDeals3, total: 0},
-  {number: 4, img: IMG_BestDeals4, total: 0},
-  {number: 5, img: IMG_BestDeals5, total: 0},
-  {number: 6, img: IMG_BestDeals6, total: 0},
+  {number: 1, img: IMG_BestDeals1, total: 0, state: 1},
+  {number: 2, img: IMG_BestDeals2, total: 0, state: 2},
+  {number: 3, img: IMG_BestDeals3, total: 0, state: 3},
+  {number: 4, img: IMG_BestDeals4, total: 0, state: 4},
+  {number: 5, img: IMG_BestDeals5, total: 0, state: 1},
+  {number: 6, img: IMG_BestDeals6, total: 0, state: 2},
 ];
 const data = [
   {num: 1, number: 23, keyChild: 1, name: 'Salad', price: 11, id: 1},
@@ -55,6 +57,18 @@ const data = [
 
 const OrdersScreen = props => {
   const [orders, setOrders] = useState(orderName);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [chosen, setChosen] = useState(1);
+
+
+const filter =()=>{
+  const newData=orderName.filter((x)=>{return x.state===chosen})
+  return newData;
+}
+
+  useEffect(() => {
+    setFilteredOrders(filter);
+  }, [chosen])
 
   useEffect(() => {
     const newOrders = orders.map(order => {
@@ -74,7 +88,7 @@ const OrdersScreen = props => {
       <ScrollView horizontal="false" style={styles.scrollView}>
         <View style={styles.scroll}>
           <View style={styles.viewData}>
-            {orders.map(dataImage => (
+            {filteredOrders.map(dataImage => (
               <View key={dataImage.number}>
                 <Image style={styles.imgData} source={dataImage.img} />
                 {data.map(item =>
@@ -84,6 +98,7 @@ const OrdersScreen = props => {
                       textNumber={item.number}
                       textName={item.name}
                       textPrice={item.price}
+                      state={item.state}
                     />
                   ) : null,
                 )}
@@ -107,6 +122,25 @@ const OrdersScreen = props => {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.bottomTabs}>
+        <TouchableOpacity style={chosen==1?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(1)}}>
+          <IC_Cart/>
+          <Text style={chosen==1?styles.textTabChosen:styles.textTab}>Chờ xác nhận</Text>
+        </TouchableOpacity >
+        <TouchableOpacity style={chosen==2?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(2)}}>
+        <IC_Cart/>
+          <Text style={chosen==2?styles.textTabChosen:styles.textTab}>Đang giao</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={chosen==3?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(3)}}>
+        <IC_Cart/>
+          <Text style={chosen==3?styles.textTabChosen:styles.textTab}>Đã giao</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={chosen==4?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(4)}}>
+        <IC_Cart/>
+          <Text style={chosen==4?styles.textTabChosen:styles.textTab}>Hủy</Text>
+        </TouchableOpacity>
+
+      </View>
     </SafeAreaView>
   );
 };
@@ -126,7 +160,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   viewData: {
-    // position: 'absolute',
     alignSelf: 'center',
     width: scale(347),
   },
@@ -147,5 +180,41 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: 14,
     color: CUSTOM_COLOR.Black,
+  },
+  bottomTabs:{
+    flexDirection: 'row',
+    width: '100%',
+    alignContent: 'space-between',
+    bottom: 0,
+  },
+  textTab:{
+    marginTop: scale(5),
+    color: CUSTOM_COLOR.Black,
+    fontSize: 8,
+    fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  textTabChosen:{
+    marginTop: scale(5),
+    color: CUSTOM_COLOR.White,
+    fontSize: 8,
+    fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  touchTab:{
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    paddingVertical: scale(15),
+
+  },
+  touchTabChosen:{
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    paddingVertical: scale(15),
+    backgroundColor: CUSTOM_COLOR.Primary,
   },
 });

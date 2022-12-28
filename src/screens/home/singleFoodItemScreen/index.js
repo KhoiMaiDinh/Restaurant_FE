@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
@@ -36,6 +37,7 @@ const SingleFoodItemScreen = props => {
 
   const [count1, setCount1] = useState(1);
   const [price, setPrice] = useState(data.price);
+  const [watchMore,setWatchMore] = useState(false);
 
   let inCount = () => {
     if (count1 < 100) {
@@ -65,36 +67,53 @@ const SingleFoodItemScreen = props => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.goBackButton}>
+        <View>
           <TouchableOpacity
+           style={styles.goBackButton}
             onPress={() => {
               props.navigation.goBack();
             }}>
             <IC_GoBack style={styles.goBack} />
+            <Text style={styles.screenTittle2}>{category.name}</Text>
           </TouchableOpacity>
           <View>
-            <Text style={styles.screenTittle2}>{category.name}</Text>
           </View>
         </View>
           <TouchableOpacity style={styles.cartButton} onPress={() => openCart()}>
             <IC_Cart nOP = {numberOfProduct}/>
           </TouchableOpacity>
       </View>
-
+    <ScrollView style={{paddingTop: scale(30)}}>
       <View style={styles.tittleBox}>
         <Text style={styles.titleText}>{data.name}</Text>
       </View>
 
       <Gallery images={data.images} />
 
-      <View style={styles.contentBox}>
-        <Text style={styles.content}>{data.description}</Text>
-      </View>
-
+      <TouchableOpacity 
+      style={styles.contentBox}
+      activeOpacity={0.7}
+      disabled={watchMore?false:true}
+      onPress={() => {setWatchMore(!watchMore)}}
+      >
+        {watchMore?
+        (<Text style={styles.content}>{data.description}</Text>):
+        (<Text style={styles.content} numberOfLines={3}>{data.description}</Text>)}
+      </TouchableOpacity>
+      {watchMore?(null):
+      ( <TouchableOpacity
+        hitSlop={{top: scale(10), bottom: scale(10), left: scale(10), right: scale(10)}}
+        style={styles.btWatchMore} 
+        onPress={() => {setWatchMore(!watchMore)}}
+        >
+        <Text style={styles.watchMore}>Xem thêm</Text>
+      </TouchableOpacity>
+)}
+      
       <View style={styles.countBox}>
         <TouchableOpacity onPress={decCount}>
           <View style={styles.iconBox}>
-            <IC_Minus   />
+            <IC_Minus/>
           </View>
         </TouchableOpacity>
         <Text style={styles.amount}>{count1}</Text>
@@ -117,6 +136,8 @@ const SingleFoodItemScreen = props => {
           </View>
         </TouchableOpacity>
       </View>
+      <View style={{ height:scale(70)}}></View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -136,11 +157,11 @@ const styles = StyleSheet.create({
     backgroundColor: CUSTOM_COLOR.White,
     elevation: 3,
     justifyContent: 'space-between',
-    marginBottom: scale(30),
   },
   goBackButton: {
     alignItems: 'center',
     flexDirection: 'row',
+    width: scale(150)
   },
   cartButton: {
     paddingRight: scale(14),
@@ -164,12 +185,13 @@ const styles = StyleSheet.create({
   },
   contentBox: {
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: scale(20),
   },
   content: {
     color: CUSTOM_COLOR.Black,
     fontSize: scale(17),
     fontFamily: FONT_FAMILY.NexaRegular,
+    textAlign: 'justify',
   },
 
   addContainer: {
@@ -229,5 +251,16 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
     paddingHorizontal: scale(20),
+  },
+  btWatchMore:{
+    // borderWidth: 1,
+    marginTop: scale(5),
+    alignSelf: 'flex-end',
+    marginRight: scale(20),
+  },
+  watchMore:{
+    color: CUSTOM_COLOR.Grey,
+    fontFamily: FONT_FAMILY.NexaBold,
+    textDecorationLine: 'underline',
   },
 });

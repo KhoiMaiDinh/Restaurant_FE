@@ -91,15 +91,16 @@ const PaymentScreen = props => {
       });
       await dispatch(resetCartWhenOrder());
       setLoading(false);
-      setTitle("THANH TOÁN THÀNH CÔNG");
-      setMessage("Bạn đã thanh toán thành công!\nChúng tôi sẽ đến ngay ");
+      setTitle("ĐẶT HÀNG THÀNH CÔNG");
+      setMessage("Bạn đã đặt hàng thành công!\nChúng tôi sẽ đến ngay ");
       setFail(false);
       setVisible(true);
     } catch (error) {
       console.log(error);
-      setTitle("THANH TOÁN THẤT BẠI");
-      setMessage("Quá trình thanh toán đã xảy ra lỗi!\nBạn vui lòng thử lại\nThứ lỗi cho chúng tôi:((");
-      setFail(true);
+      setTitle("ĐẶT HÀNG THẤT BẠI");
+      setMessage("Quá trình đặt hàng đã xảy ra lỗi!\nBạn vui lòng thử lại\nThứ lỗi cho chúng tôi:((");
+      setFail(true);     
+      setVisible(true);
     }
   };
 
@@ -437,6 +438,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textFailed: {
+    marginTop: scale(5),
     marginLeft: scale(50),
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),

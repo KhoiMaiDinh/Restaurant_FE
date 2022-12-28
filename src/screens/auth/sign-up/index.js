@@ -34,10 +34,13 @@ const SignUpScreen = props => {
   // const [checkValidNumber, setCheckValidNumber] = useState(false);
 
 
-const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
+const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
   const loginPayloadSchema = yup.object({
+  name: yup.string()
+  .max(30,'Họ tên không hợp lệ')
+  .required('Họ tên không được để trống'),
   email: yup
     .string()
     .email('Email không hợp lệ')
@@ -45,12 +48,15 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
     .required('Email không được để trống'),
   password: yup
     .string()
-    .matches(passwordRegex,'Mật khẩu không được chứa khoảng trắng và phải chứa ít nhất một chữ hoa, một chữ thường')
+    .matches(passwordRegex,'Mật khẩu phải chứa ký tự hóa, thường và số')
     .min(8, 'Độ dài mật khẩu phải lớn hơn 8')
     .max(16, 'Độ dài mật khẩu phải nhỏ hơn 16')
     .required('Mật khẩu không được để trống'),
   phoneNumber: yup
-    .string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+    .string()
+    .min(10,'Số điện thoại không hợp lệ')
+    .max(11,'Số điện thoại không hợp lệ')
+    .matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
 });
  
   const {
@@ -60,6 +66,7 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
   } = useForm({
     mode: 'onChange',
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       phoneNumber: '',
@@ -94,24 +101,35 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
         <View style={styles.tittleBox}>
           <Text style={styles.screenTittle}>Tạo tài khoản mới</Text>
         </View>
-        <View style={{height: scale(70)}}>
+
+        <Controller
+         name="name"
+         control={control}
+         render ={({field: {onChange, value}})=>(<View style={styles.inputTextWithError}>
           <View style={styles.inputTextContainer}>
             <TextInput
-              onChangeText={name => setName(name)}
+              onChangeText={name => onChange(name)}
               placeholderTextColor={CUSTOM_COLOR.Grey}
               placeholder="Họ Tên"
               style={styles.inputText}
               keyboardType="ascii-capable"
+              value={value}
             />
           </View>
-        </View>
+          {errors?.name && (
+            <Text style={styles.textFailed}>{errors.name.message}</Text>
+          )}
+          </View>
+          )}/>
+        
+        
 
         {/*sdt*/}
         <Controller
         name="phoneNumber"
         control={control}
         render ={({field: {onChange, value}})=>(
-        <View style={{height: scale(70)}}>
+        <View style={styles.inputTextWithError}>
           <View style={styles.inputTextContainer}>
             <TextInput
               onChangeText={text => onChange(text)}
@@ -133,7 +151,7 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
         name="email"
         control={control}
         render ={({field: {onChange,value}})=>(
-          <View style={{height: scale(70)}}>
+          <View style={styles.inputTextWithError}>
           <View style={styles.inputTextContainer}>
             <TextInput
               onChangeText={text => onChange(text)}
@@ -155,17 +173,17 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
         name="password"
         control={control}
         render={({field: {onChange,value}})=>(
-           <View style={{height: scale(70)}}>
-          <View style={styles.inputTextContainer}>
-            <TextInput
-              onChangeText={text => onChange(text)}
-              secureTextEntry={true}
-              value={value}
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Mật khẩu"
-              style={styles.inputText}
-            />
-          </View>
+           <View style={styles.inputTextWithError}>
+            <View style={styles.inputTextContainer}>
+              <TextInput
+                onChangeText={text => onChange(text)}
+                secureTextEntry={true}
+                value={value}
+                placeholderTextColor={CUSTOM_COLOR.Grey}
+                placeholder="Mật khẩu"
+                style={styles.inputText}
+              />
+            </View>
             {errors?.password && (
             <Text style={styles.textFailed}>{errors.password.message}</Text>
           ) }
@@ -208,6 +226,11 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
       fontSize: scale(20),
       fontFamily: FONT_FAMILY.NexaRegular,
     },
+    inputTextWithError: {
+      alignSelf: 'center',
+      borderWidth: 1, 
+      paddingBottom: scale(15),
+    },
     inputTextContainer: {
       alignSelf: 'center',
       paddingHorizontal: scale(15),
@@ -215,7 +238,6 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
       borderWidth: 1,
       borderColor: CUSTOM_COLOR.Primary,
       borderRadius: 500,
-      //marginBottom: scale(15),
     },
     inputText: {
       fontSize: scale(15),
@@ -240,10 +262,12 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
       fontSize: scale(15),
     },
     textFailed: {
-      marginLeft: scale(60), 
+      //marginLeft: (-60),
+      alignSelf: 'flex-start',
       fontFamily: FONT_FAMILY.NexaRegular,
       fontSize: scale(12),
       color: CUSTOM_COLOR.Red,
+      marginTop: scale(5),
     },
   });
   

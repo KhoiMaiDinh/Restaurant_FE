@@ -118,7 +118,10 @@ const EditProfileScreen = props => {
           }
           const {url, ref} = uploadData;
           const payload = {
-            avatar: { ref, url }?{ ref, url}:{ref: ' ', url: ' '},
+            avatar: { 
+              ref: ref || '', 
+              url: url || ''
+            },
             name: data.name,
             email: data.email,
             phoneNumber: data.phoneNumber,
@@ -246,7 +249,7 @@ const EditProfileScreen = props => {
     }}>
             {/* Avatar */}
             <>
-                <TouchableOpacity style={styles.avatarTouch} >
+                <View style={styles.avatarTouch} >
                     {image ? <Image  source={{
                     uri: image,
                     }}
@@ -255,7 +258,7 @@ const EditProfileScreen = props => {
                       style={{height: '100%', width: '100%', borderRadius: scale(360)}}
                       />}
                     
-                </TouchableOpacity>
+                </View>
             </>
             {/* Edit Profile Picture */}
             <>

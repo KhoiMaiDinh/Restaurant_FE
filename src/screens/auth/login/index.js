@@ -17,11 +17,8 @@ import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import {useDispatch} from 'react-redux';
 import {login} from '../../../features/auth/userSlice';
-import axios from 'axios';
-import {BASE_URL} from '../../../utils/api';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import {IMG_Warning} from '../../../assets/images';
 import * as yup from 'yup';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -241,9 +238,9 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.NexaRegular,
   },
   textFailed: {
-    marginLeft: scale(25),
-    marginTop: scale(5),
-    alignSelf: 'flex-start',
+    paddingLeft: scale(25),
+    paddingTop: scale(7),
+    justifyContent: 'center',
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: scale(12),
     color: CUSTOM_COLOR.Red,
@@ -251,9 +248,9 @@ const styles = StyleSheet.create({
 });
 const stylePanel = StyleSheet.create({
   panel: {
-    padding: scale(20),
-    backgroundColor: CUSTOM_COLOR.Red,
     paddingTop: scale(20),
+    backgroundColor: CUSTOM_COLOR.Red,
+    padding: scale(20),
   },
   panelTitle: {
     fontSize: 27,

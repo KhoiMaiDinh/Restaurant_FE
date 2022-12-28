@@ -36,7 +36,6 @@ const CartScreen = props => {
     if(totalAmount === 0)
     {
       setLock(true);
-      //setVisible(true);
     }
     else 
     {
@@ -121,7 +120,6 @@ const CartScreen = props => {
       <>
         <View style={styles.buttonPlace}>
           <TouchableOpacity
-            //disabled={lock?true:false}
             onPress={() => {lock?setVisible(true):props.navigation.navigate('PaymentScreen')}}>
             <Text style={styles.textPlace}>ĐẶT MÓN</Text>
           </TouchableOpacity>

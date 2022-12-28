@@ -20,7 +20,6 @@ import ContactInfor from './component/contactInfor';
 
 
 const ProfileScreen = props => {
-  const [image, setImage] = useState();
   const [user, setUser] = useState([]);
   const [visible, setVisible] = useState(false);
   const getUserInfo = async () => {
@@ -43,8 +42,8 @@ const ProfileScreen = props => {
         <View style={styles.headerBar} />
         <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop: scale(15)}}>
-                {user.avatar?(<Avatar.Image
-                    source={{uri: `${user.avatar.url}`}}
+                {user?.avatar?.url !== '' ?(<Avatar.Image
+                    source={{uri: `${user?.avatar?.url || ''}`}}
                     size={80}
                 />):(<Avatar.Image
                   source={IMG_LisaAvatar}

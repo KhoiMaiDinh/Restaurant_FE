@@ -1,5 +1,6 @@
-import {initializeApp} from '@firebase/app';
-import {getStorage} from '@firebase/storage';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/firestore';
+
 
 const firebaseConfig = {
   apiKey: 'AIzaSyADrP9shd3rEDI0j-4PjbAJ_-4uOgTkxek',
@@ -11,5 +12,14 @@ const firebaseConfig = {
   measurementId: 'G-CM7K9CBKPE',
 };
 
-export const app = initializeApp(firebaseConfig);
-export const storage = getStorage(app);
+// let app;
+// if (firebase.apps.length === 0) {
+//     app = firebase.initializeApp(firebaseConfig )
+// } else {
+//     app = firebase.app()
+// }
+
+// if (!firebase.apps.length){
+//   firebase.initializeApp(firebaseConfig);
+// }
+// export const storage = getStorage(app);

@@ -36,7 +36,6 @@ const CartScreen = props => {
     if(totalAmount === 0)
     {
       setLock(true);
-      //setVisible(true);
     }
     else 
     {
@@ -68,7 +67,7 @@ const CartScreen = props => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.navigate('DrawerScreen')}} 
+      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.replace('DrawerScreen')}} 
       title={"ĐẶT MÓN THẤT BẠI"} message={"Giỏ hàng của bạn hiện trống, bạn có muốn thêm món vào giỏ hàng?"}  fail={lock}/> 
       <>
         <View style={styles.view}>
@@ -76,7 +75,7 @@ const CartScreen = props => {
             <TouchableOpacity
               style={styles.goBackButton}
               onPress={() => {
-                props.navigation.navigate('DrawerScreen');
+                props.navigation.replace('DrawerScreen');
               }}>
               <IC_GoBack style={styles.goBack} />
               <Text style={styles.screenTittle2}>Quay lại</Text>
@@ -121,7 +120,6 @@ const CartScreen = props => {
       <>
         <View style={styles.buttonPlace}>
           <TouchableOpacity
-            //disabled={lock?true:false}
             onPress={() => {lock?setVisible(true):props.navigation.navigate('PaymentScreen')}}>
             <Text style={styles.textPlace}>ĐẶT MÓN</Text>
           </TouchableOpacity>

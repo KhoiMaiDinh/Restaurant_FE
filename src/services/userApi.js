@@ -5,6 +5,12 @@ const userApi = {
     const url = '/auth/login';
     return axiosClient.post(url, data);
   },
+
+  signup(data) {
+    const url = '/auth/signup';
+    return axiosClient.post(url, data);
+  },
+
   logout(id) {
     const url = `/auth/logout/${id}`;
     return axiosClient.post(url);
@@ -26,7 +32,7 @@ const userApi = {
   },
 
   editUser(id, payload) {
-    const url = `/user/${id}`;
+    const url = `/auth/user/${id}`;
     return axiosClient.put(url, payload);
   },
 

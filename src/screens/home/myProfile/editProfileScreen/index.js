@@ -18,9 +18,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { edit } from '../../../../features/auth/userSlice';
 import MsgBox from '../../../../components/messageBox';
-
-
-
+import storage from '@react-native-firebase/storage';
 
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -38,9 +36,6 @@ const editProfileValidate = yup.object({
   name: yup.string().required('Họ tên không được để trống'),
   address: yup.string().required('Địa chỉ không được để trống'),
 });
-
-
-
 
 const EditProfileScreen = props => {
     const {user} = props.route.params;
@@ -83,38 +78,72 @@ const EditProfileScreen = props => {
     const [message, setMessage] = useState("");
     const [fail, setFail] = useState(false);
     
-    const dispatch = useDispatch();
+    const uploadImage = async () => {
+      setLoading(true);
+      let filename = image.substring(image.lastIndexOf('/') + 1);
+      console.log(filename);
+      setLoading(true);
+      
+      const reference = storage().ref('avatars/' + filename)
+      const task = reference.putFile(image);
 
-    const handleEditUser = async(data) => {
+      task.on('state_changed', (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      });
       try {
-        setLoading(true);
-        const longAddress = data.address.concat(", ", district, ", TP HCM" )
-        const payload = {
-          avatar: {
-            ref: ' ',
-            url: ' ',
-          },
-          name: data.name,
-          email: data.email,
-          phoneNumber: data.phoneNumber,
-          address: longAddress
-        };
-        const id = user._id;
-        console.log(payload); 
-        console.log(user)
-        await userApi.editUser(id, payload)
-        await dispatch(edit(payload));
-        setLoading(false);
-        setTitle("CẬP NHẬT THÀNH CÔNG");
-        setMessage("Thông tin của bạn đã được cập nhật thành công");
-        setFail(false);
-        setVisible(true);
-      } catch (error) {
-        console.log(error)
-        setTitle("CẬP NHẬT THẤT BẠI");
-        setMessage("Quá trình cập nhật thông tin đã xảy ra lỗi!\nBạn vui lòng thử lại\nThứ lỗi cho chúng tôi:((");
-        setFail(true);
+        await task;
+        const url = await reference.getDownloadURL();
+        const metadata = await reference.getMetadata();
+        const ref = metadata.fullPath;
+        return {url, ref}
+      } catch(error) {
+        console.log("🚀 ~ file: index.js:120 ~ uploadImage ~ error", error)
+        return null;
       }
+    };
+    
+    const dispatch = useDispatch();
+    const handleEditUser = async (data) => {  
+      try {
+          const longAddress = data.address.concat(", ", district, ", TP HCM" )
+          const uploadData = await uploadImage();
+          if (!uploadData) {
+            throw new Error('Upload failed!');
+          }
+          const {url, ref} = uploadData;
+          const payload = {
+            avatar: { 
+              ref: ref || '', 
+              url: url || ''
+            },
+            name: data.name,
+            email: data.email,
+            phoneNumber: data.phoneNumber,
+            address: longAddress?longAddress: " ",
+          };
+          const userData = await userApi.editUser(user._id, payload);
+          console.log("🚀 ~ file: index.js:188 ~ .then ~ userData", userData)
+          await dispatch(edit(payload));
+          setLoading(false);
+          setTitle("CẬP NHẬT THÀNH CÔNG");
+          setMessage("Thông tin của bạn đã được cập nhật thành công");
+          setFail(false);
+          setVisible(true);
+        } catch (error) {
+          console.log("🚀 ~ file: index.js:169 ~ handleEditUser ~ error", error)
+          setTitle("CẬP NHẬT THẤT BẠI");
+          setMessage("Quá trình cập nhật thông tin đã xảy ra lỗi!\nBạn vui lòng thử lại\nThứ lỗi cho chúng tôi:((");
+          setFail(true);
+        }
     };
   
 
@@ -125,6 +154,7 @@ const EditProfileScreen = props => {
     } = useForm({
       mode: 'onChange',
       defaultValues: {
+        //avatar: image,
         email: email,
         name: name,
         phoneNumber:`${phoneNumber}`,
@@ -133,7 +163,7 @@ const EditProfileScreen = props => {
       resolver: yupResolver(editProfileValidate),
     });
     
-      const [image, setImage] = useState();
+      const [image, setImage] = useState(user.avatar.url);
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: scale(300),
@@ -159,23 +189,25 @@ const EditProfileScreen = props => {
         });
       }
       renderInner = () => (
-        <View style={stylePanel.panel}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={stylePanel.panelTitle}>Tải ảnh</Text>
-            <Text style={stylePanel.panelSubtitle}>Chọn ảnh đại diện của bạn</Text>
+        <ScrollView>
+          <View style={stylePanel.panel}>
+            <View style={{alignItems: 'center'}}>
+              <Text style={stylePanel.panelTitle}>Tải ảnh</Text>
+              <Text style={stylePanel.panelSubtitle}>Chọn ảnh đại diện của bạn</Text>
+            </View>
+            <TouchableOpacity style={stylePanel.panelButton} onPress={takePhotoFromCamera}>
+              <Text style={stylePanel.panelButtonTitle}>Chụp ảnh</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={stylePanel.panelButton} onPress={choosePhotoFromLibrary}>
+              <Text style={stylePanel.panelButtonTitle}>Chọn từ thư viện</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={stylePanel.panelButton}
+              onPress={() => this.bs.current.snapTo(1)}>
+              <Text style={stylePanel.panelButtonTitle}>Thoát</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={stylePanel.panelButton} onPress={takePhotoFromCamera}>
-            <Text style={stylePanel.panelButtonTitle}>Chụp ảnh</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={stylePanel.panelButton} onPress={choosePhotoFromLibrary}>
-            <Text style={stylePanel.panelButtonTitle}>Chọn từ thư viện</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={stylePanel.panelButton}
-            onPress={() => this.bs.current.snapTo(1)}>
-            <Text style={stylePanel.panelButtonTitle}>Thoát</Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       );
       renderHeader = () => (
         <View style={stylePanel.header}>
@@ -200,7 +232,8 @@ const EditProfileScreen = props => {
                     onPress={() => {
                       props.navigation.goBack();
                     }}
-                    disabled={loading?true:false}>
+                    disabled={loading?true:false}
+                    >
                     <IC_GoBack />
                     <Text style={styles.screenTittle}>Quay lại</Text>
                 </TouchableOpacity>
@@ -224,7 +257,7 @@ const EditProfileScreen = props => {
     }}>
             {/* Avatar */}
             <>
-                <TouchableOpacity style={styles.avatarTouch} >
+                <View style={styles.avatarTouch} >
                     {image ? <Image  source={{
                     uri: image,
                     }}
@@ -233,7 +266,7 @@ const EditProfileScreen = props => {
                       style={{height: '100%', width: '100%', borderRadius: scale(360)}}
                       />}
                     
-                </TouchableOpacity>
+                </View>
             </>
             {/* Edit Profile Picture */}
             <>

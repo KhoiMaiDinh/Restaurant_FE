@@ -32,6 +32,7 @@ import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
 import ProfileScreen from '../screens/home/myProfile/profile';
 import { initCartLogIn, resetCartWhenLogOut } from '../redux/actions/cartActions';
+import { useIsFocused } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -69,6 +70,10 @@ const CustomScrollDrawer = props => {
     setUser(userInfoJS);
     dispatch(initCartLogIn(userInfoJS.cart.items));
   }
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    isFocused && getUserInfo(); 
+  },[isFocused]);
   useEffect(() => {
     getUserInfo();
   }, [])
@@ -78,12 +83,17 @@ const CustomScrollDrawer = props => {
       {...props}>
       <View style={styles.userInfo}>
         <View style={styles.userAvatarBorder}>
-          <Image
-            resizeMethod="resize"
-            resizeMode="cover"
-            source={IMG_LisaAvatar}
-            style={styles.userAvatar}
-          />
+        {user?.avatar?.url !== ''?(<Image
+                    resizeMethod="resize"
+                    resizeMode="cover"
+                    source={{uri: `${user?.avatar?.url || ''}`}}
+                    style={styles.userAvatar}
+                />):(<Image
+                  source={IMG_LisaAvatar}
+                  resizeMethod="resize"
+                  resizeMode="cover"
+                  style={styles.userAvatar}
+              />)}
         </View>
         <Text style={styles.userName}>{user.name}</Text>
       </View>
@@ -106,12 +116,6 @@ const CustomScrollDrawer = props => {
           component="Menu"
           navigation={props.navigation}
         />
-        {/* <ButtonDrawer
-          label="Tìm kiếm"
-          icon={<IC_Search fill={CUSTOM_COLOR.Primary} />}
-          component="Search"
-          navigation={props.navigation}
-        /> */}
         <ButtonDrawer
           label="Đặt chỗ"
           icon={<IC_Reservation />}
@@ -140,21 +144,6 @@ const CustomScrollDrawer = props => {
 };
 
 const DrawerScreen = () => {
-  // const [search, setSearch] = useState('');
-  // const [searchData, setSearchData] = useState([]);
-
-  // const getSearchData = useCallback(async () => {
-  //   const {foods} = await foodApi.getAll('', '', search);
-  //   return setSearchData(foods);
-  // }, [search]);
-
-  // useEffect(() => {
-  //   getSearchData();
-  // }, [getSearchData, search]);
-  // //console.log(searchData);
-
-  // const Search = () => <SearchScreen searchData={searchData} />;
-
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -201,19 +190,6 @@ const DrawerScreen = () => {
           ),
         })}
       />
-      {/* <Drawer.Screen
-        name="Search"
-        component={Search}
-        options={({navigation}) => ({
-          headerTitle: () => (
-            <HeaderBar
-              pageName={'Tìm kiếm'}
-              navigation={navigation}
-              setSearch={setSearch}
-            />
-          ),
-        })}
-      /> */}
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}
@@ -248,7 +224,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.White,
     fontSize: scale(20),
     fontFamily: FONT_FAMILY.NexaBold,
-    //left: scale(40),
+    justifyContent:'center',
     alignSelf: 'center',
   },
   userAvatarBorder: {

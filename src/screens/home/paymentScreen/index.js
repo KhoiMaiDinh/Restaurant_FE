@@ -107,7 +107,7 @@ const PaymentScreen = props => {
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
-      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.navigate('DrawerScreen')}}
+      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.replace('DrawerScreen')}}
        title={tittle} message={message}  fail={fail}/> 
         <View style={styles.view}>
           <View style={styles.viewGoBackText}>

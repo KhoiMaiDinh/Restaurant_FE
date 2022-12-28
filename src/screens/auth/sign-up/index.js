@@ -8,36 +8,25 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ActivityIndicator
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import {IC_GoBack} from '../../../assets/icons';
 import scale from '../../../utils/responsive';
 import FONT_FAMILY from '../../../constants/fonts';
 import {useDispatch} from 'react-redux';
 import {signup} from '../../../features/auth/userSlice';
-import {BASE_URL} from '../../../utils/api';
-import axios from 'axios';
 import * as yup from 'yup';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
 
-const SignUpScreen = props => {
-  const {navigation} = props;
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  // const [phoneNumber, setPhoneNumber] = useState('');
-  // const [checkValidEmail, setCheckValidEmail] = useState(false);
-  // const [checkValidPassword, setCheckValidPassword] = useState(false);
-  // const [checkValidNumber, setCheckValidNumber] = useState(false);
-
-
-const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-
+const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-  const loginPayloadSchema = yup.object({
+
+const loginPayloadSchema = yup.object({
   name: yup.string()
   .max(30,'Họ tên không hợp lệ')
   .required('Họ tên không được để trống'),
@@ -48,17 +37,26 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
     .required('Email không được để trống'),
   password: yup
     .string()
-    .matches(passwordRegex,'Mật khẩu phải chứa ký tự hóa, thường và số')
+    .matches(passwordRegex,'Mật khẩu phải chứa ký tự hoa, thường và số')
     .min(8, 'Độ dài mật khẩu phải lớn hơn 8')
     .max(16, 'Độ dài mật khẩu phải nhỏ hơn 16')
     .required('Mật khẩu không được để trống'),
   phoneNumber: yup
-    .string()
-    .min(10,'Số điện thoại không hợp lệ')
-    .max(11,'Số điện thoại không hợp lệ')
-    .matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+  .string()
+  .min(10,'Số điện thoại không hợp lệ')
+  .max(11,'Số điện thoại không hợp lệ')
+  .matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
 });
  
+
+const SignUpScreen = props => {
+  const {navigation} = props;
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const bs = useRef(null);
+
+  const dispatch = useDispatch();
+
   const {
     control,
     handleSubmit,
@@ -74,18 +72,29 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
     resolver: yupResolver(loginPayloadSchema),
   });
 
-  const handleSignup = async () => {
+  const renderInner = () => (
+    <View style={stylePanel.panel}>
+      <View style={{alignItems: 'center'}}>
+        <Text style={stylePanel.panelTitle}>Thất bại</Text>
+        <Text style={stylePanel.panelSubtitle}>{errorMessage}</Text>
+      </View>
+    </View>
+  );
+  const fall = new Animated.Value(1);
+
+  const handleSignup = async (data) => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/signup`, {
-        email: email,
-        password: password,
-        name: name,
-        phoneNumber: phoneNumber,
-      });
-      dispatch(signup(response.data));
+      console.log("🚀 ~ file: index.js:66 ~ handleSignup ~ data", data)
+      setLoading(true);
+      await dispatch(signup(data));
+      setLoading(false);
       navigation.navigate('AppStackScreen');
     } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+      console.log("🚀 ~ file: index.js:70 ~ handleSignup ~ error", error)
       console.log(error);
+      bs?.current?.snapTo(0);
     }
   };
 
@@ -93,87 +102,99 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
     <TouchableWithoutFeedback
       onPress={() => Keyboard.dismiss() && TextInput.clearFocus()}>
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity
-          style={styles.goBackButton}
-          onPress={() => props.navigation.goBack()}>
-          <IC_GoBack />
-        </TouchableOpacity>
-        <View style={styles.tittleBox}>
-          <Text style={styles.screenTittle}>Tạo tài khoản mới</Text>
-        </View>
-
-        <Controller
-         name="name"
-         control={control}
-         render ={({field: {onChange, value}})=>(<View style={styles.inputTextWithError}>
-          <View style={styles.inputTextContainer}>
-            <TextInput
-              onChangeText={name => onChange(name)}
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              placeholder="Họ Tên"
-              style={styles.inputText}
-              keyboardType="ascii-capable"
-              value={value}
-            />
-          </View>
-          {errors?.name && (
-            <Text style={styles.textFailed}>{errors.name.message}</Text>
-          )}
-          </View>
-          )}/>
-        
-        
-
-        {/*sdt*/}
-        <Controller
-        name="phoneNumber"
-        control={control}
-        render ={({field: {onChange, value}})=>(
-        <View style={styles.inputTextWithError}>
-          <View style={styles.inputTextContainer}>
-            <TextInput
-              onChangeText={text => onChange(text)}
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              value={value}
-              placeholder="Số điện thoại"
-              style={styles.inputText}
-              keyboardType="numeric"
-            />
-          </View>
-          {errors?.phoneNumber && (
-            <Text style={styles.textFailed}>{errors.phoneNumber.message}</Text>
-          )}
-        </View>
-        )}
-      />
-        
-        <Controller
-        name="email"
-        control={control}
-        render ={({field: {onChange,value}})=>(
-          <View style={styles.inputTextWithError}>
-          <View style={styles.inputTextContainer}>
-            <TextInput
-              onChangeText={text => onChange(text)}
-              placeholderTextColor={CUSTOM_COLOR.Grey}
-              value={value}
-              placeholder="Địa chỉ email"
-              style={styles.inputText}
-              keyboardType="email-address"
-            />
-          </View>
-            {errors?.email && (
-            <Text style={styles.textFailed}>{errors.email.message}</Text>
-          ) }
-        </View>
-        )}
+        <BottomSheet
+          ref={bs}
+          snapPoints={[100, 0]}
+          renderContent={renderInner}
+          initialSnap={1}
+          callbackNode={fall}
+          enabledGestureInteraction={true}
         />
-        
-        <Controller
-        name="password"
-        control={control}
-        render={({field: {onChange,value}})=>(
-           <View style={styles.inputTextWithError}>
+        <Animated.View
+          style={{
+            margin: 20,
+            opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}>
+          <TouchableOpacity
+            style={styles.goBackButton}
+            onPress={() => props.navigation.goBack()}>
+            <IC_GoBack />
+          </TouchableOpacity>
+          <View style={styles.tittleBox}>
+            <Text style={styles.screenTittle}>Tạo tài khoản mới</Text>
+          </View>
+          <Controller
+            name="name"
+            control={control}
+            render ={({field: {onChange, value}})=>(
+            <View style={styles.inputTextWithError}>
+              <View style={styles.inputTextContainer}>
+                <TextInput
+                  onChangeText={name => onChange(name)}
+                  placeholderTextColor={CUSTOM_COLOR.Grey}
+                  placeholder="Họ Tên"
+                  style={styles.inputText}
+                  keyboardType="ascii-capable"
+                  value={value}
+                />
+              </View>
+              {errors?.name && (
+                <Text style={styles.textFailed}>{errors.name.message}</Text>
+              )}
+            </View>
+            )}
+          />
+
+          {/*sdt*/}
+          <Controller
+          name="phoneNumber"
+          control={control}
+          render ={({field: {onChange, value}})=>(
+          <View style={styles.inputTextWithError}>
+            <View style={styles.inputTextContainer}>
+              <TextInput
+                onChangeText={text => onChange(text)}
+                placeholderTextColor={CUSTOM_COLOR.Grey}
+                value={value}
+                placeholder="Số điện thoại"
+                style={styles.inputText}
+                keyboardType="numeric"
+              />
+            </View>
+            {errors?.phoneNumber && (
+              <Text style={styles.textFailed}>{errors.phoneNumber.message}</Text>
+            )}
+          </View>
+          )}
+        />
+          
+          <Controller
+          name="email"
+          control={control}
+          render ={({field: {onChange,value}})=>(
+            <View style={styles.inputTextWithError}>
+            <View style={styles.inputTextContainer}>
+              <TextInput
+                onChangeText={text => onChange(text)}
+                placeholderTextColor={CUSTOM_COLOR.Grey}
+                value={value}
+                placeholder="Địa chỉ email"
+                style={styles.inputText}
+                keyboardType="email-address"
+              />
+            </View>
+              {errors?.email && (
+              <Text style={styles.textFailed}>{errors.email.message}</Text>
+            ) }
+          </View>
+          )}
+          />
+          
+          <Controller
+          name="password"
+          control={control}
+          render={({field: {onChange,value}})=>(
+            <View style={styles.inputTextWithError}>
             <View style={styles.inputTextContainer}>
               <TextInput
                 onChangeText={text => onChange(text)}
@@ -184,22 +205,24 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
                 style={styles.inputText}
               />
             </View>
-            {errors?.password && (
-            <Text style={styles.textFailed}>{errors.password.message}</Text>
-          ) }
-        </View>
-        )}
-        />
-       
-       
-        <TouchableOpacity
-          style={styles.SignUpButtonBoxPosition}
-          onPress={handleSubmit(handleSignup)}>
-          <View style={styles.SignUpButtonBox}>
-            <Text style={styles.buttonText}>Đăng ký</Text>
+              {errors?.password && (
+              <Text style={styles.textFailed}>{errors.password.message}</Text>
+            ) }
           </View>
-        </TouchableOpacity>
+          )}
+          />
         
+        
+          <TouchableOpacity
+            style={styles.SignUpButtonBoxPosition}
+            activeOpacity={0.8}
+            onPress={handleSubmit(handleSignup)}>
+            <View style={styles.SignUpButtonBox}>
+            <Text style={styles.buttonText}>{loading?'Đang đăng ký...':'Đăng ký'}</Text>
+              {loading && <ActivityIndicator  color={CUSTOM_COLOR.White} size={30}/>}
+            </View>
+          </TouchableOpacity>
+          </Animated.View>
         </SafeAreaView>
       </TouchableWithoutFeedback>
     );
@@ -228,7 +251,6 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
     },
     inputTextWithError: {
       alignSelf: 'center',
-      borderWidth: 1, 
       paddingBottom: scale(15),
     },
     inputTextContainer: {
@@ -252,6 +274,7 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
       width: scale(278),
       justifyContent: 'center',
       alignItems: 'center',
+      flexDirection: 'row',
       borderRadius: 26.5,
       padding: scale(15),
       margin: scale(20),
@@ -262,7 +285,6 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
       fontSize: scale(15),
     },
     textFailed: {
-      //marginLeft: (-60),
       alignSelf: 'flex-start',
       fontFamily: FONT_FAMILY.NexaRegular,
       fontSize: scale(12),
@@ -270,4 +292,21 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
       marginTop: scale(5),
     },
   });
-  
+  const stylePanel = StyleSheet.create({
+    panel: {
+      paddingTop: scale(20),
+      backgroundColor: CUSTOM_COLOR.Red,
+      padding:scale(20),
+    },
+    panelTitle: {
+      fontSize: 27,
+      color: CUSTOM_COLOR.White,
+      height: scale(35),
+    },
+    panelSubtitle: {
+      fontSize: scale(14),
+      color: CUSTOM_COLOR.White,
+      height: scale(30),
+      marginBottom: scale(10),
+    },
+  });

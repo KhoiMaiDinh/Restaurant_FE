@@ -48,7 +48,7 @@ const Item = props => {
     <View style={[props.style, styles.view2]} >  
    
       <Swipeable  rightButtons={rightButtons}>
-        <YesNoMsgBox visible={visible} clickCancel={() => setVisible(false)} setMsg={setMsg} title={"XÓA MÓN"} message={"Bạn có món xóa món ăn siu ngon số một thế giới này ?"}/>
+        <YesNoMsgBox visible={visible} clickCancel={() => setVisible(false)} setMsg={setMsg} title={"XÓA MÓN"} message={"Bạn có muốn xóa món ăn siêu ngon số một thế giới này ?"}/>
         <View style={styles.view2}>
           <View style={styles.viewImage}>
             <Image style={styles.image} source={{uri: `${props.img}`}}></Image>

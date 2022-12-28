@@ -28,6 +28,7 @@ const ProfileScreen = props => {
     const userInfoJS = JSON.parse(userInfo);
     userInfoJS.phoneNumber = '' + userInfoJS.phoneNumber;
     setUser(userInfoJS);
+    console.log(userInfo);
   }
 
   const isFocused = useIsFocused();

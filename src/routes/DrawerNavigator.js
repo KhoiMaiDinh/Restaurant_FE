@@ -27,13 +27,11 @@ import {
   IC_LogOut,
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
-import {BASE_URL} from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
-import foodApi from '../services/foodApi';
 import ProfileScreen from '../screens/home/myProfile/profile';
-import { resetCartWhenLogOut } from '../redux/actions/cartActions';
+import { initCartLogIn, resetCartWhenLogOut } from '../redux/actions/cartActions';
 
 const Drawer = createDrawerNavigator();
 
@@ -69,6 +67,7 @@ const CustomScrollDrawer = props => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
     setUser(userInfoJS);
+    dispatch(initCartLogIn(userInfoJS.cart.items));
   }
   useEffect(() => {
     getUserInfo();

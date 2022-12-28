@@ -29,3 +29,7 @@ export {default as IC_Star} from './ic_star';
 export {default as IC_Edit} from './ic_edit';
 export {default as IC_HeartNone} from './ic_heartNone';
 export {default as IC_Support} from './ic_support';
+export {default as IC_WaitForConfirm} from './ic_waitForConfirm';
+export {default as IC_Delivering} from './ic_delivering';
+export {default as IC_Delivered}  from './ic_delivered';
+export {default as IC_Cancel}  from './ic_cancel';

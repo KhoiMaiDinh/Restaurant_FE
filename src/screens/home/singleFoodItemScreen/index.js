@@ -54,7 +54,7 @@ const SingleFoodItemScreen = props => {
 
   const dispatch = useDispatch();
   const addToCartHandler = () => {
-    dispatch(addToCart(data._id, count1));
+    dispatch(addToCart(data._id, data.name, data.price, data.posterImage.url, count1));
     console.log(data._id, count1);
   };
   const openCart = () => {

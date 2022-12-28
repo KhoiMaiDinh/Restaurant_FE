@@ -25,9 +25,10 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import PriceAttribute from './components/priceAttribute';
 import ButtonReOrder from './components/buttonReOrder';
 import FONT_FAMILY from '../../../constants/fonts';
-import SearchScreen from '../searchScreen';
-import HeaderBar from '../../../components/headerBar';
-import {IC_Cart} from '../../../assets/icons/index';
+import {IC_Cancel, IC_Delivered, IC_Delivering, IC_WaitForConfirm} from '../../../assets/icons/index';
+import userApi from '../../../services/userApi';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -60,6 +61,21 @@ const OrdersScreen = props => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [chosen, setChosen] = useState(1);
 
+  //const dispatch = useDispatch();
+  const handleGetOrder = async() => {
+    try {
+      const userInfo = await AsyncStorage.getItem('@user');
+      const user = JSON.parse(userInfo);
+      const id = user._id;
+      console.log(id);
+      const i = await userApi.getOrders(id);
+      console.log("order ->>", i);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  useEffect(() => {handleGetOrder()}, [])
 
 const filter =()=>{
   const newData=orderName.filter((x)=>{return x.state===chosen})
@@ -123,20 +139,22 @@ const filter =()=>{
         </View>
       </ScrollView>
       <View style={styles.bottomTabs}>
-        <TouchableOpacity style={chosen==1?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(1)}}>
-          <IC_Cart/>
+        <TouchableOpacity style={chosen==1?styles.touchTabChosen:styles.touchTab} onPress={() => handleGetOrder()}>
+          <IC_WaitForConfirm fill={chosen==1?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
           <Text style={chosen==1?styles.textTabChosen:styles.textTab}>Chờ xác nhận</Text>
         </TouchableOpacity >
         <TouchableOpacity style={chosen==2?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(2)}}>
-        <IC_Cart/>
+        <IC_Delivering fill={chosen==2?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
           <Text style={chosen==2?styles.textTabChosen:styles.textTab}>Đang giao</Text>
         </TouchableOpacity>
         <TouchableOpacity style={chosen==3?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(3)}}>
-        <IC_Cart/>
+        <IC_Delivered stroke={chosen==3?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
           <Text style={chosen==3?styles.textTabChosen:styles.textTab}>Đã giao</Text>
         </TouchableOpacity>
         <TouchableOpacity style={chosen==4?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen(4)}}>
-        <IC_Cart/>
+        <View style={{width:scale(24), height: scale(24), justifyContent: 'center', alignItems: 'center'}}>
+        <IC_Cancel fill={chosen==4?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+        </View>
           <Text style={chosen==4?styles.textTabChosen:styles.textTab}>Hủy</Text>
         </TouchableOpacity>
 
@@ -186,10 +204,12 @@ const styles = StyleSheet.create({
     width: '100%',
     alignContent: 'space-between',
     bottom: 0,
+    backgroundColor: CUSTOM_COLOR.GreySecond,
+    
   },
   textTab:{
     marginTop: scale(5),
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
     fontSize: 8,
     fontFamily: FONT_FAMILY.NexaRegular,
   },
@@ -204,8 +224,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    paddingVertical: scale(15),
+    borderColor: CUSTOM_COLOR.Primary,
+    paddingVertical: scale(5),
 
   },
   touchTabChosen:{
@@ -213,8 +233,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    paddingVertical: scale(15),
+    paddingVertical: scale(5),
     backgroundColor: CUSTOM_COLOR.Primary,
   },
 });

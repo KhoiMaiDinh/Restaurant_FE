@@ -81,6 +81,7 @@ const LoginScreen = props => {
       setLoading(false);
       navigation.navigate('AppStackScreen');
     } catch (error) {
+      setLoading(false);
       setErrorMessage(error.message);
       console.log(error);
       bs?.current?.snapTo(0);

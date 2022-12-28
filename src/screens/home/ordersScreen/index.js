@@ -7,99 +7,122 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
-import {
-  IMG_BestDeals1,
-  IMG_BestDeals2,
-  IMG_BestDeals3,
-  IMG_BestDeals4,
-  IMG_BestDeals5,
-  IMG_BestDeals6,
-  IMG_BestDeals7,
-  IMG_BestDeals8,
-} from '../../../assets/images';
 import scale from '../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import PriceAttribute from './components/priceAttribute';
 import ButtonReOrder from './components/buttonReOrder';
 import FONT_FAMILY from '../../../constants/fonts';
-import SearchScreen from '../searchScreen';
-import HeaderBar from '../../../components/headerBar';
+import {IC_Cancel, IC_Delivered, IC_Delivering, IC_WaitForConfirm} from '../../../assets/icons/index';
+import userApi from '../../../services/userApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCallback } from 'react';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const orderName = [
-  {number: 1, img: IMG_BestDeals1, total: 0},
-  {number: 2, img: IMG_BestDeals2, total: 0},
-  {number: 3, img: IMG_BestDeals3, total: 0},
-  {number: 4, img: IMG_BestDeals4, total: 0},
-  {number: 5, img: IMG_BestDeals5, total: 0},
-  {number: 6, img: IMG_BestDeals6, total: 0},
-];
-const data = [
-  {num: 1, number: 23, keyChild: 1, name: 'Salad', price: 11, id: 1},
-  {num: 1, number: 12, keyChild: 2, name: 'Salad', price: 8, id: 2},
-  {num: 2, number: 9, keyChild: 1, name: 'Salad', price: 9, id: 3},
-  {num: 2, number: 3, keyChild: 2, name: 'Salad', price: 2, id: 4},
-  {num: 3, number: 23, keyChild: 1, name: 'Salad', price: 4, id: 5},
-  {num: 3, number: 2, keyChild: 2, name: 'Salad', price: 8, id: 6},
-  {num: 4, number: 10, keyChild: 1, name: 'Salad', price: 9, id: 7},
-  {num: 4, number: 20, keyChild: 2, name: 'Salad', price: 8, id: 8},
-  {num: 4, number: 8, keyChild: 3, name: 'Salad', price: 19, id: 9},
-  {num: 5, number: 19, keyChild: 1, name: 'Salad', price: 8, id: 10},
-  {num: 6, number: 10, keyChild: 1, name: 'Salad', price: 14, id: 11},
-  {num: 6, number: 5, keyChild: 1, name: 'Salad', price: 8, id: 12},
-  {num: 6, number: 5, keyChild: 1, name: 'Salad', price: 8, id: 13},
-];
-
 const OrdersScreen = props => {
-  const [orders, setOrders] = useState(orderName);
+  const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [chosen, setChosen] = useState("handling");
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    handleGetOrder().then(() => setRefreshing(false));
+  }, []);
+
+  const handleGetOrder = async() => {
+    try {
+      setLoading(true);
+      const userInfo = await AsyncStorage.getItem('@user');
+      const user = JSON.parse(userInfo);
+      const id = user._id;
+      const {orders} = await userApi.getOrders(id);
+      setOrders(orders); 
+      setChosen(chosen);
+      filter(orders);
+      console.log("items ->>", orders);
+      setLoading(false);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const newOrders = orders.map(order => {
-      let total = order.total;
-      data.forEach(item => {
-        if (item.num === order.number) {
-          total += item.number * item.price;
-        }
-      });
-      return {...order, total: total};
-    });
-    setOrders(newOrders);
-  }, []);
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      handleGetOrder();
+  });
+  return unsubscribe;
+}, [props.navigation]);
+
+  const filter =(orders)=>{
+    console.log(chosen);
+    const newData=orders.filter((x)=>{return x.action===chosen})
+    setFilteredOrders(newData);
+    return newData;
+  }
+
+  useEffect(() => {
+    if(orders)
+      filter(orders);
+  }, [chosen])
+
+
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView horizontal="false" style={styles.scrollView}>
+      <ScrollView 
+        horizontal="false" 
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />}>
         <View style={styles.scroll}>
           <View style={styles.viewData}>
-            {orders.map(dataImage => (
-              <View key={dataImage.number}>
-                <Image style={styles.imgData} source={dataImage.img} />
-                {data.map(item =>
-                  item.num === dataImage.number ? (
+            {filteredOrders.map(data => (
+              <View key={data._id}>
+                <View style={{flexDirection: 'row',width: '100%'}}>
+                <Image style={styles.imgData} source={{uri: `${data.items[0].imgUrl}`}} />
+                {/* <View style={{flex}}> */}
+                <View style={{alignSelf: 'center', marginLeft: scale(15), width:'70%' }}>
+                  <Text style={styles.info} numberOfLines={1}>Người đặt: {data.name}</Text>
+                  <Text style={styles.info} numberOfLines={1}>Địa chỉ: {data.address}</Text>
+                  <Text style={styles.info} numberOfLines={1}>SĐT: {data.phoneNumber}</Text>
+                  <Text style={styles.info} numberOfLines={1}>Ghi chú: {data.desc}</Text>
+                </View>
+                </View>
+                {/* </View> */}
+                {data.items.map(item =>            
                     <PriceAttribute
-                      key={item.id}
-                      textNumber={item.number}
+                      key={item._id}
+                      textNumber={item.qty}
                       textName={item.name}
                       textPrice={item.price}
                     />
-                  ) : null,
                 )}
 
                 <View
                   style={{
                     flexDirection: 'row',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'space-between',
                     top: 10,
+                    borderBottomWidth: 1,
+                    paddingBottom: scale(10),
+                    borderBottomColor: CUSTOM_COLOR.Primary,
                   }}>
                   <View style={styles.viewTotal}>
                     <Text style={styles.textTotal}>
-                      Total: {dataImage.total} VND
+                      Tổng: {Intl.NumberFormat('vn-VN').format(data.totalPrice)} ₫
                     </Text>
                   </View>
-                  <ButtonReOrder {...props}/>
+                  <ButtonReOrder {...props} action={data.method}/>
                 </View>
                 <View style={{height: scale(50)}} />
               </View>
@@ -107,6 +130,27 @@ const OrdersScreen = props => {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.bottomTabs}>
+        <TouchableOpacity style={chosen=="handling"?styles.touchTabChosen:styles.touchTab} onPress={() => {setChosen("handling")}}>
+          <IC_WaitForConfirm fill={chosen=="handling"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="handling"?styles.textTabChosen:styles.textTab}>Chờ xác nhận</Text>
+        </TouchableOpacity >
+        <TouchableOpacity style={chosen=="delivering"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("delivering")}}>
+        <IC_Delivering fill={chosen=="delivering"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="delivering"?styles.textTabChosen:styles.textTab}>Đang giao</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={chosen=="paid"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("paid")}}>
+        <IC_Delivered stroke={chosen=="paid"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="paid"?styles.textTabChosen:styles.textTab}>Đã giao</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={chosen=="cancel"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("cancel")}}>
+        <View style={{width:scale(24), height: scale(24), justifyContent: 'center', alignItems: 'center'}}>
+        <IC_Cancel fill={chosen=="cancel"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+        </View>
+          <Text style={chosen=="cancel"?styles.textTabChosen:styles.textTab}>Hủy</Text>
+        </TouchableOpacity>
+
+      </View>
     </SafeAreaView>
   );
 };
@@ -126,26 +170,65 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   viewData: {
-    // position: 'absolute',
     alignSelf: 'center',
     width: scale(347),
   },
 
   imgData: {
-    width: '100%',
+    width: '25%',
     height: scale(87),
     opacity: 0.65,
     backgroundColor: CUSTOM_COLOR.Black,
   },
   viewTotal: {
-    width: scale(112),
     justifyContent: 'center',
-    alignSelf: 'flex-start',
-    marginRight: scale(120),
+    // marginRight: scale(120),
   },
   textTotal: {
-    fontFamily: FONT_FAMILY.NexaRegular,
+    fontFamily: FONT_FAMILY.NexaBold,
     fontSize: 14,
-    color: CUSTOM_COLOR.Black,
+    color: CUSTOM_COLOR.Primary,
   },
+  bottomTabs:{
+    flexDirection: 'row',
+    width: '100%',
+    alignContent: 'space-between',
+    bottom: 0,
+    backgroundColor: CUSTOM_COLOR.GreySecond,
+    
+  },
+  textTab:{
+    marginTop: scale(5),
+    color: CUSTOM_COLOR.Primary,
+    fontSize: 8,
+    fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  textTabChosen:{
+    marginTop: scale(5),
+    color: CUSTOM_COLOR.White,
+    fontSize: 8,
+    fontFamily: FONT_FAMILY.NexaRegular,
+  },
+  touchTab:{
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: CUSTOM_COLOR.Primary,
+    paddingVertical: scale(5),
+
+  },
+  touchTabChosen:{
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: scale(5),
+    backgroundColor: CUSTOM_COLOR.Primary,
+  },
+  info:{
+    color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaRegular,
+    fontSize: 10,
+  }
 });

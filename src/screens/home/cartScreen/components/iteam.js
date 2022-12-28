@@ -39,7 +39,7 @@ const Item = props => {
   const rightButtons = [ 
     <TouchableOpacity style={styles.viewDelete} onPress={() => {setVisible(true)}}>
       <Text style={{color: CUSTOM_COLOR.White, fontSize: 11, fontFamily: FONT_FAMILY.NexaRegular}}>Xóa món</Text>
-      <IC_CartDelete/>
+      <IC_CartDelete />
     </TouchableOpacity>,
    
   ];

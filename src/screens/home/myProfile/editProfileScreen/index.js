@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import { StyleSheet, Image, Text, View, SafeAreaView, TouchableOpacity, TextInput, TouchableWithoutFeedback, Dimensions, Keyboard, KeyboardAvoidingView, ActivityIndicator, ScrollView } from 'react-native'
 import React, {useState} from 'react'
 import {CUSTOM_COLOR} from '../../../../constants/color';
 import {IC_GoBack} from '../../../../assets/icons/index';
@@ -29,7 +29,10 @@ const editProfileValidate = yup.object({
     .max(30, 'Độ dài email phải nhỏ hơn 30 kí tự')
     .required('Email không được để trống'),
   
-  phoneNumber: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+  phoneNumber: yup.string()
+  .min(10,'Số điện thoại không hợp lệ')
+  .max(11,'Số điện thoại không hợp lệ')
+  .matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
   name: yup.string().required('Họ tên không được để trống'),
   address: yup.string().required('Địa chỉ không được để trống'),
 });
@@ -186,23 +189,25 @@ const EditProfileScreen = props => {
         });
       }
       renderInner = () => (
-        <View style={stylePanel.panel}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={stylePanel.panelTitle}>Tải ảnh</Text>
-            <Text style={stylePanel.panelSubtitle}>Chọn ảnh đại diện của bạn</Text>
+        <ScrollView>
+          <View style={stylePanel.panel}>
+            <View style={{alignItems: 'center'}}>
+              <Text style={stylePanel.panelTitle}>Tải ảnh</Text>
+              <Text style={stylePanel.panelSubtitle}>Chọn ảnh đại diện của bạn</Text>
+            </View>
+            <TouchableOpacity style={stylePanel.panelButton} onPress={takePhotoFromCamera}>
+              <Text style={stylePanel.panelButtonTitle}>Chụp ảnh</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={stylePanel.panelButton} onPress={choosePhotoFromLibrary}>
+              <Text style={stylePanel.panelButtonTitle}>Chọn từ thư viện</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={stylePanel.panelButton}
+              onPress={() => this.bs.current.snapTo(1)}>
+              <Text style={stylePanel.panelButtonTitle}>Thoát</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={stylePanel.panelButton} onPress={takePhotoFromCamera}>
-            <Text style={stylePanel.panelButtonTitle}>Chụp ảnh</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={stylePanel.panelButton} onPress={choosePhotoFromLibrary}>
-            <Text style={stylePanel.panelButtonTitle}>Chọn từ thư viện</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={stylePanel.panelButton}
-            onPress={() => this.bs.current.snapTo(1)}>
-            <Text style={stylePanel.panelButtonTitle}>Thoát</Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       );
       renderHeader = () => (
         <View style={stylePanel.header}>
@@ -216,6 +221,7 @@ const EditProfileScreen = props => {
       fall = new Animated.Value(1);
 
   return (
+    <ScrollView>
         <SafeAreaView style={styles.container}>
           <MsgBox visible={visible} clickCancel={() => setVisible(false)} title={tittle} message={message}  fail={fail}/> 
         <>
@@ -235,6 +241,7 @@ const EditProfileScreen = props => {
         </View>
     </>
 
+    
         <BottomSheet
         ref={this.bs}
         snapPoints={[330, 0]}
@@ -244,6 +251,7 @@ const EditProfileScreen = props => {
         callbackNode={this.fall}
         enabledGestureInteraction={true}
       />
+     
       <Animated.View style={{margin: 20,
         opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
     }}>
@@ -270,7 +278,6 @@ const EditProfileScreen = props => {
                 <KeyboardAvoidingView>
                    
 
-                   
                     {/* Name */}
                     <>
                     <Controller
@@ -423,6 +430,7 @@ const EditProfileScreen = props => {
             
             </Animated.View>
         </SafeAreaView>
+        </ScrollView>
   )
 }
 
@@ -610,10 +618,12 @@ const styles = StyleSheet.create({
         color: CUSTOM_COLOR.White,
     },
     textFailed: {
-        marginLeft: scale(40), 
+        marginLeft: scale(7), 
         fontFamily: FONT_FAMILY.NexaRegular,
         fontSize: scale(12),
         color: CUSTOM_COLOR.Red,
+        marginTop: scale(5),
+
       },
       view:{
         flexDirection: 'row',

@@ -27,13 +27,11 @@ import {
   IC_LogOut,
 } from '../assets/icons';
 import {IMG_LisaAvatar} from '../assets/images';
-import {BASE_URL} from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../features/auth/userSlice';
 import {useDispatch} from 'react-redux';
-import foodApi from '../services/foodApi';
 import ProfileScreen from '../screens/home/myProfile/profile';
-import { resetCartWhenLogOut } from '../redux/actions/cartActions';
+import { initCartLogIn, resetCartWhenLogOut } from '../redux/actions/cartActions';
 import { useIsFocused } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
@@ -70,7 +68,7 @@ const CustomScrollDrawer = props => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
     setUser(userInfoJS);
-    console.log(userInfoJS);
+    dispatch(initCartLogIn(userInfoJS.cart.items));
   }
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -118,12 +116,6 @@ const CustomScrollDrawer = props => {
           component="Menu"
           navigation={props.navigation}
         />
-        {/* <ButtonDrawer
-          label="Tìm kiếm"
-          icon={<IC_Search fill={CUSTOM_COLOR.Primary} />}
-          component="Search"
-          navigation={props.navigation}
-        /> */}
         <ButtonDrawer
           label="Đặt chỗ"
           icon={<IC_Reservation />}
@@ -152,21 +144,6 @@ const CustomScrollDrawer = props => {
 };
 
 const DrawerScreen = () => {
-  // const [search, setSearch] = useState('');
-  // const [searchData, setSearchData] = useState([]);
-
-  // const getSearchData = useCallback(async () => {
-  //   const {foods} = await foodApi.getAll('', '', search);
-  //   return setSearchData(foods);
-  // }, [search]);
-
-  // useEffect(() => {
-  //   getSearchData();
-  // }, [getSearchData, search]);
-  // //console.log(searchData);
-
-  // const Search = () => <SearchScreen searchData={searchData} />;
-
   return (
     <Drawer.Navigator
       initialRouteName="Home"

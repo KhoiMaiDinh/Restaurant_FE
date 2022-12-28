@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: scale(50),
     position: 'absolute',
-    top: Dimensions.get('window').height - scale(50),
+    bottom: 0,
     backgroundColor: CUSTOM_COLOR.Primary,
     justifyContent: 'center',
   },

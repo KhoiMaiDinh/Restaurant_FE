@@ -16,7 +16,7 @@ const PriceAttribute = props => {
         <Text style={styles.styleTextName} numberOfLines={1}>{props.textName}</Text>
       </View>
       <View style={styles.viewPrice}>
-        <Text style={styles.styleTextPrice}>{props.textPrice} VND</Text>
+        <Text style={styles.styleTextPrice}>{Intl.NumberFormat('vn-VN').format(props.textPrice)} ₫</Text>
       </View>
     </View>
   );
@@ -32,42 +32,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewValue: {
-    width: scale(35),
-    height: scale(35),
+    width: scale(30),
+    height: scale(30),
     borderWidth: 1,
-    borderColor: CUSTOM_COLOR.Black,
+    borderColor: CUSTOM_COLOR.Grey,
     justifyContent: 'center',
-    marginLeft: scale(10),
+    //marginLeft: scale(10),
   },
   styleTextNumber: {
     fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: 17,
-    color: CUSTOM_COLOR.Primary,
+    fontSize: 15,
+    color: CUSTOM_COLOR.Black,
     textAlign: 'center',
     letterSpacing: -0.47,
   },
   viewTextName: {
     width: scale(170),
     height: scale(27),
-    //backgroundColor: CUSTOM_COLOR.Black,
     marginLeft: scale(20),
     justifyContent: 'center',
     overflow: 'hidden',
   },
   styleTextName: {
-    color: CUSTOM_COLOR.San_Juan,
-    fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: 17,
+    color: CUSTOM_COLOR.Black,
+    fontFamily: FONT_FAMILY.NexaBold,
+    fontSize: scale(12),
     textAlign: 'left',
     letterSpacing: -0.39,
   },
   viewPrice: {
-    width: scale(130),
+    width: scale(120),
     height: scale(35),
     justifyContent: 'center',
+   // borderWidth: 1,
   },
   styleTextPrice: {
-    color: CUSTOM_COLOR.San_Juan,
+    color: CUSTOM_COLOR.Black,
     fontFamily: FONT_FAMILY.NexaRegular,
     fontSize: 14,
     textAlign: 'right',

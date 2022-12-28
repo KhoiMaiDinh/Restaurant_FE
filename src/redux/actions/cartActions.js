@@ -2,17 +2,17 @@ import * as actionTypes from '../constants/cartConstant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import foodApi from '../../services/foodApi';
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
+export const addToCart = (id, name, price, imgUrl, qty) => async (dispatch, getState) => {
   //const {token} = store.getState().user;
-  const {food} = await foodApi.get(id);
+  //const {food} = await foodApi.get(id);
 
   dispatch({
     type: actionTypes.ADD_TO_CART,
     payload: {
-      id: food._id,
-      name: food.name,
-      price: food.price,
-      imgUrl: food.posterImage.url,
+      id: id,
+      name: name,
+      price: price,
+      imgUrl: imgUrl,
       qty: qty,
     },
   });
@@ -71,5 +71,20 @@ export const resetCartWhenLogOut = () => async (dispatch, getState) => {
   await AsyncStorage.setItem(
     '@cart',
     JSON.stringify(getState().cart.cartItems),
+  );
+};
+
+export const initCartLogIn = (cart) => async (dispatch, getState) => {
+  console.log("cart ->>", cart);
+
+
+  dispatch({
+   type: actionTypes.INIT_CART,
+    payload: {cart},
+  });
+
+  await AsyncStorage.setItem(
+   '@cart',
+   JSON.stringify(getState().cart.cartItems),
   );
 };

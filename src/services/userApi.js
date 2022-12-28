@@ -40,6 +40,11 @@ const userApi = {
     const url = `/user/${id}/pay`;
     return axiosClient.post(url, payload);
   },
+
+  getOrders(id) {
+    const url = `/order/${id}`;
+    return axiosClient.get(url);
+  }
 };
 
 export default userApi;

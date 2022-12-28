@@ -83,13 +83,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingVertical: scale(15),
+    elevation: 3,
   },
   food: {
     flexDirection: 'row',
     display: 'flex',
     width: '100%',
     flex: 1,
-    backgroundColor: CUSTOM_COLOR.GreySecond,
+    backgroundColor: CUSTOM_COLOR.White,
   },
   textTitle: {
     color: CUSTOM_COLOR.Black,

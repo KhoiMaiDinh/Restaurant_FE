@@ -6,8 +6,8 @@ import FONT_FAMILY from '../../../../constants/fonts';
 
 const ButtonReOrder = (props) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={() => {props.navigation.navigate("CartScreen")}}>
-      <Text style={styles.text}>Đặt lại</Text>
+    <TouchableOpacity style={styles.button} disabled={true} onPress={() => {props.navigation.navigate("CartScreen")}}>
+      <Text style={styles.text}>Thanh toán trực tiếp</Text>
     </TouchableOpacity>
   );
 };
@@ -25,9 +25,11 @@ const styles = StyleSheet.create({
    
   },
   text: {
+    paddingHorizontal: scale(3),
     color: CUSTOM_COLOR.White,
     fontFamily: FONT_FAMILY.NexaRegular,
-    fontSize: 11,
+    fontSize: scale(10),
     alignSelf: 'center',
+    textAlign: 'center',
   },
 });

@@ -8,18 +8,9 @@ import {
   Dimensions,
   ImageBackground,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
-import {
-  IMG_BestDeals1,
-  IMG_BestDeals2,
-  IMG_BestDeals3,
-  IMG_BestDeals4,
-  IMG_BestDeals5,
-  IMG_BestDeals6,
-  IMG_BestDeals7,
-  IMG_BestDeals8,
-} from '../../../assets/images';
 import scale from '../../../utils/responsive';
 import {CUSTOM_COLOR} from '../../../constants/color';
 import PriceAttribute from './components/priceAttribute';
@@ -28,68 +19,71 @@ import FONT_FAMILY from '../../../constants/fonts';
 import {IC_Cancel, IC_Delivered, IC_Delivering, IC_WaitForConfirm} from '../../../assets/icons/index';
 import userApi from '../../../services/userApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCallback } from 'react';
 
 const {width: screenWidth} = Dimensions.get('window');
-
-// const orderName = [
-//   {number: 1, img: IMG_BestDeals1, total: 0, state: 1},
-//   {number: 2, img: IMG_BestDeals2, total: 0, state: 2},
-//   {number: 3, img: IMG_BestDeals3, total: 0, state: 3},
-//   {number: 4, img: IMG_BestDeals4, total: 0, state: 4},
-//   {number: 5, img: IMG_BestDeals5, total: 0, state: 1},
-//   {number: 6, img: IMG_BestDeals6, total: 0, state: 2},
-// ];
-// const data = [
-//   {num: 1, number: 23, keyChild: 1, name: 'Salad', price: 11, id: 1},
-//   {num: 1, number: 12, keyChild: 2, name: 'Salad', price: 8, id: 2},
-//   {num: 2, number: 9, keyChild: 1, name: 'Salad', price: 9, id: 3},
-//   {num: 2, number: 3, keyChild: 2, name: 'Salad', price: 2, id: 4},
-//   {num: 3, number: 23, keyChild: 1, name: 'Salad', price: 4, id: 5},
-//   {num: 3, number: 2, keyChild: 2, name: 'Salad', price: 8, id: 6},
-//   {num: 4, number: 10, keyChild: 1, name: 'Salad', price: 9, id: 7},
-//   {num: 4, number: 20, keyChild: 2, name: 'Salad', price: 8, id: 8},
-//   {num: 4, number: 8, keyChild: 3, name: 'Salad', price: 19, id: 9},
-//   {num: 5, number: 19, keyChild: 1, name: 'Salad', price: 8, id: 10},
-//   {num: 6, number: 10, keyChild: 1, name: 'Salad', price: 14, id: 11},
-//   {num: 6, number: 5, keyChild: 1, name: 'Salad', price: 8, id: 12},
-//   {num: 6, number: 5, keyChild: 1, name: 'Salad', price: 8, id: 13},
-// ];
 
 const OrdersScreen = props => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [chosen, setChosen] = useState("pending");
+  const [chosen, setChosen] = useState("handling");
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    handleGetOrder().then(() => setRefreshing(false));
+  }, []);
 
   const handleGetOrder = async() => {
     try {
+      setLoading(true);
       const userInfo = await AsyncStorage.getItem('@user');
       const user = JSON.parse(userInfo);
       const id = user._id;
       const {orders} = await userApi.getOrders(id);
-      //const ordersJSON = JSON.stringify(orders);
-      setOrders(orders);
-      console.log("items ->>", orders[0].items);
+      setOrders(orders); 
+      setChosen(chosen);
+      filter(orders);
+      console.log("items ->>", orders);
+      setLoading(false);
     } catch (error) {
       console.log(error)
+      setLoading(false);
     }
   };
 
-  useEffect(() => {handleGetOrder()}, [])
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      handleGetOrder();
+  });
+  return unsubscribe;
+}, [props.navigation]);
 
-const filter =()=>{
-  const newData=orders.filter((x)=>{return x.status===chosen})
-  return newData;
-}
+  const filter =(orders)=>{
+    console.log(chosen);
+    const newData=orders.filter((x)=>{return x.action===chosen})
+    setFilteredOrders(newData);
+    return newData;
+  }
 
   useEffect(() => {
-    setFilteredOrders(filter);
+    if(orders)
+      filter(orders);
   }, [chosen])
 
 
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView horizontal="false" style={styles.scrollView}>
+      <ScrollView 
+        horizontal="false" 
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />}>
         <View style={styles.scroll}>
           <View style={styles.viewData}>
             {filteredOrders.map(data => (
@@ -125,10 +119,10 @@ const filter =()=>{
                   }}>
                   <View style={styles.viewTotal}>
                     <Text style={styles.textTotal}>
-                      Total: {Intl.NumberFormat('vn-VN').format(data.totalPrice)} ₫
+                      Tổng: {Intl.NumberFormat('vn-VN').format(data.totalPrice)} ₫
                     </Text>
                   </View>
-                  <ButtonReOrder {...props}/>
+                  <ButtonReOrder {...props} action={data.method}/>
                 </View>
                 <View style={{height: scale(50)}} />
               </View>
@@ -137,23 +131,23 @@ const filter =()=>{
         </View>
       </ScrollView>
       <View style={styles.bottomTabs}>
-        <TouchableOpacity style={chosen=="pending"?styles.touchTabChosen:styles.touchTab} onPress={() => {setChosen("pending")}}>
-          <IC_WaitForConfirm fill={chosen=="pending"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
-          <Text style={chosen=="pending"?styles.textTabChosen:styles.textTab}>Chờ xác nhận</Text>
+        <TouchableOpacity style={chosen=="handling"?styles.touchTabChosen:styles.touchTab} onPress={() => {setChosen("handling")}}>
+          <IC_WaitForConfirm fill={chosen=="handling"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="handling"?styles.textTabChosen:styles.textTab}>Chờ xác nhận</Text>
         </TouchableOpacity >
-        <TouchableOpacity style={chosen=="accepted"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("accepted")}}>
-        <IC_Delivering fill={chosen=="accepted"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
-          <Text style={chosen=="accepted"?styles.textTabChosen:styles.textTab}>Đang giao</Text>
+        <TouchableOpacity style={chosen=="delivering"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("delivering")}}>
+        <IC_Delivering fill={chosen=="delivering"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="delivering"?styles.textTabChosen:styles.textTab}>Đang giao</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={chosen==""?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("")}}>
-        <IC_Delivered stroke={chosen==""?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
-          <Text style={chosen==""?styles.textTabChosen:styles.textTab}>Đã giao</Text>
+        <TouchableOpacity style={chosen=="paid"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("paid")}}>
+        <IC_Delivered stroke={chosen=="paid"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="paid"?styles.textTabChosen:styles.textTab}>Đã giao</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={chosen=="rejected"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("rejected")}}>
+        <TouchableOpacity style={chosen=="cancel"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("cancel")}}>
         <View style={{width:scale(24), height: scale(24), justifyContent: 'center', alignItems: 'center'}}>
-        <IC_Cancel fill={chosen=="rejected"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+        <IC_Cancel fill={chosen=="cancel"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
         </View>
-          <Text style={chosen=="rejected"?styles.textTabChosen:styles.textTab}>Hủy</Text>
+          <Text style={chosen=="cancel"?styles.textTabChosen:styles.textTab}>Hủy</Text>
         </TouchableOpacity>
 
       </View>

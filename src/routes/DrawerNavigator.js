@@ -34,6 +34,7 @@ import {useDispatch} from 'react-redux';
 import foodApi from '../services/foodApi';
 import ProfileScreen from '../screens/home/myProfile/profile';
 import { resetCartWhenLogOut } from '../redux/actions/cartActions';
+import { useIsFocused } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -69,7 +70,12 @@ const CustomScrollDrawer = props => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
     setUser(userInfoJS);
+    console.log(userInfoJS);
   }
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    isFocused && getUserInfo(); 
+  },[isFocused]);
   useEffect(() => {
     getUserInfo();
   }, [])
@@ -79,12 +85,17 @@ const CustomScrollDrawer = props => {
       {...props}>
       <View style={styles.userInfo}>
         <View style={styles.userAvatarBorder}>
-          <Image
-            resizeMethod="resize"
-            resizeMode="cover"
-            source={IMG_LisaAvatar}
-            style={styles.userAvatar}
-          />
+        {user?.avatar?.url !== ''?(<Image
+                    resizeMethod="resize"
+                    resizeMode="cover"
+                    source={{uri: `${user?.avatar?.url || ''}`}}
+                    style={styles.userAvatar}
+                />):(<Image
+                  source={IMG_LisaAvatar}
+                  resizeMethod="resize"
+                  resizeMode="cover"
+                  style={styles.userAvatar}
+              />)}
         </View>
         <Text style={styles.userName}>{user.name}</Text>
       </View>
@@ -202,19 +213,6 @@ const DrawerScreen = () => {
           ),
         })}
       />
-      {/* <Drawer.Screen
-        name="Search"
-        component={Search}
-        options={({navigation}) => ({
-          headerTitle: () => (
-            <HeaderBar
-              pageName={'Tìm kiếm'}
-              navigation={navigation}
-              setSearch={setSearch}
-            />
-          ),
-        })}
-      /> */}
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}
@@ -249,7 +247,7 @@ const styles = StyleSheet.create({
     color: CUSTOM_COLOR.White,
     fontSize: scale(20),
     fontFamily: FONT_FAMILY.NexaBold,
-    //left: scale(40),
+    justifyContent:'center',
     alignSelf: 'center',
   },
   userAvatarBorder: {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "899194792073",
+    "project_id": "restauran-uit-storage",
+    "storage_bucket": "restauran-uit-storage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899194792073:android:e025937ae65860dbd77e58",
+        "android_client_info": {
+          "package_name": "com.restaurantapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899194792073-v4bempcn4vkolgq95gguqqu9otvvqpgb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFMYqBIKF4LDserCjtsGrURObdCwHbRJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899194792073-v4bempcn4vkolgq95gguqqu9otvvqpgb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

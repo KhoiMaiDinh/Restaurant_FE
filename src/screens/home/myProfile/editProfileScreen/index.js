@@ -109,9 +109,8 @@ const EditProfileScreen = props => {
       } catch (error) {
         console.log(error)
         setTitle("CẬP NHẬT THẤT BẠI");
-        setMessage("Thông tin của bạn đã được cập nhật thất bại, vui lòng thử lại sau");
+        setMessage("Quá trình cập nhật thông tin đã xảy ra lỗi!\nBạn vui lòng thử lại\nThứ lỗi cho chúng tôi:((");
         setFail(true);
-        setLoading(true);
       }
     };
   

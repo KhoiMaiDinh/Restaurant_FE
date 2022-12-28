@@ -17,7 +17,7 @@ export {default as IMG_2} from './singleItemScreen/2,3.png'
 export {default as IMG_3} from './singleItemScreen/3,3.png';
 export {default as IMG_4} from './singleItemScreen/4,3.png';
 export {default as IMG_BigPic} from './singleItemScreen/BigPic.png';
-export {default as IMG_LisaAvatar} from './img_LisaAvatar.jpg';
+export {default as IMG_LisaAvatar} from './img_Avatar.png';
 export {default as IMG_RestaurantAppWhite} from './img_RestaurantApp.jpg';
 export {default as IMG_ReservationBackground} from './reservationBackground.jpg';
 export {default as IMG_Warning} from './img_Warning.png';

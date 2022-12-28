@@ -55,11 +55,10 @@ const SingleFoodItemScreen = props => {
   const dispatch = useDispatch();
   const addToCartHandler = () => {
     dispatch(addToCart(data._id, count1));
-    props.navigation.navigate('CartScreen');
     console.log(data._id, count1);
   };
   const openCart = () => {
-    navigation.navigate('CartScreen');
+    props.navigation.navigate('CartScreen');
   };
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;

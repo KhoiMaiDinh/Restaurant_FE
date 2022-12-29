@@ -9,6 +9,7 @@ import EditProfileScreen from '../screens/home/myProfile/editProfileScreen';
 import ProfileScreen from '../screens/home/myProfile/profile';
 import PaymentScreen from '../screens/home/paymentScreen';
 import SearchScreen from '../screens/home/searchScreen';
+import SingleFoodItemScreenForward from '../screens/singleFoodItemForward.js';
 
 const AppStack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const AppStackScreen = props => {
         name={'SingleFoodItemScreen'}
         component={SingleFoodItemScreen}
       />
+      <AppStack.Screen name={'SingleFoodItemScreenForward'} component={SingleFoodItemScreenForward} />
       <AppStack.Screen name={'PaymentScreen'} component={PaymentScreen} />
       <AppStack.Screen name={'SearchScreen'} component={Search} />
       <AppStack.Screen name={'CartScreen'} component={CartScreen} />

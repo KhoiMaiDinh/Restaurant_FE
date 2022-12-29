@@ -24,8 +24,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useRef} from 'react';
 
-// const passwordRegex =
-//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/;
+const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 const loginPayloadSchema = yup.object({
   email: yup
@@ -33,8 +32,9 @@ const loginPayloadSchema = yup.object({
     .email('Email không hợp lệ')
     .max(30, 'Độ dài email phải nhỏ hơn 30 kí tự')
     .required('Email không được để trống'),
-  password: yup
+    password: yup
     .string()
+    .matches(passwordRegex,'Mật khẩu phải chứa ký tự hoa, thường và số')
     .min(8, 'Độ dài mật khẩu phải lớn hơn 8')
     .max(16, 'Độ dài mật khẩu phải nhỏ hơn 16')
     .required('Mật khẩu không được để trống'),
@@ -80,7 +80,6 @@ const LoginScreen = props => {
     } catch (error) {
       setLoading(false);
       setErrorMessage(error.message);
-      setLoading(false);
       console.log(error);
       bs?.current?.snapTo(0);
     }

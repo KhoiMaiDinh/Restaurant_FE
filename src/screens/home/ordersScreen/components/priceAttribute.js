@@ -1,14 +1,23 @@
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, TouchableOpacity} from 'react-native';
 import React from 'react';
 import scale from '../../../../utils/responsive';
 import FONT_FAMILY from '../../../../constants/fonts';
 import {CUSTOM_COLOR} from '../../../../constants/color';
+import { useNavigation } from '@react-navigation/native';
 
 const {width: screenWidth} = Dimensions.get('window');
 
 const PriceAttribute = props => {
+  const navigation = useNavigation();
+  console.log(props.data);
   return (
-    <View style={[props.style, styles.view1]}>
+    <TouchableOpacity style={[props.style, styles.view1]} 
+      onPress={() => {
+        console.log("id ->>.",props.id);
+        props.navigation.navigate('SingleFoodItemScreenForward', {
+          _id:props.id,
+        });
+      }}>
       <View style={styles.viewValue}>
         <Text style={styles.styleTextNumber} >{props.textNumber}</Text>
       </View>
@@ -18,7 +27,7 @@ const PriceAttribute = props => {
       <View style={styles.viewPrice}>
         <Text style={styles.styleTextPrice}>{Intl.NumberFormat('vn-VN').format(props.textPrice)} ₫</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

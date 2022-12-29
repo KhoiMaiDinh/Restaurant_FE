@@ -23,7 +23,7 @@ const Gallery = props => {
           paginationStyleItemInactive={styles.dot}
           pagingEnabled
           showsButtons>
-          {props.images.slice(0, 4).map(item => (
+          {props.images?.slice(0, 4).map(item => (
             <View key={item._id} style={styles.view}>
               <Image
                 style={styles.view}
@@ -31,11 +31,11 @@ const Gallery = props => {
                 resizeMode={'cover'}
               />
             </View>
-          ))}
+          ))??<></>}
         </Swiper>
       </View>
       <View style={styles.imageContainer}>
-        {props.images.slice(0, 4).map((item, idx) => (
+        {props.images?.slice(0, 4).map((item, idx) => (
           <TouchableOpacity
             key={item._id}
             style={[styles.itemContainer]}
@@ -48,7 +48,7 @@ const Gallery = props => {
               resizeMode={'cover'}
             />
           </TouchableOpacity>
-        ))}
+        ))??<></>}
       </View>
     </View>
   );

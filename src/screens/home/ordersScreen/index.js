@@ -9,6 +9,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   RefreshControl,
+  ActivityIndicator
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import scale from '../../../utils/responsive';
@@ -45,7 +46,7 @@ const OrdersScreen = props => {
       setOrders(orders); 
       setChosen(chosen);
       filter(orders);
-      console.log("items ->>", orders);
+      console.log("items ->>", orders[0].items);
       setLoading(false);
     } catch (error) {
       console.log(error)
@@ -75,6 +76,11 @@ const OrdersScreen = props => {
 
 
   return (
+    loading?(
+      <SafeAreaView style={[styles.container,{justifyContent:'center'}]}>
+          <ActivityIndicator  color={CUSTOM_COLOR.Primary} size={60} />
+      </SafeAreaView>
+  ):(
     <SafeAreaView style={styles.container}>
       <ScrollView 
         horizontal="false" 
@@ -101,7 +107,9 @@ const OrdersScreen = props => {
                 {/* </View> */}
                 {data.items.map(item =>            
                     <PriceAttribute
+                      {...props}  
                       key={item._id}
+                      id={item.id}
                       textNumber={item.qty}
                       textName={item.name}
                       textPrice={item.price}
@@ -152,6 +160,7 @@ const OrdersScreen = props => {
 
       </View>
     </SafeAreaView>
+  )
   );
 };
 

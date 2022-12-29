@@ -17,7 +17,7 @@ import {CUSTOM_COLOR} from '../../../constants/color';
 import PriceAttribute from './components/priceAttribute';
 import ButtonReOrder from './components/buttonReOrder';
 import FONT_FAMILY from '../../../constants/fonts';
-import {IC_Cancel, IC_Delivered, IC_Delivering, IC_WaitForConfirm} from '../../../assets/icons/index';
+import {IC_Cancel, IC_Delivered, IC_Delivering, IC_Preparing, IC_WaitForConfirm} from '../../../assets/icons/index';
 import userApi from '../../../services/userApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback } from 'react';
@@ -143,6 +143,10 @@ const OrdersScreen = props => {
           <IC_WaitForConfirm fill={chosen=="handling"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
           <Text style={chosen=="handling"?styles.textTabChosen:styles.textTab}>Chờ xác nhận</Text>
         </TouchableOpacity >
+        <TouchableOpacity style={chosen=="preparing"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("preparing")}}>
+        <IC_Preparing fill={chosen=="preparing"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
+          <Text style={chosen=="preparing"?styles.textTabChosen:styles.textTab}>Đang chuẩn bị</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={chosen=="delivering"?styles.touchTabChosen:styles.touchTab} onPress={()=>{setChosen("delivering")}}>
         <IC_Delivering fill={chosen=="delivering"?CUSTOM_COLOR.White:CUSTOM_COLOR.Primary}/>
           <Text style={chosen=="delivering"?styles.textTabChosen:styles.textTab}>Đang giao</Text>
@@ -191,7 +195,6 @@ const styles = StyleSheet.create({
   },
   viewTotal: {
     justifyContent: 'center',
-    // marginRight: scale(120),
   },
   textTotal: {
     fontFamily: FONT_FAMILY.NexaBold,

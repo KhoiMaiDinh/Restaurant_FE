@@ -67,7 +67,7 @@ const CartScreen = props => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.replace('DrawerScreen')}} 
+      <MsgBox visible={visible} clickCancel={() => {setVisible(false),props.navigation.navigate('DrawerScreen')}} 
       title={"ĐẶT MÓN THẤT BẠI"} message={"Giỏ hàng của bạn hiện trống, bạn có muốn thêm món vào giỏ hàng?"}  fail={lock}/> 
       <>
         <View style={styles.view}>

@@ -59,8 +59,8 @@ const ReservationScreen = props => {
     mode: 'onChange',
     defaultValues: {
       userId: user._id,
-      name: '',
-      phoneNumber: '',
+      name: user.name,
+      phoneNumber: user.phoneNumber,
       bookingDate: date.toLocaleDateString('vi-VN'),
       bookingTime: time.toLocaleTimeString([], {
         hour: '2-digit',

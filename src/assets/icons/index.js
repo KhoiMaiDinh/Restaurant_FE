@@ -33,3 +33,4 @@ export {default as IC_WaitForConfirm} from './ic_waitForConfirm';
 export {default as IC_Delivering} from './ic_delivering';
 export {default as IC_Delivered}  from './ic_delivered';
 export {default as IC_Cancel}  from './ic_cancel';
+export {default as IC_Preparing}  from './ic_preparing';

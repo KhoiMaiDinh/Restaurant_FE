@@ -64,18 +64,25 @@ const CustomScrollDrawer = props => {
     }
   };
   const [user, setUser] = useState([]);
-  const getUserInfo = async () => {
+  const getUserInfoFirstTime = async () => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
     setUser(userInfoJS);
     dispatch(initCartLogIn(userInfoJS.cart.items));
+  }
+
+  const getUserInfo = async () => {
+    const userInfo = await AsyncStorage.getItem('@user');
+    const userInfoJS = JSON.parse(userInfo);
+    setUser(userInfoJS);
+    //dispatch(initCartLogIn(userInfoJS.cart.items));
   }
   const isFocused = useIsFocused();
   useEffect(() => {
     isFocused && getUserInfo(); 
   },[isFocused]);
   useEffect(() => {
-    getUserInfo();
+    getUserInfoFirstTime();
   }, [])
   return (
     <DrawerContentScrollView

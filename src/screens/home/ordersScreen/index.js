@@ -46,6 +46,7 @@ const OrdersScreen = props => {
       setOrders(orders); 
       setChosen(chosen);
       filter(orders);
+      console.log(orders);
       console.log("items ->>", orders[0].items);
       setLoading(false);
     } catch (error) {

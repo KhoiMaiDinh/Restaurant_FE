@@ -16,6 +16,7 @@ import FONT_FAMILY from '../../../../constants/fonts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import ContactInfor from './component/contactInfor';
+import userApi from '../../../../services/userApi';
 
 
 
@@ -26,6 +27,13 @@ const ProfileScreen = props => {
     const userInfo = await AsyncStorage.getItem('@user');
     const userInfoJS = JSON.parse(userInfo);
     userInfoJS.phoneNumber = '' + userInfoJS.phoneNumber;
+    const {orders} = await userApi.getOrders(userInfoJS._id);
+    const paidOrders=orders.filter((x)=>{return x.action==='paid'})
+    userInfoJS.totalPaid = paidOrders.reduce(function(accumulator, currentValue) {
+      return accumulator + currentValue.totalPrice;
+    }, 0);
+    userInfoJS.totalBought = paidOrders.length;
+    //console.log(paidOrders);
     setUser(userInfoJS);
     console.log(userInfoJS);
   }
@@ -79,11 +87,11 @@ const ProfileScreen = props => {
 
         <View style={styles.infoBoxWrapper}>
             <View style={[styles.infoBox, {borderRightColor: CUSTOM_COLOR.Gainsboro, borderRightWidth: 1}]}>
-                <Title style={styles.text}>14000000 VND</Title>
+                <Title style={styles.text}>{Intl.NumberFormat('vn-VN').format(user.totalPaid)} ₫</Title>
                 <Caption style={styles.text}>Tổng tiền</Caption>
             </View> 
             <View style={styles.infoBox}>
-                <Title style={styles.text}>12</Title>
+                <Title style={styles.text}>{user.totalBought}</Title>
                 <Caption style={styles.text}>Đã mua</Caption>
             </View>
         </View>

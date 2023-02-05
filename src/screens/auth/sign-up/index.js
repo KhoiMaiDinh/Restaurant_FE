@@ -75,8 +75,8 @@ const SignUpScreen = props => {
   const renderInner = () => (
     <View style={stylePanel.panel}>
       <View style={{alignItems: 'center'}}>
-        <Text style={stylePanel.panelTitle}>Thất bại</Text>
-        <Text style={stylePanel.panelSubtitle}>{errorMessage}</Text>
+        <Text style={stylePanel.panelTitle}>Đăng ký thất bại</Text>
+        <Text style={stylePanel.panelSubtitle}>Email đã được sử dụng</Text>
       </View>
     </View>
   );

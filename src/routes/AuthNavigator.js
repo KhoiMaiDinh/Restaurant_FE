@@ -6,7 +6,6 @@ import LoginScreen from '../screens/auth/login';
 import OnboardingScreen from '../screens/auth/onboarding';
 import SignUpScreen from '../screens/auth/sign-up';
 import LoadingScreen from '../screens/Loading/loadingScreen';
-//import VerificationScreen from '../screens/auth/verification';
 
 const AuthStack = createStackNavigator();
 
@@ -30,11 +29,6 @@ export const AuthStackScreen = props => {
         component={SignUpScreen}
         options={{headerShown: false}}
       />
-      {/* <AuthStack.Screen
-        name="VerificationScreen"
-        component={VerificationScreen}
-        options={{headerShown: false}}
-      /> */}
     </AuthStack.Navigator>
   );
 };
